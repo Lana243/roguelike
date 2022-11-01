@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+component Engine {
+
+component UI {
+
+}
+
+UI -right--  Controller
+
+component Controller {
+}
+
+
+Controller -right-- State
+
+component State {
+}
+}
+
+@enduml

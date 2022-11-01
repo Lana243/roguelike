@@ -40,7 +40,7 @@
 
 ## Диаграмма компонентов
 
-?
+![component-diagram](.\data\roguelike-component-diagram.png)
 
 ## Диаграмма классов
 
