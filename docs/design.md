@@ -40,11 +40,11 @@
 
 ## Диаграмма компонентов
 
-![component-diagram](.\data\roguelike-component-diagram.png)
+![component-diagram](data/roguelike-component-diagram.png)
 
 ## Диаграмма классов
 
-![class-diagram](.\data\roguelike-class-diagram.png)
+![class-diagram](data/roguelike-class-diagram.png)
 
 ### Engine
 
