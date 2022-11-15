@@ -23,4 +23,8 @@ sealed interface Cell {
     ) : Cell
 }
 
+class GameMapImpl: GameMap {
+    private val map: Map<Position, Cell> = emptyMap()
 
+    override fun getCell(position: Position): Cell = map[position]!!
+}

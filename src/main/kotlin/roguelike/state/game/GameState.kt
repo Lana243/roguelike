@@ -6,11 +6,21 @@ import roguelike.state.game.world.World
 import roguelike.state.game.world.objects.units.PlayerUnit
 
 class GameState : State() {
-    val world: World = TODO()
+    val world: World = World()
 
-    val player: PlayerUnit = TODO()
+    val player: PlayerUnit = PlayerUnit()
 
     override fun process(message: Message): State {
-        TODO("Not yet implemented")
+        when (message) {
+            is GameMessage -> {
+                when (message) {
+                    is GameMessage.PlayerActionMessage -> {
+                        player.process(message)
+                    }
+                }
+            }
+            else -> error("Unknown message")
+        }
+        return this
     }
 }
