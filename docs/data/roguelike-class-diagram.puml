@@ -1,0 +1,159 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Engine
+
+interface AssetManager {
+    + load()
+}
+
+abstract class UI {
+    + pollEvent(): Event
+    + render(view: View)
+}
+
+abstract class Controller {
+    + bindState(state: State): View
+    + processEvent(event: Event): Message
+}
+
+Engine *-- "controller" Controller
+Engine *-- "assetManager" AssetManager
+Engine *-- "ui" UI
+
+interface Simulator {
+    + simulate(world: World, unitActions): World
+}
+
+interface Strategy {
+    + getAction(unit: Unit, worldView: WorldView): Action
+}
+
+abstract class World {
+    + map: Map
+}
+
+abstract class GameObject
+
+abstract class Unit
+
+abstract class StaticObject
+
+abstract class Item
+
+abstract class Inventory
+
+Inventory o-- "[0.." Item : "items"
+
+Unit *-- "inventory" Inventory
+
+GameObject <|.. Unit
+GameObject <|.. StaticObject
+GameObject <|.. Item
+
+interface Message
+
+Controller ..> Message : "<<create>>"
+State ..> Message
+
+
+interface Event
+
+Controller ..> Event
+UI ..> Event : "<<create>>"
+
+
+
+
+abstract class Controller
+
+Controller ..> ViewBuilder
+
+abstract class State {
+    + process(message: Message): State
+    + accept(visitor: StateVisitor)
+}
+
+class MenuScreenState
+
+class SettingsScreenState
+
+abstract class GameState {
+    playerUnit: Unit
+}
+
+class LoadingScreenState
+
+interface StateVisitor {
+    + visit(state: GameState)
+    + visit(state: WelcomingScreenState)
+    + visit(state: SettingsScreenState)
+}
+
+
+GameState *-- "world" World
+GameState *-- "[1.." Strategy : "unitStrategies"
+GameState *-- "simulator" Simulator
+
+interface ViewBuilder {
+    + build(state: State): View
+}
+
+
+StateVisitor <|.. ViewBuilder
+
+interface Renderer {
+    + render(view: View)
+}
+
+interface ViewVisitor {
+    + visit(view: TextView)
+    + visit(view: ProgressBar)
+    + ...()
+}
+
+interface View {
+    + show()
+    + accept(visitor: ViewVisitor)
+}
+
+class TextView
+
+class ProgressBar
+
+class RectangleBox
+
+class AsciiGrid
+
+class Button
+
+class CompositeView
+
+interface ViewBuilder
+
+Engine *-- "currentState" State
+
+State <|-- MenuScreenState
+State <|-- SettingsScreenState
+State <|-- GameState
+State <|-- LoadingScreenState
+
+View <|.. TextView
+View <|.. ProgressBar
+View <|.. RectangleBox
+View <|.. AsciiGrid
+View <|.. Button
+View <|.. CompositeView
+
+
+CompositeView *.. "[0.." View : "childs"
+
+Renderer ..|> ViewVisitor
+Renderer ..> View
+
+UI *-- "renderer" Renderer
+
+World *-- "[0.." GameObject : "objects"
+
+
+@enduml
