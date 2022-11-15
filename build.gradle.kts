@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("com.googlecode.lanterna:lanterna")
+    implementation("com.googlecode.lanterna:lanterna:3.1.1")
 }
 
 tasks.test {

@@ -17,6 +17,7 @@ class GameState : State() {
                     is GameMessage.PlayerActionMessage -> {
                         player.process(message)
                     }
+                    GameMessage.Exit -> TODO()
                 }
             }
             else -> error("Unknown message")

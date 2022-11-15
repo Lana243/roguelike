@@ -1,6 +1,7 @@
 package roguelike.state.game.world.objects.units
 
 import roguelike.state.game.GameMessage
+import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.world.Position
 
@@ -19,6 +20,7 @@ class PlayerUnit(
             is MoveAction -> {
                 position += message.action
             }
+            Interact -> TODO()
         }
     }
 }
