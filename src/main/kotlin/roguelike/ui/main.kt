@@ -31,15 +31,5 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 fun parseMap(map: String): View {
     val mapLines = map.split('\n')
-    val charViews = mutableListOf<Composite.ViewWithPosition>()
-    for (lineIndex in mapLines.indices) {
-        for (charIndex in mapLines[lineIndex].indices) {
-            val char = mapLines[lineIndex][charIndex]
-            if (char == 'x') {
-                val charView = AsciiGrid(listOf(char.toString()))
-                charViews += Composite.ViewWithPosition(charIndex, lineIndex, charView) // (!) swap
-            }
-        }
-    }
-    return Composite(charViews)
+    return AsciiGrid(mapLines)
 }

@@ -12,4 +12,7 @@ enum class MoveAction(
     UP(0, 1),
 }
 
+class Equip(val itemId: Int) : UnitAction
+class Unequip(val itemId: Int) : UnitAction
+
 object Interact : UnitAction

@@ -5,7 +5,7 @@ import roguelike.state.game.world.Position
 
 abstract class GameUnit : GameObject {
     abstract val position: Position
-    abstract val attackRate: UInt
-    abstract val maxHp: UInt
-    abstract val hp: UInt
+    abstract val attackRate: Int
+    abstract val maxHp: Int
+    abstract val hp: Int
 }

@@ -1,15 +1,16 @@
 package roguelike.state.game.world
 
-import roguelike.state.Message
-import roguelike.state.game.GameMessage
+import roguelike.state.game.world.objects.Item
 import roguelike.state.game.world.objects.StaticObject
-import roguelike.state.game.world.objects.units.Mob
+import roguelike.state.game.world.objects.units.PlayerUnit
 
 class World {
-    val map: GameMap = GameMapImpl()
+    val map: GameMap = GameMapImpl(TODO())
 
-    val staticObjects: Map<Int, StaticObject> = emptyMap()
-    val mobs: Map<Int, Mob> = emptyMap()
+    val player: PlayerUnit = PlayerUnit()
+
+    val staticObjects: Map<Int, StaticObject> = mutableMapOf()
+    val items: Map<Int, Item> = mutableMapOf()
 
     val tick: Int = 0
 }

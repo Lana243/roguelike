@@ -7,6 +7,8 @@ interface GameMap {
 sealed interface Cell {
     object Empty : Cell
 
+    object CellWithWall : Cell
+
     @JvmInline
     value class CellWithUnit(
         val unitId: Int
@@ -23,8 +25,8 @@ sealed interface Cell {
     ) : Cell
 }
 
-class GameMapImpl: GameMap {
-    private val map: Map<Position, Cell> = emptyMap()
-
-    override fun getCell(position: Position): Cell = map[position]!!
+class GameMapImpl(
+    private val map: Array<Array<Cell>>
+) : GameMap {
+    override fun getCell(position: Position): Cell = map[position.x][position.y]
 }

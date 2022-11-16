@@ -1,14 +1,16 @@
 package roguelike
 
 import roguelike.controller.Controller
+import roguelike.controller.MainController
 import roguelike.state.State
+import roguelike.state.menu.MenuScreenState
 import roguelike.ui.Ui
 
 class Engine {
     fun run() {
+        var currentState: State = MenuScreenState()
+        val controller: Controller<State> = MainController(currentState)
         val ui: Ui = TODO()
-        val controller: Controller<State> = TODO()
-        var currentState: State = TODO()
 
         while (true) {
             val view = controller.bindState(currentState)
