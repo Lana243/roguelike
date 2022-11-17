@@ -13,8 +13,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
     implementation("com.googlecode.lanterna:lanterna:3.1.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
 }
 
 tasks.test {

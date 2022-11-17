@@ -26,3 +26,8 @@ class Equip(val itemId: Int) : UnitAction
 class Unequip(val itemId: Int) : UnitAction
 
 object Interact : UnitAction
+
+/**
+ * Класс, описывающий действие: не делать ничего
+ */
+object Procrastinate : UnitAction

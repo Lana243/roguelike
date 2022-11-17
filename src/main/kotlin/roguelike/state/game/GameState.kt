@@ -44,7 +44,7 @@ class GameState(
 
     // internal
 
-    private val mapFactory: MapFactory = MapGenerator(80, 23)
+    private val mapFactory: MapFactory = MapRandomGenerator(80, 23)
 
     private val worldFactory = WorldFactory(mapFactory)
 

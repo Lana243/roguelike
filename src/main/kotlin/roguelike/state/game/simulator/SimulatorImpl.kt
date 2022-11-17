@@ -24,6 +24,7 @@ class SimulatorImpl : Simulator {
             is Equip -> processEquip(world, player, action)
             is Unequip -> processUnequip(world, player, action)
             Interact -> processInteract(world, player)
+            Procrastinate -> world
         }
 
     private fun processUnequip(world: World, player: PlayerUnit, action: Unequip): World? =

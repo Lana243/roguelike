@@ -6,7 +6,7 @@ import kotlin.random.Random
 /**
  * Случайная карта
  */
-class MapGenerator(
+class MapRandomGenerator(
     private val lengthX: Int,
     private val lengthY: Int
 ) : MapFactory {
