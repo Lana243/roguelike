@@ -1,5 +1,6 @@
 package roguelike.ui
 
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
@@ -7,7 +8,8 @@ import roguelike.ui.views.View
 // TODO: delete this file
 
 fun main() {
-    val renderer = LanternaRenderer()
+    val terminal = DefaultTerminalFactory().createTerminal()
+    val renderer = LanternaRenderer(terminal)
     val box = AsciiGrid(listOf("01", "23"))
     val view = Composite(listOf(
         Composite.ViewWithPosition(10, 2, parseMap(map)),

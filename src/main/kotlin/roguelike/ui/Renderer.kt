@@ -1,6 +1,5 @@
 package roguelike.ui
 
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import com.googlecode.lanterna.terminal.Terminal
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
@@ -10,9 +9,12 @@ abstract class Renderer : ViewVisitor<Unit> {
     abstract fun render(view: View)
 }
 
-class LanternaRenderer : Renderer() {
+class LanternaRenderer(
+    private val terminal: Terminal
+) : Renderer() {
 
     override fun render(view: View) {
+        terminal.clearScreen()
         terminal.setCursorVisible(false)
         visitView(view)
         terminal.flush()
@@ -37,13 +39,11 @@ class LanternaRenderer : Renderer() {
         for (child in view.children) {
             terminal.cursorPosition = initialCursorPosition
             terminal.changeCursorPositionBy(child.x, child.y)
-            render(child.view)
+            visitView(child.view)
         }
     }
 
     // internal
-
-    private val terminal = DefaultTerminalFactory().createTerminal()
 
     private fun Terminal.changeCursorPositionBy(deltaX: Int, deltaY: Int) {
         setCursorPosition(cursorPosition.column + deltaX, cursorPosition.row + deltaY)

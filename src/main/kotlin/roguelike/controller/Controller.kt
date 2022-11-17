@@ -7,5 +7,5 @@ import roguelike.ui.views.View
 
 interface Controller<T : State> {
     fun bindState(state: T): View
-    fun processEvent(event: Event): Message
+    fun processEvent(event: Event): Message?
 }

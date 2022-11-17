@@ -3,7 +3,7 @@ package roguelike.state.game.world.objects.units
 import roguelike.state.game.world.Position
 
 data class PlayerUnit(
-    override val position: Position = Position(0, 0),
+    override var position: Position = Position(0, 0),
     override val attackRate: Int = 10,
     override val hp: Int = 100,
     override val maxHp: Int = 100,

@@ -25,7 +25,7 @@ class MainController(
         }
     }
 
-    override fun processEvent(event: Event): Message {
+    override fun processEvent(event: Event): Message? {
         return when (state) {
             is GameState -> gameStateController.processEvent(event)
             is MenuScreenState -> menuStateController.processEvent(event)
