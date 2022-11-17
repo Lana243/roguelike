@@ -10,7 +10,8 @@ import kotlin.system.exitProcess
  */
 class MenuScreenState : State() {
 
-    val playButtonText = "Press <Enter> to play"
+    val quickPlayButtonText = "Press <Enter> to Quick Play"
+    val level1ButtonText = "Press <F1> to start Level 1"
     val escButtonText = "Press <Esc> to exit"
 
     val screenLengthX = 80
@@ -19,7 +20,8 @@ class MenuScreenState : State() {
     override fun process(message: Message): State =
         when (message) {
             is MenuMessage -> when (message) {
-                MenuMessage.StartGame -> GameState()
+                MenuMessage.StartGameQuick -> GameState(createdByMessage = MenuMessage.StartGameQuick)
+                MenuMessage.StartGameLevel1 -> GameState(createdByMessage = MenuMessage.StartGameLevel1)
                 MenuMessage.Exit -> exitProcess(0)
             }
             else -> error("Unknown message")

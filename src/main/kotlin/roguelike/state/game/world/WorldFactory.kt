@@ -29,7 +29,7 @@ class WorldFactory(private val mapFactory: MapFactory) {
 
     private fun parseMap(map: String): GameMap {
         val cells = mutableListOf<MutableList<Cell>>()
-        val mapLines = map.split('\n')
+        val mapLines = map.filter { it != '\r' }.split('\n')
         for (lineIndex in mapLines.indices) {
             cells += mutableListOf<Cell>()
             val line = mapLines[lineIndex]

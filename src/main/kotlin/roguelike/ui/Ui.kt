@@ -29,6 +29,7 @@ class LanternaUi : Ui() {
             event = when (keyStroke.keyType) {
                 KeyType.Enter -> Event.KeyEnterPressed
                 KeyType.Escape -> Event.KeyEscPressed
+                KeyType.F1 -> Event.KeyF1Pressed
                 KeyType.ArrowLeft -> Event.KeyLeftPressed
                 KeyType.ArrowRight -> Event.KeyRightPressed
                 KeyType.ArrowUp -> Event.KeyUpPressed

@@ -11,13 +11,19 @@ import roguelike.ui.views.View
  */
 class MenuViewBuilder : ViewBuilder<MenuScreenState> {
     override fun build(state: MenuScreenState): View {
-        val playButtonView = AsciiGrid(listOf(state.playButtonText))
+        val quickPlayButtonView = AsciiGrid(listOf(state.quickPlayButtonText))
+        val level1ButtonView = AsciiGrid(listOf(state.level1ButtonText))
         val escButtonView = AsciiGrid(listOf(state.escButtonText))
         return Composite(listOf(
             Composite.ViewWithPosition(
-                (state.screenLengthX - state.playButtonText.length) / 2,
+                (state.screenLengthX - state.quickPlayButtonText.length) / 2,
+                state.screenLengthY / 2 - 4,
+                quickPlayButtonView
+            ),
+            Composite.ViewWithPosition(
+                (state.screenLengthX - state.level1ButtonText.length) / 2,
                 state.screenLengthY / 2 - 2,
-                playButtonView
+                level1ButtonView
             ),
             Composite.ViewWithPosition(
                 (state.screenLengthX - state.escButtonText.length) / 2,

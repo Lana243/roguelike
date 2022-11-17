@@ -5,6 +5,8 @@ sealed interface Event {
     object KeyEnterPressed : Event
     object KeyEscPressed : Event
 
+    object KeyF1Pressed : Event
+
     object KeyLeftPressed : Event
     object KeyRightPressed : Event
     object KeyUpPressed : Event

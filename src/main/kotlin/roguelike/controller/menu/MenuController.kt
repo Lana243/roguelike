@@ -5,8 +5,6 @@ import roguelike.state.Message
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
 import roguelike.ui.Event
-import roguelike.ui.views.AsciiGrid
-import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
 /**
@@ -20,7 +18,8 @@ class MenuController : Controller<MenuScreenState> {
 
     override fun processEvent(event: Event): Message? {
         return when (event) {
-            Event.KeyEnterPressed -> MenuMessage.StartGame
+            Event.KeyEnterPressed -> MenuMessage.StartGameQuick
+            Event.KeyF1Pressed -> MenuMessage.StartGameLevel1
             Event.KeyEscPressed -> MenuMessage.Exit
             else -> null
         }

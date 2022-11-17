@@ -7,9 +7,14 @@ import roguelike.state.Message
  */
 sealed interface MenuMessage : Message {
     /**
-     * Начать игру
+     * Начать игру на сгенерированной уровне
      */
-    object StartGame : MenuMessage
+    object StartGameQuick : MenuMessage
+
+    /**
+     * Начать игру на уровне 1
+     */
+    object StartGameLevel1 : MenuMessage
 
     /**
      * Выйти с экрана меню
