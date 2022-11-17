@@ -4,11 +4,10 @@ import roguelike.ui.ViewVisitor
 
 /**
  * [View], состоящая из нескольних дочерних [View]
+ *
+ * @property children список дочерних [View] с их координатами относительно текущей [View]
  */
 class Composite(
-    /**
-     * список дочерних [View] с их координатами относительно текущей [View]
-     */
     val children: List<ViewWithPosition>
 ) : View {
     override fun <T> accept(visitor: ViewVisitor<T>): T =

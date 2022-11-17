@@ -8,7 +8,10 @@ import roguelike.ui.views.View
 /**
  * Класс для отображения [View]
  */
-abstract class Renderer : ViewVisitor<Unit> {
+abstract class Renderer {
+    /**
+     * Функция для отображения [View]
+     */
     abstract fun render(view: View)
 }
 
@@ -17,20 +20,13 @@ abstract class Renderer : ViewVisitor<Unit> {
  */
 class LanternaRenderer(
     private val terminal: Terminal
-) : Renderer() {
+) : Renderer(), ViewVisitor<Unit> {
 
     override fun render(view: View) {
         terminal.clearScreen()
         terminal.setCursorVisible(false)
-        visitView(view)
+        view.accept(this)
         terminal.flush()
-    }
-
-    override fun visitView(view: View) {
-        when (view) {
-            is AsciiGrid -> visitAsciiGrid(view)
-            is Composite -> visitComposite(view)
-        }
     }
 
     override fun visitAsciiGrid(view: AsciiGrid) {
@@ -45,7 +41,7 @@ class LanternaRenderer(
         for (child in view.children) {
             terminal.cursorPosition = initialCursorPosition
             terminal.changeCursorPositionBy(child.x, child.y)
-            visitView(child.view)
+            child.view.accept(this)
         }
     }
 
