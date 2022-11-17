@@ -8,6 +8,7 @@ import roguelike.utility.IdManager
 class WorldFactory(private val mapFactory: MapFactory) {
 
     fun createWorld(): World {
+        // TODO: clear
         val map = mapFactory.createMap()
         val gameMap = parseMap(map)
         return World(gameMap, player, staticObjects, items, idManager)
