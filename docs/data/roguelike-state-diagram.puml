@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+[*] --> MenuScreenState
+MenuScreenState --> GameState : Enter | F1
+GameState --> MenuScreenState : Esc
+
+GameState : entry / init world
+
+GameState --> VictoryScreenState : Player won
+VictoryScreenState --> MenuScreenState : F1
+
+VictoryScreenState --> [*] : Esc
+MenuScreenState --> [*] : Esc
+
+@enduml

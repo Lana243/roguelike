@@ -117,11 +117,17 @@
 у каждого состояния свой набор принимаемых сообщений.
 
 Примеры:
-- `LoadingScreenState`
+- `VictoryScreenState`
 - `MenuScreenState`
 - `GameState`
 
+#### Диагарамма состояний:
+
+![image](data/roguelike-state-diagram.png)
+
+
 Наибольший интерес представляет `GameState`.
+
 
 
 ### GameState
