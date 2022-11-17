@@ -5,8 +5,17 @@ import roguelike.state.game.world.objects.GameStaticObject
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.utility.IdManager
 
+/**
+ * Вся информация об игре для одного уровня
+ */
 data class World(
+    /**
+     * карта поля уровня
+     */
     val map: GameMap,
+    /**
+     * игрок
+     */
     val player: PlayerUnit,
     val staticObjects: Map<Int, GameStaticObject>,
     val items: Map<Int, GameItem>,

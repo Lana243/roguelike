@@ -17,6 +17,9 @@ interface GameMap {
 
 sealed interface Cell {
 
+    /**
+     * клетка, через которую нельзя пройти игроку
+     */
     interface Solid : Cell
 
     object Empty : Cell

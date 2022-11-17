@@ -5,6 +5,9 @@ import roguelike.state.State
 import roguelike.state.game.GameState
 import kotlin.system.exitProcess
 
+/**
+ * состояние экрана меню
+ */
 class MenuScreenState : State() {
 
     val playButtonText = "Press <Enter> to play"

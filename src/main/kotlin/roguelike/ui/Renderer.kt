@@ -5,10 +5,16 @@ import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
+/**
+ * Класс для отображения [View]
+ */
 abstract class Renderer : ViewVisitor<Unit> {
     abstract fun render(view: View)
 }
 
+/**
+ * Класс, реализующий отображение [View] при помощи библиотеки Lanterna
+ */
 class LanternaRenderer(
     private val terminal: Terminal
 ) : Renderer() {

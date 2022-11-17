@@ -9,6 +9,9 @@ import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
+/**
+ * Контроллер, обеспечивающий взаимодействие UI и игровой логики, когда игрок находится на экране меню
+ */
 class MenuController : Controller<MenuScreenState> {
 
     override fun bindState(state: MenuScreenState): View {

@@ -9,6 +9,10 @@ import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.menu.MenuScreenState
 
+
+/**
+ * состояние игры
+ */
 class GameState(
     private val initialWorld: World? = null
 ) : State() {

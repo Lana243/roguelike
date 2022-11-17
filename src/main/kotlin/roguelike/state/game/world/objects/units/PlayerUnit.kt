@@ -4,6 +4,10 @@ import roguelike.state.game.world.Position
 import kotlin.math.max
 import kotlin.math.min
 
+
+/**
+ * Игрок
+ */
 data class PlayerUnit(
     override val id: Int,
     override var position: Position = Position(0, 0),

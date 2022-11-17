@@ -1,9 +1,15 @@
 package roguelike.state.game.world
 
+/**
+ * Интерфейс для генерации карты
+ */
 interface MapFactory {
     fun createMap(): String
 }
 
+/**
+ * Константная карта, задаваемая в игре
+ */
 class MapConstant : MapFactory {
 
     override fun createMap() = rawMap

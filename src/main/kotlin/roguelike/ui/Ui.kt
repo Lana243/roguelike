@@ -5,10 +5,21 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import roguelike.ui.views.View
 
 abstract class Ui {
+    /**
+     * преобразовывает команды, считанные с клавиатуры в [Event]
+     */
     abstract fun pollEvent(): Event
+
+    /**
+     * Отображение view на экране
+     */
     abstract fun render(view: View)
 }
 
+
+/**
+ * UI реализованный на основе библиотеки Lanterna
+ */
 class LanternaUi : Ui() {
 
     override fun pollEvent(): Event {

@@ -13,6 +13,9 @@ import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
+/**
+ * Класс, реализующий интерфейс [ViewBuilder] для [GameState]
+ */
 class GameViewBuilder : ViewBuilder<GameState> {
 
     override fun build(state: GameState): View {

@@ -3,6 +3,9 @@ package roguelike.state.game.world
 import roguelike.state.game.*
 import kotlin.random.Random
 
+/**
+ * Случайная карта
+ */
 class MapGenerator(
     private val lengthX: Int,
     private val lengthY: Int

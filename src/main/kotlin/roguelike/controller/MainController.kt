@@ -9,6 +9,9 @@ import roguelike.state.menu.MenuScreenState
 import roguelike.ui.Event
 import roguelike.ui.views.View
 
+/**
+ * Композиция всех котроллеров
+ */
 class MainController(
     var state: State
 ) : Controller<State> {

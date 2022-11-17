@@ -9,6 +9,10 @@ import roguelike.state.game.simulator.UnitAction
 import roguelike.ui.Event
 import roguelike.ui.views.View
 
+
+/**
+ * Контроллер, обеспечивающий взаимодействие UI и игровой логики, когда пользователь находится на экране уровня
+ */
 class GameController : Controller<GameState> {
 
     override fun bindState(state: GameState): View {

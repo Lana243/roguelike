@@ -6,6 +6,9 @@ import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
+/**
+ * Реализация интерфейса [ViewBuilder] для состояния [MenuScreenState]
+ */
 class MenuViewBuilder : ViewBuilder<MenuScreenState> {
     override fun build(state: MenuScreenState): View {
         val playButtonView = AsciiGrid(listOf(state.playButtonText))

@@ -1,5 +1,6 @@
 package roguelike.ui
 
+// низкоуровневое описание действия, сделанного пользователем
 sealed interface Event {
     object KeyEnterPressed : Event
     object KeyEscPressed : Event

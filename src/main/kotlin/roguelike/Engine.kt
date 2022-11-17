@@ -7,6 +7,9 @@ import roguelike.state.menu.MenuScreenState
 import roguelike.ui.LanternaUi
 import roguelike.ui.Ui
 
+/**
+ * Игоровой движок, организующий основной пайплайн работы
+ */
 class Engine {
     fun run() {
         var currentState: State = MenuScreenState()

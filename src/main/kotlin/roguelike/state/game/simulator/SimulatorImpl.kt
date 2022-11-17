@@ -7,6 +7,9 @@ import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 
+/**
+ * Реализация интерфейса [Simulator]
+ */
 class SimulatorImpl : Simulator {
 
     override fun simulate(world: World, actions: (GameUnit) -> UnitAction): World {

@@ -2,6 +2,9 @@ package roguelike.state.game.world.objects.units
 
 import roguelike.state.game.world.Position
 
+/**
+ * Моб
+ */
 data class Mob(
     override val id: Int,
     override val position: Position,
