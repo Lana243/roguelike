@@ -1,8 +1,9 @@
 package roguelike.state.game.world.objects
 
-sealed class GameStaticObject : GameObject
+sealed class GameStaticObject : GameObject()
 
-object Well : GameStaticObject() {
+class Well(override val id: Int) : GameStaticObject() {
     val extraExp: UInt = 10U
 }
 
+class ExitDoor(override val id: Int) : GameStaticObject()

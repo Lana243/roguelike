@@ -4,11 +4,7 @@ import roguelike.state.Message
 import roguelike.state.State
 import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl
-import roguelike.state.game.simulator.UnitAction
-import roguelike.state.game.world.MapFactory
-import roguelike.state.game.world.MapGenerator
-import roguelike.state.game.world.World
-import roguelike.state.game.world.WorldFactory
+import roguelike.state.game.world.*
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.menu.MenuScreenState
@@ -44,7 +40,7 @@ class GameState(
 
     // internal
 
-    private val mapFactory: MapFactory = MapGenerator()
+    private val mapFactory: MapFactory = MapGenerator(80, 23)
 
     private val worldFactory = WorldFactory(mapFactory)
 

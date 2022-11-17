@@ -4,7 +4,7 @@ interface MapFactory {
     fun createMap(): String
 }
 
-class MapGenerator : MapFactory {
+class MapConstant : MapFactory {
 
     override fun createMap() = rawMap
 
@@ -12,15 +12,13 @@ class MapGenerator : MapFactory {
 
     private val rawMap = """
         ################################################################################
-        #                                                                              #
-        #    P                                                                         #
-        #                                                                              #
-        #                                                                              #
-        #                                                                              #
-        #                                                                              #
-        #                                                                              #
-        #                                                                              #
-        #                                                                              #
+        #    #                                                                         #
+        # P         W  S                                                               #
+        #    #                                                                         #
+        #    #                                                                         #
+        # A  #                                                                         #
+        #    ####                                                                      #
+        #  A                                                                           #
         #                                                                              #
         #                                                                              #
         #                                                                              #
@@ -33,7 +31,9 @@ class MapGenerator : MapFactory {
         #                                                                              #
         #                                                                              #
         #                                                                              #
+        #                                                                            D #
         #                                                                              #
         ################################################################################
     """.trimIndent()
 }
+

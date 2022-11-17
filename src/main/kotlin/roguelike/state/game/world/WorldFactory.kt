@@ -1,17 +1,22 @@
 package roguelike.state.game.world
 
-import roguelike.state.game.world.objects.GameItem
-import roguelike.state.game.world.objects.GameStaticObject
+import roguelike.state.game.CHAR_EMPTY
+import roguelike.state.game.CHAR_WALL
+import roguelike.state.game.world.objects.*
 import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.utility.IdManager
 
 class WorldFactory(private val mapFactory: MapFactory) {
+
     fun createWorld(): World {
         val map = mapFactory.createMap()
         val gameMap = parseMap(map)
-        return World(gameMap, player, staticObjects, items)
+        return World(gameMap, player, staticObjects, items, idManager)
     }
 
     // internal
+
+    private val idManager = IdManager()
 
     private lateinit var player: PlayerUnit
 
@@ -35,13 +40,30 @@ class WorldFactory(private val mapFactory: MapFactory) {
 
     private fun parseCell(lineIndex: Int, charIndex: Int, char: Char): Cell =
         when (char) {
-            ' ' -> Cell.Empty
-            '#' -> Cell.Wall
+            CHAR_EMPTY -> Cell.Empty
+            CHAR_WALL -> Cell.Wall
             'P' -> {
                 player = PlayerUnit(
+                    idManager.getNextId(),
                     Position(charIndex, lineIndex)
                 )
                 Cell.Unit(player)
+            }
+            'D' -> {
+                val exitDoor = ExitDoor(idManager.getNextId())
+                Cell.StaticObject(exitDoor)
+            }
+            'W' -> {
+                val well = Well(idManager.getNextId())
+                Cell.StaticObject(well)
+            }
+            'A' -> {
+                val apple = Apple(idManager.getNextId())
+                Cell.Item(apple)
+            }
+            'S' -> {
+                val sword = Sword(idManager.getNextId())
+                Cell.Item(sword)
             }
             else -> Cell.Empty
         }

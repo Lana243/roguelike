@@ -1,11 +1,11 @@
 package roguelike.state.game.world.objects
 
-sealed class GameItem : GameObject
+sealed class GameItem : GameObject()
 
-object Sword : GameItem() {
+class Sword(override val id: Int) : GameItem() {
     val extraDamage: Int = 10
 }
 
-object Apple : GameItem() {
+class Apple(override val id: Int) : GameItem() {
     val healsHp: Int = 10
 }

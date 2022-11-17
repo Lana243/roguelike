@@ -2,6 +2,8 @@ package roguelike.state.game.simulator
 
 import roguelike.state.game.world.Cell
 import roguelike.state.game.world.World
+import roguelike.state.game.world.objects.Apple
+import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 
@@ -29,10 +31,28 @@ class SimulatorImpl : Simulator {
 
     private fun processMove(world: World, player: PlayerUnit, action: MoveAction): World {
         val newPosition = world.player.position + action
-        if (world.map.getCell(newPosition) !is Cell.Solid) {
+        val toCell = world.map.getCell(newPosition)
+
+        if (toCell !is Cell.Solid) {
             world.map.moveCell(world.player.position, newPosition)
             world.player.position = newPosition
         }
+
+        if (toCell is Cell.StaticObject) {
+            if (toCell.staticObject is ExitDoor) {
+                world.map.setCell(player.position, Cell.Empty) // victory
+            }
+            // TODO: Well, ...
+        }
+
+        if (toCell is Cell.Item) {
+            if (toCell.item is Apple) {
+                val apple = toCell.item
+                player.updateHp(+ apple.healsHp)
+            }
+            // TODO: Sword, ...
+        }
+
         return world
     }
 

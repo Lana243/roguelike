@@ -1,3 +1,5 @@
 package roguelike.state.game.world.objects
 
-interface GameObject
+abstract class GameObject {
+    abstract val id: Int
+}
