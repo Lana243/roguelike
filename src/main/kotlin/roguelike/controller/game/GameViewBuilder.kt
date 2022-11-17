@@ -1,9 +1,7 @@
 package roguelike.controller.game
 
 import roguelike.controller.ViewBuilder
-import roguelike.state.game.CHAR_EMPTY
-import roguelike.state.game.CHAR_WALL
-import roguelike.state.game.GameState
+import roguelike.state.game.*
 import roguelike.state.game.world.Cell
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.Apple
@@ -51,23 +49,23 @@ class GameViewBuilder : ViewBuilder<GameState> {
             Cell.Empty -> CHAR_EMPTY
             is Cell.Unit -> {
                 when (cell.unit) {
-                    is PlayerUnit -> 'P'
-                    else -> '?'
+                    is PlayerUnit -> CHAR_PLAYER
+                    else -> CHAR_UNKNOWN
                 }
             }
             Cell.Wall -> CHAR_WALL
             is Cell.Item -> {
                 when (cell.item) {
-                    is Apple -> 'A'
-                    is Sword -> 'S'
+                    is Apple -> CHAR_APPLE
+                    is Sword -> CHAR_SWORD
                 }
             }
             is Cell.StaticObject -> {
                 when (cell.staticObject) {
-                    is ExitDoor -> 'D'
-                    is Well -> 'W'
+                    is ExitDoor -> CHAR_DOOR
+                    is Well -> CHAR_WELL
                 }
             }
-            else -> '?'
+            else -> CHAR_UNKNOWN
         }
 }

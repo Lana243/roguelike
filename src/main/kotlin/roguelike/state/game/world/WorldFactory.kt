@@ -1,7 +1,6 @@
 package roguelike.state.game.world
 
-import roguelike.state.game.CHAR_EMPTY
-import roguelike.state.game.CHAR_WALL
+import roguelike.state.game.*
 import roguelike.state.game.world.objects.*
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.utility.IdManager
@@ -42,26 +41,26 @@ class WorldFactory(private val mapFactory: MapFactory) {
         when (char) {
             CHAR_EMPTY -> Cell.Empty
             CHAR_WALL -> Cell.Wall
-            'P' -> {
+            CHAR_PLAYER -> {
                 player = PlayerUnit(
                     idManager.getNextId(),
                     Position(charIndex, lineIndex)
                 )
                 Cell.Unit(player)
             }
-            'D' -> {
+            CHAR_DOOR -> {
                 val exitDoor = ExitDoor(idManager.getNextId())
                 Cell.StaticObject(exitDoor)
             }
-            'W' -> {
+            CHAR_WELL -> {
                 val well = Well(idManager.getNextId())
                 Cell.StaticObject(well)
             }
-            'A' -> {
+            CHAR_APPLE -> {
                 val apple = Apple(idManager.getNextId())
                 Cell.Item(apple)
             }
-            'S' -> {
+            CHAR_SWORD -> {
                 val sword = Sword(idManager.getNextId())
                 Cell.Item(sword)
             }

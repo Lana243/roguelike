@@ -1,8 +1,6 @@
 package roguelike.state.game.world
 
-import roguelike.state.game.CHAR_EMPTY
-import roguelike.state.game.CHAR_PLAYER
-import roguelike.state.game.CHAR_WALL
+import roguelike.state.game.*
 import kotlin.random.Random
 
 class MapGenerator(
@@ -13,8 +11,12 @@ class MapGenerator(
     override fun createMap(): String {
         addBorder()
         addPlayer()
+        addDoor()
         for (i in 0..300) {
             addWalls()
+        }
+        for (i in 0..20) {
+            addApple()
         }
         return rawMap.joinToString("\n") { it.joinToString("") }
     }
@@ -36,6 +38,19 @@ class MapGenerator(
 
     private fun addPlayer() {
         rawMap[2][2] = CHAR_PLAYER
+    }
+
+    private fun addDoor() {
+        rawMap[lengthY - 3][lengthX - 3] = CHAR_DOOR
+    }
+
+    private fun addApple() {
+        var (y, x) = 0 to 0
+        while (rawMap[y][x] != CHAR_EMPTY) {
+            y = Random.nextInt(lengthY)
+            x = Random.nextInt(lengthX)
+        }
+        rawMap[y][x] = CHAR_APPLE
     }
 
     private fun addWalls() {
