@@ -9,7 +9,7 @@ sealed class GameStaticObject : GameObject()
  * Колодец
  */
 class Well(override val id: Int) : GameStaticObject() {
-    val extraExp: UInt = 10U
+    var visited: Boolean = false
 }
 
 /**

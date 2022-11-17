@@ -58,6 +58,7 @@ class WorldFactory(private val mapFactory: MapFactory) {
             }
             CHAR_WELL -> {
                 val well = Well(idManager.getNextId())
+                staticObjects += well.id to well
                 Cell.StaticObject(well)
             }
             CHAR_APPLE -> {
@@ -66,6 +67,7 @@ class WorldFactory(private val mapFactory: MapFactory) {
             }
             CHAR_SWORD -> {
                 val sword = Sword(idManager.getNextId())
+                items += sword.id to sword
                 Cell.Item(sword)
             }
             else -> Cell.Empty

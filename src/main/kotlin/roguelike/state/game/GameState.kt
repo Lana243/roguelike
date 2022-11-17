@@ -9,6 +9,7 @@ import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
+import roguelike.state.victory.VictoryScreenState
 
 
 /**
@@ -35,7 +36,12 @@ class GameState(
                             }
                         }
                         val newWorld = simulator.simulate(world, actions)
-                        GameState(newWorld)
+
+                        if (newWorld.victory) {
+                            VictoryScreenState()
+                        } else {
+                            GameState(newWorld)
+                        }
                     }
                     GameMessage.Exit -> MenuScreenState()
                 }

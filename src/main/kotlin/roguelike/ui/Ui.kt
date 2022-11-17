@@ -34,6 +34,7 @@ class LanternaUi : Ui() {
                 KeyType.ArrowRight -> Event.KeyRightPressed
                 KeyType.ArrowUp -> Event.KeyUpPressed
                 KeyType.ArrowDown -> Event.KeyDownPressed
+                KeyType.Character -> Event.LetterOrDigitKeyPressed(keyStroke.character)
                 else -> null
             }
         }

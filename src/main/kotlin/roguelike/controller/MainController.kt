@@ -2,10 +2,12 @@ package roguelike.controller
 
 import roguelike.controller.game.GameController
 import roguelike.controller.menu.MenuController
+import roguelike.controller.victory.VictoryController
 import roguelike.state.Message
 import roguelike.state.State
 import roguelike.state.game.GameState
 import roguelike.state.menu.MenuScreenState
+import roguelike.state.victory.VictoryScreenState
 import roguelike.ui.Event
 import roguelike.ui.views.View
 
@@ -18,12 +20,14 @@ class MainController(
 
     private val gameStateController = GameController()
     private val menuStateController = MenuController()
+    private val victoryScreenState = VictoryController()
 
     override fun bindState(state: State): View {
         this.state = state
         return when (state) {
             is GameState -> gameStateController.bindState(state)
             is MenuScreenState -> menuStateController.bindState(state)
+            is VictoryScreenState -> victoryScreenState.bindState(state)
             else -> error("Unknown state")
         }
     }
@@ -32,6 +36,7 @@ class MainController(
         return when (state) {
             is GameState -> gameStateController.processEvent(event)
             is MenuScreenState -> menuStateController.processEvent(event)
+            is VictoryScreenState -> victoryScreenState.processEvent(event)
             else -> error("Unknown state")
         }
     }

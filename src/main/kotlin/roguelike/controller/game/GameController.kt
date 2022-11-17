@@ -4,6 +4,8 @@ import roguelike.controller.Controller
 import roguelike.state.Message
 import roguelike.state.game.GameMessage
 import roguelike.state.game.GameState
+import roguelike.state.game.simulator.ToggleInventoryItem
+import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
 import roguelike.ui.Event
 import roguelike.ui.views.View
@@ -25,6 +27,15 @@ class GameController : Controller<GameState> {
             Event.KeyUpPressed -> GameMessage.PlayerActionMessage(MoveAction.UP)
             Event.KeyDownPressed -> GameMessage.PlayerActionMessage(MoveAction.DOWN)
             Event.KeyEscPressed -> GameMessage.Exit
+            is Event.LetterOrDigitKeyPressed -> when (event.char) {
+                'e' -> GameMessage.PlayerActionMessage(Interact)
+                '1' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(0))
+                '2' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(1))
+                '3' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(2))
+                '4' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(3))
+                '5' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(4))
+                else -> null
+            }
             else -> null
         }
     }

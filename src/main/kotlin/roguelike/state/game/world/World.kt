@@ -17,9 +17,21 @@ data class World(
      * игрок
      */
     val player: PlayerUnit,
+    /**
+     * Статические объекты на карте
+     */
     val staticObjects: Map<Int, GameStaticObject>,
+    /**
+     * Предметы
+     */
     val items: Map<Int, GameItem>,
+    /**
+     * Вспомогательный класс для выдачи уникального `Id` объектам
+     */
     val idManager: IdManager = IdManager()
 ) {
-    val tick: Int = 0
+    /**
+     * Выиграл ли игрок
+     */
+    var victory: Boolean = false
 }

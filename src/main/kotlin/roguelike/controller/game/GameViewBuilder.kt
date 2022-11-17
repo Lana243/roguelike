@@ -8,6 +8,7 @@ import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
+import roguelike.state.game.world.objects.units.Inventory
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
@@ -36,10 +37,22 @@ class GameViewBuilder : ViewBuilder<GameState> {
             }
         }
 
+        val inventory = "Inventory: " + state.world.player.inventory.items.joinToString {
+            var c = if (it.item is Sword) {
+                's'
+            } else {
+                '.'
+            }
+            if (it.state == Inventory.ItemData.State.EQUIPED) {
+                c = c.uppercaseChar()
+            }
+            c.toString()
+        }.padEnd(5, '.')
+
         childViews += Composite.ViewWithPosition(
             x = 0,
             y = lengthY,
-            AsciiGrid(listOf("HP: ${state.world.player.hp}  |  Attack: ${state.world.player.attackRate}"))
+            AsciiGrid(listOf("HP: ${state.world.player.hp}  |  Attack: ${state.world.player.attackRate}  |  Level: ${state.world.player.level}  |  " + inventory))
         )
 
         return Composite(childViews)

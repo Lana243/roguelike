@@ -18,12 +18,7 @@ enum class MoveAction(
 /**
  * Класс, описывающий действие игрока: надеть вещь из инвентаря
  */
-class Equip(val itemId: Int) : UnitAction
-
-/**
- * Класс описывающий действие игрока: снять надетую вещь и переместить в интвентарь
- */
-class Unequip(val itemId: Int) : UnitAction
+class ToggleInventoryItem(val pos: Int) : UnitAction
 
 object Interact : UnitAction
 

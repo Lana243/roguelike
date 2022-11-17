@@ -11,4 +11,8 @@ sealed interface Event {
     object KeyRightPressed : Event
     object KeyUpPressed : Event
     object KeyDownPressed : Event
+
+    data class LetterOrDigitKeyPressed(
+        val char: Char
+    ) : Event
 }
