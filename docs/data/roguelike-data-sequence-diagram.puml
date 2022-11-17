@@ -1,0 +1,73 @@
+@startuml
+
+participant ":ViewBuilder"
+
+participant ":Controller"
+
+participant ":Ui"
+
+participant ":Engine"
+
+participant ":GameState"
+
+participant ":Simulator"
+
+create ":Simulator"
+":GameState" --> ":Simulator": << create >>
+
+-> ":Engine": run()
+
+create ":Controller"
+":Engine" --> ":Controller": << create >>
+
+create ":Ui"
+":Engine" --> ":Ui": << create >>
+
+create ":ViewBuilder"
+":Controller" --> ":ViewBuilder": << create >>
+
+
+loop
+
+":Engine" <-- ":GameState": currentState
+
+":Controller" <- ":Engine": bindState()
+activate ":Controller"
+
+":ViewBuilder" <- ":Controller": buildView()
+activate ":ViewBuilder"
+":ViewBuilder" --> ":Controller"
+deactivate ":ViewBuilder"
+
+":Controller" --> ":Engine"
+deactivate ":Controller"
+
+":Ui" <- ":Engine": render()
+
+":Ui" <- ":Engine": pollEvent()
+activate ":Ui"
+":Ui" --> ":Engine"
+deactivate ":Ui"
+
+":Controller" <- ":Engine": processEvent()
+activate ":Controller"
+":Controller" --> ":Engine"
+deactivate ":Controller"
+
+":Engine" -> ":GameState": processMessage()
+activate ":GameState"
+":GameState" -> ":Simulator": simulate()
+activate ":Simulator"
+":GameState" <-- ":Simulator"
+deactivate ":Simulator"
+":Engine" <-- ":GameState"
+deactivate ":GameState"
+
+":Engine" -> ":GameState": set new state
+
+
+
+end
+
+
+@enduml
