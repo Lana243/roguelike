@@ -2,10 +2,15 @@ package roguelike.state.game
 
 import roguelike.state.Message
 import roguelike.state.State
+import roguelike.state.defeat.DefeatScreenState
+import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl
-import roguelike.state.game.world.*
-import roguelike.state.game.world.objects.units.GameUnit
+import roguelike.state.game.world.MapFactory
+import roguelike.state.game.world.MapLevel1
+import roguelike.state.game.world.MapRandomGenerator
+import roguelike.state.game.world.World
+import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
@@ -29,18 +34,26 @@ class GameState(
             is GameMessage -> {
                 when (message) {
                     is GameMessage.PlayerActionMessage -> {
-                        val actions = { gameUnit: GameUnit ->
-                            when (gameUnit) {
-                                is PlayerUnit -> message.action
-                                else -> TODO("Not implemented")
+                        val actions = world.units.map { (_, unit) ->
+                            if (unit is PlayerUnit) {
+                                unit to { _: World -> message.action }
+                            } else {
+                                unit to { _: World -> Procrastinate }
                             }
-                        }
+                        }.toMap().toSortedMap(Comparator.comparingInt { it.id })
+
                         val newWorld = simulator.simulate(world, actions)
 
-                        if (newWorld.victory) {
-                            VictoryScreenState()
-                        } else {
-                            GameState(newWorld)
+                        when {
+                            newWorld.victory -> {
+                                VictoryScreenState()
+                            }
+                            newWorld.defeat -> {
+                                DefeatScreenState()
+                            }
+                            else -> {
+                                GameState(newWorld)
+                            }
                         }
                     }
                     GameMessage.Exit -> MenuScreenState()

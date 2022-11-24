@@ -5,10 +5,7 @@ package roguelike.utility
  */
 class IdManager {
 
-    fun getNextId(): Int {
-        lastId += 1
-        return lastId
-    }
-
-    private var lastId: Int = -1
+    fun playerId(): Int = 0
+    fun getNextId(): Int = ++lastId
+    private var lastId: Int = 0
 }

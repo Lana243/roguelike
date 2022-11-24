@@ -10,7 +10,7 @@ abstract class GameUnit : GameObject() {
     /**
      * Текущая позиция [GameUnit]
      */
-    abstract val position: Position
+    abstract var position: Position
 
     /**
      * Уровень атаки [GameUnit]
@@ -25,5 +25,5 @@ abstract class GameUnit : GameObject() {
     /**
      * Текущее здоровье [GameUnit]
      */
-    abstract val hp: Int
+    abstract var hp: Int
 }

@@ -7,8 +7,8 @@ import roguelike.state.game.world.Position
  */
 data class Mob(
     override val id: Int,
-    override val position: Position,
-    override val attackRate: Int,
-    override val maxHp: Int,
-    override val hp: Int,
+    override var position: Position,
+    override val attackRate: Int = 2,
+    override var maxHp: Int = 3,
+    override var hp: Int = 3,
 ) : GameUnit()

@@ -9,6 +9,7 @@ import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.Inventory
+import roguelike.state.game.world.objects.units.Mob
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
@@ -66,6 +67,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
             is Cell.Unit -> {
                 when (cell.unit) {
                     is PlayerUnit -> CHAR_PLAYER
+                    is Mob -> CHAR_MOB
                     else -> CHAR_UNKNOWN
                 }
             }

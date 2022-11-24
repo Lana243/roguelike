@@ -12,9 +12,9 @@ import kotlin.math.min
 data class PlayerUnit(
     override val id: Int,
     override var position: Position = Position(0, 0),
-    var baseAttackRate: Int = 10,
-    override var hp: Int = 50,
-    override val maxHp: Int = 100,
+    var baseAttackRate: Int = 1,
+    override var hp: Int = 5,
+    override val maxHp: Int = 9,
     var level: Int = 1,
     val inventory: Inventory = Inventory(),
 ) : GameUnit() {

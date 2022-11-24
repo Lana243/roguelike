@@ -16,13 +16,17 @@ import roguelike.state.game.world.objects.units.toggle
  */
 class SimulatorImpl : Simulator {
 
-    override fun simulate(world: World, actions: (GameUnit) -> UnitAction): World {
-        val player = world.player
-        val playerAction = actions(player)
-        return process(world, player, playerAction) ?: world
+    override fun simulate(world: World, actions: Map<GameUnit, (World) -> UnitAction>): World {
+        var currentWorld = world
+        for ((unit, action) in actions) {
+            if (unit.hp > 0) {
+                currentWorld = process(world, unit, action(currentWorld))
+            }
+        }
+        return currentWorld
     }
 
-    private fun process(world: World, player: PlayerUnit, action: UnitAction): World =
+    private fun process(world: World, player: GameUnit, action: UnitAction): World =
         when (action) {
             is MoveAction -> processMove(world, player, action)
             is ToggleInventoryItem -> processToggleInventoryItem(world, player, action)
@@ -30,23 +34,65 @@ class SimulatorImpl : Simulator {
             Procrastinate -> world
         }
 
-    private fun processToggleInventoryItem(world: World, player: PlayerUnit, action: ToggleInventoryItem): World {
-        player.inventory.toggle(action.pos)
+    private fun processToggleInventoryItem(world: World, unit: GameUnit, action: ToggleInventoryItem): World {
+        if (unit !is PlayerUnit) {
+            return world
+        }
+        unit.inventory.toggle(action.pos)
         return world
     }
 
-    private fun processMove(world: World, player: PlayerUnit, action: MoveAction): World {
-        val newPosition = world.player.position + action
+    private fun processMove(world: World, unit: GameUnit, action: MoveAction): World {
+        val newPosition = unit.position + action
         val toCell = world.map.getCell(newPosition)
+
+
+        if (toCell is Cell.Unit) {
+            return processFight(world, unit, toCell.unit)
+        }
+
 
         if (toCell !is Cell.Solid) {
             world.map.moveCell(world.player.position, newPosition)
-            world.player.position = newPosition
+            unit.position = newPosition
         }
 
+        if (unit is PlayerUnit) {
+            processCellMoveForPlayer(world, unit, toCell)
+        }
+
+        return world
+    }
+
+    private fun processFight(world: World, attacker: GameUnit, defender: GameUnit): World {
+        attacker.hp -= defender.attackRate
+        defender.hp -= attacker.attackRate
+        var go = false
+
+        if (defender.hp <= 0) {
+            world.units.remove(defender.id)
+            world.map.setCell(defender.position, Cell.Empty)
+            go = true
+        }
+
+        if (attacker.hp <= 0) {
+            world.units.remove(attacker.id)
+            world.map.setCell(attacker.position, Cell.Empty)
+            go = false
+        }
+
+        if (go) {
+            world.map.setCell(attacker.position, Cell.Empty)
+            attacker.position = defender.position
+            world.map.setCell(defender.position, Cell.Unit(attacker))
+        }
+        return world
+    }
+
+
+    private fun processCellMoveForPlayer(world: World, player: PlayerUnit, toCell: Cell): World {
         if (toCell is Cell.StaticObject) {
             if (toCell.staticObject is ExitDoor) {
-                world.map.setCell(player.position, Cell.Empty)
                 world.victory = true
             }
         }
@@ -65,7 +111,14 @@ class SimulatorImpl : Simulator {
         return world
     }
 
-    private fun processInteract(world: World, player: PlayerUnit): World {
+    private fun processInteract(world: World, player: GameUnit): World {
+        if (player is PlayerUnit) {
+            return processInteractForPlayer(world, player)
+        }
+        return world
+    }
+
+    private fun processInteractForPlayer(world: World, player: PlayerUnit): World {
         for (moveAction in MoveAction.values()) {
             val newPosition = world.player.position + moveAction
             val toCell = world.map.getCell(newPosition)
