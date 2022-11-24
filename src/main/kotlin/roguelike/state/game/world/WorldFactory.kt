@@ -2,11 +2,10 @@ package roguelike.state.game.world
 
 import roguelike.state.game.*
 import roguelike.state.game.world.objects.*
-import roguelike.state.game.world.objects.units.GameUnit
-import roguelike.state.game.world.objects.units.Mob
-import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.state.game.world.objects.units.*
 import roguelike.utility.IdManager
 import java.util.SortedMap
+import kotlin.random.Random
 
 class WorldFactory(private val mapFactory: MapFactory) {
 
@@ -85,6 +84,7 @@ class WorldFactory(private val mapFactory: MapFactory) {
                 val mob = Mob(
                     idManager.getNextId(),
                     Position(charIndex, lineIndex),
+                    getRandomMobStrategy()
                 )
                 units += mob.id to mob
                 Cell.Unit(mob)
@@ -92,4 +92,13 @@ class WorldFactory(private val mapFactory: MapFactory) {
 
             else -> Cell.Empty
         }
+
+    private val availableMobStrategies = listOf(
+        PassiveStrategy(),
+        AggressiveStrategy(),
+        AvoidanceStrategy(),
+    )
+
+    private fun getRandomMobStrategy(): MobStrategy =
+        availableMobStrategies[Random.nextInt(availableMobStrategies.size)]
 }

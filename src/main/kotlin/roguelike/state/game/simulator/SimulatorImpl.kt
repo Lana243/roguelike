@@ -26,11 +26,11 @@ class SimulatorImpl : Simulator {
         return currentWorld
     }
 
-    private fun process(world: World, player: GameUnit, action: UnitAction): World =
+    private fun process(world: World, unit : GameUnit, action: UnitAction): World =
         when (action) {
-            is MoveAction -> processMove(world, player, action)
-            is ToggleInventoryItem -> processToggleInventoryItem(world, player, action)
-            Interact -> processInteract(world, player)
+            is MoveAction -> processMove(world, unit, action)
+            is ToggleInventoryItem -> processToggleInventoryItem(world, unit, action)
+            Interact -> processInteract(world, unit)
             Procrastinate -> world
         }
 
@@ -46,14 +46,12 @@ class SimulatorImpl : Simulator {
         val newPosition = unit.position + action
         val toCell = world.map.getCell(newPosition)
 
-
         if (toCell is Cell.Unit) {
             return processFight(world, unit, toCell.unit)
         }
 
-
         if (toCell !is Cell.Solid) {
-            world.map.moveCell(world.player.position, newPosition)
+            world.map.moveCell(unit.position, newPosition)
             unit.position = newPosition
         }
 
@@ -67,21 +65,21 @@ class SimulatorImpl : Simulator {
     private fun processFight(world: World, attacker: GameUnit, defender: GameUnit): World {
         attacker.hp -= defender.attackRate
         defender.hp -= attacker.attackRate
-        var go = false
+        var attackerMayGo = false
 
         if (defender.hp <= 0) {
             world.units.remove(defender.id)
             world.map.setCell(defender.position, Cell.Empty)
-            go = true
+            attackerMayGo = true
         }
 
         if (attacker.hp <= 0) {
             world.units.remove(attacker.id)
             world.map.setCell(attacker.position, Cell.Empty)
-            go = false
+            attackerMayGo = false
         }
 
-        if (go) {
+        if (attackerMayGo) {
             world.map.setCell(attacker.position, Cell.Empty)
             attacker.position = defender.position
             world.map.setCell(defender.position, Cell.Unit(attacker))
