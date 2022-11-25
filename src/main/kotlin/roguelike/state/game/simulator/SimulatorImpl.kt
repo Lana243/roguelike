@@ -103,7 +103,7 @@ class SimulatorImpl : Simulator {
             defender.strategy = contusionStrategy
             val startTick = world.tick
 
-            val contussionEffect = Effect { tick ->
+            val contusionEffect = Effect { tick ->
                 if (tick == startTick + 5) {
                     defender.strategy = contusionStrategy.baseStrategy
                     true
@@ -112,7 +112,7 @@ class SimulatorImpl : Simulator {
                 }
             }
 
-            world.effects.add(contussionEffect)
+            world.effects.add(contusionEffect)
         }
 
         return world
