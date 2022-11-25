@@ -124,6 +124,7 @@ class SimulatorImpl : Simulator {
         if (toCell is Cell.StaticObject) {
             if (toCell.staticObject is ExitDoor) {
                 world.map.moveCell(player.position, position)
+                world.victory = true
             }
         }
 

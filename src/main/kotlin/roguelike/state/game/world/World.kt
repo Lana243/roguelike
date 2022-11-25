@@ -46,8 +46,7 @@ data class World(
     /**
      * Выиграл ли игрок
      */
-    val victory: Boolean
-        get() = map.getCell(player.position).run { this is Cell.StaticObject && this.staticObject is ExitDoor }
+    var victory: Boolean = false
 
     /**
      * Проиграл ли игрок

@@ -183,4 +183,20 @@ class SimulatorTest {
         Assertions.assertTrue(world.units[4]!!.run { this is Mob && this.strategy is ContusionStrategy })
         Assertions.assertTrue(world.effects.size == 1)
     }
+
+    @Test
+    fun `If player moves to the door, he wins`() {
+        repeat(18) {
+            world = simulator.simulate(world, mapOf(
+                world.player to { MoveAction.DOWN }
+            ))
+        }
+        repeat(75) {
+            world = simulator.simulate(world, mapOf(
+                world.player to { MoveAction.RIGHT }
+            ))
+        }
+
+        Assertions.assertTrue(world.victory)
+    }
 }
