@@ -11,6 +11,7 @@ import roguelike.state.game.world.MapFromFileGenerator
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
+import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.Sword
 
 class SimulatorTest {
@@ -34,11 +35,13 @@ class SimulatorTest {
 
     @Test
     fun `If player goes to cell with apple, his health increases`() {
-        Assertions.assertEquals(5, world.player.hp)
+        val initialHp = 5
+        val expectedHp = initialHp + Apple(228).healsHp
+        Assertions.assertEquals(initialHp, world.player.hp)
         repeat(3) {
             world = simulator.simulate(world, mapOf(world.player to { MoveAction.DOWN }))
         }
-        Assertions.assertEquals(6, world.player.hp)
+        Assertions.assertEquals(expectedHp, world.player.hp)
     }
 
     @Test
