@@ -11,6 +11,13 @@ GameState --> VictoryScreenState : Player won
 VictoryScreenState --> MenuScreenState : F1
 
 VictoryScreenState --> [*] : Esc
+
+GameState --> DefeatScreenState : Player lose
+DefeatScreenState --> MenuScreenState : F1
+
+DefeatScreenState --> [*] : Esc
+
+
 MenuScreenState --> [*] : Esc
 
 @enduml
