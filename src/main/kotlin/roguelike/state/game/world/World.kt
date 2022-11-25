@@ -1,5 +1,7 @@
 package roguelike.state.game.world
 
+import roguelike.state.game.world.objects.Effect
+import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.GameItem
 import roguelike.state.game.world.objects.GameStaticObject
 import roguelike.state.game.world.objects.units.GameUnit
@@ -37,8 +39,23 @@ data class World(
     val idManager: IdManager = IdManager()
 ) {
     /**
+     * Текущее время в игре
+     */
+    var tick = 0
+
+    /**
      * Выиграл ли игрок
      */
-    var victory: Boolean = false
+    val victory: Boolean
+        get() = map.getCell(player.position).run { this is Cell.StaticObject && this.staticObject is ExitDoor }
+
+    /**
+     * Проиграл ли игрок
+     */
     val defeat: Boolean get() = player.hp <= 0
+
+    /**
+     * Продолжительные Эффекты
+     */
+    val effects: MutableSet<Effect> = mutableSetOf()
 }

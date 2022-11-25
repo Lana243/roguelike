@@ -75,3 +75,13 @@ class AvoidanceStrategy : MobStrategy {
         return Procrastinate
     }
 }
+
+/**
+ * Моб ходит в случайном направлении
+ */
+class ContusionStrategy(
+    val baseStrategy: MobStrategy,
+) : MobStrategy {
+    override fun getNextAction(mob: Mob, world: World): UnitAction =
+        MoveAction.values().random()
+}
