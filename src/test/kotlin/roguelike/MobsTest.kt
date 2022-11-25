@@ -3,7 +3,6 @@ package roguelike
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.SimulatorImpl
@@ -12,16 +11,13 @@ import roguelike.state.game.world.MapFromFileGenerator
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
-import roguelike.state.game.world.objects.Apple
-import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.Mob
-import kotlin.math.ceil
 
 class MobsTest {
 
-    lateinit var world: World
-    lateinit var simulator: SimulatorImpl
+    private lateinit var world: World
+    private lateinit var simulator: SimulatorImpl
 
     @BeforeEach
     fun initWorld() {
@@ -156,5 +152,13 @@ class MobsTest {
             ))
         }
         Assertions.assertEquals(Position(76, 20), world.units[4]!!.position)
+    }
+
+    @Test
+    fun `Mob cannot go to cell with wall`() {
+        world = simulator.simulate(world, mapOf(
+            world.units[4]!! to { MoveAction.RIGHT }
+        ))
+        Assertions.assertEquals(Position(4, 3), world.units[4]!!.position)
     }
 }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
-import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.SimulatorImpl
 import roguelike.state.game.simulator.ToggleInventoryItem
 import roguelike.state.game.world.MapFromFileGenerator
@@ -14,13 +13,11 @@ import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.Sword
-import roguelike.state.game.world.objects.units.ContusionStrategy
-import roguelike.state.game.world.objects.units.Mob
 
 class PlayerTest {
 
-    lateinit var world: World
-    lateinit var simulator: SimulatorImpl
+    private lateinit var world: World
+    private lateinit var simulator: SimulatorImpl
 
     @BeforeEach
     fun initWorld() {
