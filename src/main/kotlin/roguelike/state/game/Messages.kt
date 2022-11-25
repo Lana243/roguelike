@@ -22,5 +22,10 @@ sealed interface GameMessage : Message {
     /**
      * Отобразить уровень HP мобов
      */
-    object SwitchShowGameInfo : GameMessage
+    object ShowMobsHp : GameMessage
+
+    /**
+     * Отобразить силу атаки мобов
+     */
+    object ShowMobsAttackRate : GameMessage
 }

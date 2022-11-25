@@ -32,14 +32,8 @@ class GameViewBuilder : ViewBuilder<GameState> {
                 when (val cell = gameMap.getCell(Position(x, y))) {
                     Cell.Empty -> {}
                     else -> {
-                        val charView = viewByCell(x, y, cell)
+                        val charView = viewByCell(x, y, cell, state)
                         childViews += Composite.ViewWithPosition(x, y, charView)
-
-                        if (state.showInfo) {
-                            infoViewByCell(cell)?.let {
-                                infoViews += Composite.ViewWithPosition(x - 1, y - 1, it)
-                            }
-                        }
                     }
                 }
             }
@@ -95,26 +89,24 @@ class GameViewBuilder : ViewBuilder<GameState> {
             else -> CHAR_UNKNOWN
         }
 
-    private fun viewByCell(x: Int, y: Int, cell: Cell): View =
-        AsciiGrid(listOf(charByCell(x, y, cell).toString()))
-
-
-    private fun infoViewByCell(cell: Cell): View? =
-        when (cell) {
+    private fun viewByCell(x: Int, y: Int, cell: Cell, state: GameState): View {
+        val char = charByCell(x, y, cell)
+        return when (cell) {
             is Cell.Unit -> {
                 when (cell.unit) {
                     is Mob -> {
-                        val hpView = AsciiGrid(listOf("${cell.unit.hp}"), AsciiColor.Green)
-                        val attackView = AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
-                        val infoView = Composite(listOf(
-                            Composite.ViewWithPosition(0, 0, attackView),
-                            Composite.ViewWithPosition(2, 0, hpView),
-                        ))
-                        infoView
+                        if (state.settings.showMobsHp) {
+                            AsciiGrid(listOf("${cell.unit.hp}"), AsciiColor.Green)
+                        } else if (state.settings.showMobsAttackRate) {
+                            AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
+                        } else {
+                            AsciiGrid(listOf(char.toString()))
+                        }
                     }
-                    else -> null
+                    else -> AsciiGrid(listOf(char.toString()))
                 }
             }
-            else -> null
+            else -> AsciiGrid(listOf(char.toString()))
         }
+    }
 }

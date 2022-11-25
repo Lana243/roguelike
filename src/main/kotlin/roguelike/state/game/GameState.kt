@@ -23,7 +23,7 @@ import roguelike.state.victory.VictoryScreenState
  */
 data class GameState(
     val world: World,
-    val showInfo: Boolean,
+    val settings: Settings,
 ) : State() {
 
     companion object {
@@ -35,7 +35,7 @@ data class GameState(
             }
             val worldFactory = WorldFactory(mapFactory)
             val world = worldFactory.createWorld()
-            return GameState(world, showInfo = false)
+            return GameState(world, Settings())
         }
     }
 
@@ -72,8 +72,11 @@ data class GameState(
                             }
                         }
                     }
-                    GameMessage.SwitchShowGameInfo -> {
-                        this.copy(showInfo = showInfo.not())
+                    GameMessage.ShowMobsHp -> {
+                        this.copy(settings = settings.switchShowMobsHp())
+                    }
+                    GameMessage.ShowMobsAttackRate -> {
+                        this.copy(settings = settings.switchShowAttackRate())
                     }
                     GameMessage.Exit -> MenuScreenState()
                 }
@@ -85,4 +88,21 @@ data class GameState(
     // internal
 
     private val simulator: Simulator = SimulatorImpl()
+
+    data class Settings(
+        val showMobsHp: Boolean = false,
+        val showMobsAttackRate: Boolean = false,
+    ) {
+        fun switchShowMobsHp(): Settings =
+            this.copy(
+                showMobsHp = !showMobsHp,
+                showMobsAttackRate = false
+            )
+
+        fun switchShowAttackRate(): Settings =
+            this.copy(
+                showMobsHp = false,
+                showMobsAttackRate = !showMobsAttackRate
+            )
+    }
 }
