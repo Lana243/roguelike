@@ -68,6 +68,18 @@ class PlayerTest {
     }
 
     @Test
+    fun `Player cannot interact with the well twice`() {
+        Assertions.assertEquals(1, world.player.level)
+        repeat(9) {
+            world = simulator.simulate(world, mapOf(world.player to { MoveAction.RIGHT }))
+        }
+        world = simulator.simulate(world, mapOf(world.player to { Interact }))
+        Assertions.assertEquals(2, world.player.level)
+        world = simulator.simulate(world, mapOf(world.player to { Interact }))
+        Assertions.assertEquals(2, world.player.level)
+    }
+
+    @Test
     fun `If player picks a sword up, the sword moves to his inventory`() {
         repeat(9) {
             world = simulator.simulate(world, mapOf(world.player to { MoveAction.RIGHT }))
