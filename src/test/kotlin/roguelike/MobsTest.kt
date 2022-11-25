@@ -142,4 +142,19 @@ class MobsTest {
         }
         Assertions.assertTrue(world.defeat)
     }
+
+    @Test
+    fun `Mobs cannot go to door cell`() {
+        repeat(17) {
+            world = simulator.simulate(world, mapOf(
+                world.units[4]!! to { MoveAction.DOWN }
+            ))
+        }
+        repeat(73) {
+            world = simulator.simulate(world, mapOf(
+                world.units[4]!! to { MoveAction.RIGHT }
+            ))
+        }
+        Assertions.assertEquals(Position(76, 20), world.units[4]!!.position)
+    }
 }
