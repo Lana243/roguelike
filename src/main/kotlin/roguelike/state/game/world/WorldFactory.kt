@@ -63,7 +63,7 @@ class WorldFactory(private val mapFactory: MapFactory) {
                 Cell.StaticObject(exitDoor)
             }
 
-            CHAR_WELL -> {
+            in listOf(CHAR_UNUSED_WELL, CHAR_USED_WELL) -> {
                 val well = Well(idManager.getNextId())
                 staticObjects += well.id to well
                 Cell.StaticObject(well)

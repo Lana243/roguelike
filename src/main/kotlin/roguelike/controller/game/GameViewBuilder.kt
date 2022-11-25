@@ -55,7 +55,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
         childViews += Composite.ViewWithPosition(
             x = 0,
             y = lengthY,
-            AsciiGrid(listOf("HP: ${state.world.player.hp}  |  Attack: ${state.world.player.attackRate}  |  Level: ${state.world.player.level}  |  " + inventory))
+            AsciiGrid(listOf("HP: ${state.world.player.hp}  |  Attack: ${state.world.player.attackRate}  |  Level: ${state.world.player.level}  |  Exp: ${state.world.player.exp}  |  " + inventory))
         )
 
         return Composite(childViews)
@@ -83,7 +83,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
             is Cell.StaticObject -> {
                 when (cell.staticObject) {
                     is ExitDoor -> CHAR_DOOR
-                    is Well -> CHAR_WELL
+                    is Well -> if (cell.staticObject.visited) CHAR_USED_WELL else CHAR_UNUSED_WELL
                 }
             }
             else -> CHAR_UNKNOWN

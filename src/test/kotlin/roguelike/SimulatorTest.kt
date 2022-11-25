@@ -87,8 +87,10 @@ class SimulatorTest {
     }
 
     @Test
-    fun `If player moves to the mob, his health decreases`() {
-        val initialHp = world.player.hp
+    fun `If player and mob move to each other, their health decreases`() {
+        val initialPlayerHp = world.player.hp
+        val playerAttack = world.player.attackRate
+        val initialMobHp = world.units[3]!!.hp
         val mobAttack = world.units[3]!!.attackRate
         world = simulator.simulate(world, mapOf(
             world.player to { MoveAction.RIGHT },
@@ -100,6 +102,58 @@ class SimulatorTest {
         ))
 
         Assertions.assertEquals(Position(3, 2), world.player.position)
-        Assertions.assertEquals(world.player.hp, initialHp - mobAttack)
+        Assertions.assertEquals(Position(4, 2), world.units[3]!!.position)
+        Assertions.assertEquals(world.player.hp, initialPlayerHp - mobAttack)
+        Assertions.assertEquals(world.units[3]!!.hp, initialMobHp - playerAttack)
+    }
+
+    @Test
+    fun `If player moves to mob, mob's health decreases`() {
+        val playerAttack = world.player.attackRate
+        val initialMobHp = world.units[3]!!.hp
+        world = simulator.simulate(world, mapOf(
+            world.player to { MoveAction.RIGHT },
+            world.units[3]!! to { MoveAction.UP }
+        ))
+        world = simulator.simulate(world, mapOf(
+            world.player to { MoveAction.RIGHT }
+        ))
+
+        Assertions.assertEquals(Position(3, 2), world.player.position)
+        Assertions.assertEquals(world.units[3]!!.hp, initialMobHp - playerAttack)
+    }
+
+    @Test
+    fun `If mob moves to player, player health decreases`() {
+        val initialPlayerHp = world.player.hp
+        val mobAttack = world.units[3]!!.attackRate
+        world = simulator.simulate(world, mapOf(
+            world.player to { MoveAction.RIGHT },
+            world.units[3]!! to { MoveAction.UP }
+        ))
+        world = simulator.simulate(world, mapOf(
+            world.units[3]!! to { MoveAction.LEFT }
+        ))
+
+        Assertions.assertEquals(Position(4, 2), world.units[3]!!.position)
+        Assertions.assertEquals(world.player.hp, initialPlayerHp - mobAttack)
+    }
+
+    @Test
+    fun `If player kills mob, player experience grows and his position changes`() {
+        Assertions.assertEquals(0, world.player.exp)
+        world = simulator.simulate(world, mapOf(
+            world.player to { MoveAction.RIGHT },
+            world.units[3]!! to { MoveAction.UP }
+        ))
+
+        while (world.units.containsKey(3)) {
+            world = simulator.simulate(world, mapOf(
+                world.player to {MoveAction.RIGHT}
+            ))
+        }
+
+        Assertions.assertEquals(1, world.player.exp)
+        Assertions.assertEquals(Position(4, 2), world.player.position)
     }
 }

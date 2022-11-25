@@ -63,26 +63,19 @@ class SimulatorImpl : Simulator {
     }
 
     private fun processFight(world: World, attacker: GameUnit, defender: GameUnit): World {
-        attacker.hp -= defender.attackRate
-        defender.hp -= attacker.attackRate
-        var attackerMayGo = false
+        defender.updateHp(-attacker.attackRate)
 
-        if (defender.hp <= 0) {
+        if (defender.hp == 0) {
             world.units.remove(defender.id)
             world.map.setCell(defender.position, Cell.Empty)
-            attackerMayGo = true
-        }
 
-        if (attacker.hp <= 0) {
-            world.units.remove(attacker.id)
-            world.map.setCell(attacker.position, Cell.Empty)
-            attackerMayGo = false
-        }
-
-        if (attackerMayGo) {
             world.map.setCell(attacker.position, Cell.Empty)
             attacker.position = defender.position
             world.map.setCell(defender.position, Cell.Unit(attacker))
+
+            if (attacker is PlayerUnit) {
+                attacker.updateExp()
+            }
         }
         return world
     }
@@ -124,7 +117,7 @@ class SimulatorImpl : Simulator {
             if (toCell is Cell.StaticObject && toCell.staticObject is Well) {
                 val well = toCell.staticObject
                 if (!well.visited) {
-                    player.level++
+                    player.levelUp()
                     well.visited = true
                 }
             }
