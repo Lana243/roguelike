@@ -161,4 +161,20 @@ class MobsTest {
         ))
         Assertions.assertEquals(Position(4, 3), world.units[4]!!.position)
     }
+
+    @Test
+    fun `Mob can attack another mob`() {
+        val initialSndMobHp = world.units[8]!!.hp
+        repeat(4) {
+            world = simulator.simulate(world, mapOf(
+                world.units[4]!! to { MoveAction.DOWN }
+            ))
+        }
+        repeat(4) {
+            world = simulator.simulate(world, mapOf(
+                world.units[4]!! to { MoveAction.RIGHT }
+            ))
+        }
+        Assertions.assertEquals(initialSndMobHp - world.units[4]!!.attackRate, world.units[8]!!.hp)
+    }
 }
