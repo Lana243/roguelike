@@ -11,6 +11,7 @@ import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.Inventory
 import roguelike.state.game.world.objects.units.Mob
 import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.ui.views.AsciiColor
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
@@ -25,18 +26,25 @@ class GameViewBuilder : ViewBuilder<GameState> {
         val (lengthX, lengthY) = gameMap.getSize()
 
         val childViews = mutableListOf<Composite.ViewWithPosition>()
+        val infoViews = mutableListOf<Composite.ViewWithPosition>()
         for (x in 0 until lengthX) {
             for (y in 0 until lengthY) {
-                val cell = gameMap.getCell(Position(x, y))
-                when (cell) {
+                when (val cell = gameMap.getCell(Position(x, y))) {
                     Cell.Empty -> {}
                     else -> {
-                        val charView = AsciiGrid(listOf(charByCell(x, y, cell).toString()))
+                        val charView = viewByCell(x, y, cell)
                         childViews += Composite.ViewWithPosition(x, y, charView)
+
+                        if (state.showInfo) {
+                            infoViewByCell(cell)?.let {
+                                infoViews += Composite.ViewWithPosition(x - 1, y - 1, it)
+                            }
+                        }
                     }
                 }
             }
         }
+        childViews += infoViews
 
         val inventory = "Inventory: " + state.world.player.inventory.items.joinToString {
             var c = if (it.item is Sword) {
@@ -85,5 +93,28 @@ class GameViewBuilder : ViewBuilder<GameState> {
                 }
             }
             else -> CHAR_UNKNOWN
+        }
+
+    private fun viewByCell(x: Int, y: Int, cell: Cell): View =
+        AsciiGrid(listOf(charByCell(x, y, cell).toString()))
+
+
+    private fun infoViewByCell(cell: Cell): View? =
+        when (cell) {
+            is Cell.Unit -> {
+                when (cell.unit) {
+                    is Mob -> {
+                        val hpView = AsciiGrid(listOf("${cell.unit.hp}"), AsciiColor.Green)
+                        val attackView = AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
+                        val infoView = Composite(listOf(
+                            Composite.ViewWithPosition(0, 0, attackView),
+                            Composite.ViewWithPosition(2, 0, hpView),
+                        ))
+                        infoView
+                    }
+                    else -> null
+                }
+            }
+            else -> null
         }
 }

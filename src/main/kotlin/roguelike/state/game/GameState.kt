@@ -21,13 +21,22 @@ import roguelike.state.victory.VictoryScreenState
 /**
  * состояние игры
  */
-class GameState(
-    private val initialWorld: World? = null,
-    private val createdByMessage: Message? = null,
+data class GameState(
+    val world: World,
+    val showInfo: Boolean,
 ) : State() {
 
-    val world: World by lazy {
-        initialWorld ?: worldFactory.createWorld()
+    companion object {
+        fun create(byMessage: Message? = null): GameState {
+            val mapFactory: MapFactory = when (byMessage) {
+                MenuMessage.StartGameLevel1 -> MapLevel1()
+                MenuMessage.StartGameQuick -> MapRandomGenerator(80, 23)
+                else -> MapRandomGenerator(80, 23)
+            }
+            val worldFactory = WorldFactory(mapFactory)
+            val world = worldFactory.createWorld()
+            return GameState(world, showInfo = false)
+        }
     }
 
     override fun process(message: Message): State {
@@ -59,9 +68,12 @@ class GameState(
                                 DefeatScreenState()
                             }
                             else -> {
-                                GameState(newWorld)
+                                this.copy(world = newWorld)
                             }
                         }
+                    }
+                    GameMessage.SwitchShowGameInfo -> {
+                        this.copy(showInfo = showInfo.not())
                     }
                     GameMessage.Exit -> MenuScreenState()
                 }
@@ -71,16 +83,6 @@ class GameState(
     }
 
     // internal
-
-    private val mapFactory: MapFactory = run {
-        when (createdByMessage) {
-            MenuMessage.StartGameLevel1 -> MapLevel1()
-            MenuMessage.StartGameQuick -> MapRandomGenerator(80, 23)
-            else -> MapRandomGenerator(80, 23)
-        }
-    }
-
-    private val worldFactory = WorldFactory(mapFactory)
 
     private val simulator: Simulator = SimulatorImpl()
 }

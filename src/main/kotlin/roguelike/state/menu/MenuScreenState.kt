@@ -20,8 +20,8 @@ class MenuScreenState : State() {
     override fun process(message: Message): State =
         when (message) {
             is MenuMessage -> when (message) {
-                MenuMessage.StartGameQuick -> GameState(createdByMessage = MenuMessage.StartGameQuick)
-                MenuMessage.StartGameLevel1 -> GameState(createdByMessage = MenuMessage.StartGameLevel1)
+                MenuMessage.StartGameQuick -> GameState.create(MenuMessage.StartGameQuick)
+                MenuMessage.StartGameLevel1 -> GameState.create(MenuMessage.StartGameLevel1)
                 MenuMessage.Exit -> exitProcess(0)
             }
             else -> error("Unknown message")

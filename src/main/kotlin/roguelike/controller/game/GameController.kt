@@ -28,6 +28,7 @@ class GameController : Controller<GameState> {
             Event.KeyDownPressed -> GameMessage.PlayerActionMessage(MoveAction.DOWN)
             Event.KeyEscPressed -> GameMessage.Exit
             is Event.LetterOrDigitKeyPressed -> when (event.char) {
+                'q' -> GameMessage.SwitchShowGameInfo
                 'e' -> GameMessage.PlayerActionMessage(Interact)
                 '1' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(0))
                 '2' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(1))
