@@ -85,4 +85,21 @@ class SimulatorTest {
         world = simulator.simulate(world, mapOf(world.player to { ToggleInventoryItem(0) }))
         Assertions.assertEquals(world.player.baseAttackRate + Sword(-1).extraDamage, world.player.attackRate)
     }
+
+    @Test
+    fun `If player moves to the mob, his health decreases`() {
+        val initialHp = world.player.hp
+        val mobAttack = world.units[3]!!.attackRate
+        world = simulator.simulate(world, mapOf(
+            world.player to { MoveAction.RIGHT },
+            world.units[3]!! to { MoveAction.UP }
+        ))
+        world = simulator.simulate(world, mapOf(
+            world.player to { MoveAction.RIGHT },
+            world.units[3]!! to { MoveAction.LEFT }
+        ))
+
+        Assertions.assertEquals(Position(3, 2), world.player.position)
+        Assertions.assertEquals(world.player.hp, initialHp - mobAttack)
+    }
 }

@@ -28,7 +28,7 @@ class MobStrategyTest {
 
     // internal
 
-    private val mob = Mob(2, Position(10, 10), PassiveStrategy())
+    private val mob = Mob(2, Position(4, 3), PassiveStrategy())
 
     private val mapFactory = MapFromFileGenerator("src/test/resources/test-map.txt")
 
