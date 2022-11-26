@@ -8,6 +8,6 @@ interface Simulator {
      * Применение [actions] к [world] -- текущему состоянию игрового мира.
      * Возвращается новый [World] -- новое состояние игрового мира.
      */
-    fun simulate(world: World, actions: (GameUnit) -> UnitAction): World
+    fun simulate(world: World, actions: Map<GameUnit, (World) -> UnitAction>): World
 }
 

@@ -10,12 +10,12 @@ sealed class GameItem : GameObject()
  * Меч. Может лежать в инвентаре
  */
 class Sword(override val id: Int) : GameItem() {
-    val extraDamage: Int = 10
+    val extraDamage: Int = 1
 }
 
 /**
  * Яблоко. Поднимает здоровья игрока
  */
 class Apple(override val id: Int) : GameItem() {
-    val healsHp: Int = 10
+    val healsHp: Int = 2
 }

@@ -2,6 +2,8 @@ package roguelike.state.game.world.objects.units
 
 import roguelike.state.game.world.objects.GameObject
 import roguelike.state.game.world.Position
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Персонаж игры. Игрок или моб
@@ -10,7 +12,7 @@ abstract class GameUnit : GameObject() {
     /**
      * Текущая позиция [GameUnit]
      */
-    abstract val position: Position
+    abstract var position: Position
 
     /**
      * Уровень атаки [GameUnit]
@@ -25,5 +27,12 @@ abstract class GameUnit : GameObject() {
     /**
      * Текущее здоровье [GameUnit]
      */
-    abstract val hp: Int
+    abstract var hp: Int
+
+    /**
+     * Изменяет здоровье так, чтобы оно не становилось больше максимально возможного и меньше 0
+     */
+    fun updateHp(deltaHp: Int) {
+        hp = max(0, min(maxHp, hp + deltaHp))
+    }
 }

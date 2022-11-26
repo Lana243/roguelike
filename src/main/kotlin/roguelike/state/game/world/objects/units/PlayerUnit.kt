@@ -12,15 +12,30 @@ import kotlin.math.min
 data class PlayerUnit(
     override val id: Int,
     override var position: Position = Position(0, 0),
-    var baseAttackRate: Int = 10,
-    override var hp: Int = 50,
-    override val maxHp: Int = 100,
+    var baseAttackRate: Int = 1,
+    override var hp: Int = 5,
+    override val maxHp: Int = 9,
     var level: Int = 1,
+    var exp: Int = 0,
+    val expToLevelUp: Int = 3,
     val inventory: Inventory = Inventory(),
 ) : GameUnit() {
 
-    fun updateHp(deltaHp: Int) {
-        hp = max(0, min(maxHp, hp + deltaHp))
+    /**
+     * Увеличивает уровень игрока: +1 к атаке, +1 к здоровью, опыт обнуляется
+     */
+    fun levelUp() {
+        level++
+        baseAttackRate++
+        updateHp(1)
+        exp = 0
+    }
+
+    fun updateExp() {
+        exp++
+        if (exp == expToLevelUp) {
+            levelUp()
+        }
     }
 
     override val attackRate: Int

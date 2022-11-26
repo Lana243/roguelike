@@ -26,7 +26,7 @@ interface Simulator {
 }
 
 interface Strategy {
-    + getAction(unit: Unit, worldView: WorldView): Action
+    + getAction(unit: GameUnit, worldView: WorldView): Action
 }
 
 abstract class World {
@@ -35,7 +35,14 @@ abstract class World {
 
 abstract class GameObject
 
-abstract class Unit
+abstract class GameUnit
+
+class Mob
+
+GameUnit <|.. Mob
+GameUnit <|.. PlayerUnit
+
+Mob --o Strategy : "strategy"
 
 abstract class StaticObject
 
@@ -45,9 +52,9 @@ abstract class Inventory
 
 Inventory o-- "[0.." Item : "items"
 
-Unit *-- "inventory" Inventory
+PlayerUnit *-- "inventory" Inventory
 
-GameObject <|.. Unit
+GameObject <|.. GameUnit
 GameObject <|.. StaticObject
 GameObject <|.. Item
 
@@ -79,7 +86,7 @@ class MenuScreenState
 class SettingsScreenState
 
 abstract class GameState {
-    playerUnit: Unit
+    playerUnit: GameUnit
 }
 
 class LoadingScreenState
@@ -92,7 +99,6 @@ interface StateVisitor {
 
 
 GameState *-- "world" World
-GameState *-- "[1.." Strategy : "unitStrategies"
 GameState *-- "simulator" Simulator
 
 interface ViewBuilder {

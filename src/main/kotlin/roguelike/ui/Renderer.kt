@@ -1,5 +1,6 @@
 package roguelike.ui
 
+import com.googlecode.lanterna.TextColor
 import com.googlecode.lanterna.terminal.Terminal
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
@@ -31,7 +32,11 @@ class LanternaRenderer(
 
     override fun visitAsciiGrid(view: AsciiGrid) {
         for (line in view.grid) {
+            view.color?.let {
+                terminal.setForegroundColor(TextColor.RGB(it.r, it.g, it.b))
+            }
             terminal.putString(line)
+            terminal.resetColorAndSGR()
             terminal.changeCursorPositionBy(deltaX = -line.length, deltaY = +1)
         }
     }
