@@ -7,10 +7,10 @@ import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.SimulatorImpl
 import roguelike.state.game.simulator.ToggleInventoryItem
-import roguelike.state.game.world.map.MapFromFileGenerator
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
+import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.Sword
 
@@ -21,8 +21,8 @@ class PlayerTest {
 
     @BeforeEach
     fun initWorld() {
-        val mapFactory = MapFromFileGenerator("src/test/resources/test-map.txt")
-        val worldFactory = WorldFactory(mapFactory)
+        val mapBuilder = MapBuilder().fromFile("src/test/resources/test-map.txt")
+        val worldFactory = WorldFactory(mapBuilder)
         world = worldFactory.createWorld()
         simulator = SimulatorImpl()
     }

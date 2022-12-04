@@ -41,7 +41,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
         }
         childViews += infoViews
 
-        val inventory = "Inventory: " + state.world.player.inventory.items.joinToString {
+        val inventory = state.world.player.inventory.items.joinToString {
             var c = if (it.item is Sword) {
                 's'
             } else {
@@ -56,7 +56,22 @@ class GameViewBuilder : ViewBuilder<GameState> {
         childViews += Composite.ViewWithPosition(
             x = 0,
             y = lengthY,
-            AsciiGrid(listOf("HP: ${state.world.player.hp}  |  Attack: ${state.world.player.attackRate}  |  Level: ${state.world.player.level}  |  Exp: ${state.world.player.exp}  |  " + inventory))
+            Composite.lineFromAscii(listOf(
+                AsciiGrid.fromString("HP: "),
+                AsciiGrid.fromString("${state.world.player.hp}", AsciiColor.Green),
+                AsciiGrid.fromString("  |  "),
+                AsciiGrid.fromString("Attack: "),
+                AsciiGrid.fromString("${state.world.player.attackRate}", AsciiColor.Red),
+                AsciiGrid.fromString("  |  "),
+                AsciiGrid.fromString("Level: "),
+                AsciiGrid.fromString("${state.world.player.level}", AsciiColor.White),
+                AsciiGrid.fromString("  |  "),
+                AsciiGrid.fromString("Exp: "),
+                AsciiGrid.fromString("${state.world.player.exp}", AsciiColor.White),
+                AsciiGrid.fromString("  |  "),
+                AsciiGrid.fromString("Inventory: "),
+                AsciiGrid.fromString(inventory, AsciiColor.White),
+            ))
         )
 
         return Composite(childViews)
@@ -92,7 +107,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
 
     private fun viewByCell(x: Int, y: Int, cell: Cell, state: GameState): View {
         val char = charByCell(x, y, cell)
-        val defaultItem = AsciiGrid(listOf(char.toString()))
+        val defaultItem = AsciiGrid.fromChar(char)
         return when (cell) {
             is Cell.Unit -> {
                 when (cell.unit) {
@@ -113,7 +128,6 @@ class GameViewBuilder : ViewBuilder<GameState> {
                 when (cell.item) {
                     is Apple -> defaultItem.copy(color = AsciiColor.GreenNice)
                     is Sword -> defaultItem.copy(color = AsciiColor.YellowNice)
-                    else -> defaultItem
                 }
             }
             is Cell.StaticObject -> {

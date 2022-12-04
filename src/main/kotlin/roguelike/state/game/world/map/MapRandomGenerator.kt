@@ -31,7 +31,7 @@ class MapRandomGenerator(
 
     private fun getRandomEmptyCell(): Pair<Int, Int> {
         var (y, x) = -1 to -1
-        while (!cellInsideBorder(y, x)) {
+        while (!cellInsideBorder(y, x) || rawMap[y][x] != CHAR_EMPTY) {
             y = Random.nextInt(1, lengthY - 1)
             x = Random.nextInt(1, lengthX - 1)
         }

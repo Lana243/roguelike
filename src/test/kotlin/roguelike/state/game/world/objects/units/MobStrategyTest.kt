@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.world.*
-import roguelike.state.game.world.map.MapFromFileGenerator
+import roguelike.state.game.world.map.MapBuilder
 
 class MobStrategyTest {
 
@@ -31,7 +31,7 @@ class MobStrategyTest {
 
     private val mob = Mob(2, Position(4, 3), PassiveStrategy())
 
-    private val mapFactory = MapFromFileGenerator("src/test/resources/test-map.txt")
+    val mapBuilder = MapBuilder().fromFile("src/test/resources/test-map.txt")
 
-    private val world = WorldFactory(mapFactory).createWorld()
+    private val world = WorldFactory(mapBuilder).createWorld()
 }
