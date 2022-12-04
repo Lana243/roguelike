@@ -6,9 +6,9 @@ import roguelike.state.defeat.DefeatScreenState
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl
-import roguelike.state.game.world.MapFactory
-import roguelike.state.game.world.MapLevel1
-import roguelike.state.game.world.MapRandomGenerator
+import roguelike.state.game.world.map.MapFactory
+import roguelike.state.game.world.map.MapLevel1
+import roguelike.state.game.world.map.MapRandomGenerator
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.objects.units.Mob

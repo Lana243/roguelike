@@ -1,4 +1,4 @@
-package roguelike.state.game.world
+package roguelike.state.game.world.map
 
 import roguelike.state.game.*
 import kotlin.random.Random

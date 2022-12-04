@@ -1,6 +1,10 @@
 package roguelike.state.game.world
 
 import roguelike.state.game.*
+import roguelike.state.game.world.map.Cell
+import roguelike.state.game.world.map.GameMap
+import roguelike.state.game.world.map.GameMapImpl
+import roguelike.state.game.world.map.MapFactory
 import roguelike.state.game.world.objects.*
 import roguelike.state.game.world.objects.units.*
 import roguelike.utility.IdManager

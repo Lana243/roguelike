@@ -3,7 +3,7 @@ package roguelike.state.game.world.objects.units
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.UnitAction
-import roguelike.state.game.world.Cell
+import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.World
 
 /**

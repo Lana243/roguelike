@@ -7,7 +7,7 @@ import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.SimulatorImpl
 import roguelike.state.game.simulator.ToggleInventoryItem
-import roguelike.state.game.world.MapFromFileGenerator
+import roguelike.state.game.world.map.MapFromFileGenerator
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory

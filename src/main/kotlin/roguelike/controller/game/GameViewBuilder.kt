@@ -2,7 +2,7 @@ package roguelike.controller.game
 
 import roguelike.controller.ViewBuilder
 import roguelike.state.game.*
-import roguelike.state.game.world.Cell
+import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.ExitDoor

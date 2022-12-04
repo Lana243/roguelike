@@ -1,5 +1,6 @@
-package roguelike.state.game.world
+package roguelike.state.game.world.map
 
+import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.GameItem
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.GameStaticObject

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.world.*
+import roguelike.state.game.world.map.MapFromFileGenerator
 
 class MobStrategyTest {
 

@@ -1,6 +1,6 @@
 package roguelike.state.game.simulator
 
-import roguelike.state.game.world.Cell
+import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.objects.Apple

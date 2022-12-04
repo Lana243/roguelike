@@ -1,7 +1,7 @@
 package roguelike.state.game.world
 
+import roguelike.state.game.world.map.GameMap
 import roguelike.state.game.world.objects.Effect
-import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.GameItem
 import roguelike.state.game.world.objects.GameStaticObject
 import roguelike.state.game.world.objects.units.GameUnit

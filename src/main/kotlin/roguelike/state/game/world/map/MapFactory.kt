@@ -1,4 +1,4 @@
-package roguelike.state.game.world
+package roguelike.state.game.world.map
 
 /**
  * Интерфейс для генерации карты
