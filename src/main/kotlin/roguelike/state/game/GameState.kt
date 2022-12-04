@@ -6,17 +6,14 @@ import roguelike.state.defeat.DefeatScreenState
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl
-import roguelike.state.game.world.map.MapFactory
-import roguelike.state.game.world.map.MapLevel1
-import roguelike.state.game.world.map.MapRandomGenerator
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
+import roguelike.state.game.world.map.*
 import roguelike.state.game.world.objects.units.Mob
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
 import roguelike.state.victory.VictoryScreenState
-
 
 /**
  * состояние игры
@@ -28,12 +25,19 @@ data class GameState(
 
     companion object {
         fun create(byMessage: Message? = null): GameState {
-            val mapFactory: MapFactory = when (byMessage) {
-                MenuMessage.StartGameLevel1 -> MapLevel1()
-                MenuMessage.StartGameQuick -> MapRandomGenerator(80, 23)
-                else -> MapRandomGenerator(80, 23)
+            var mapBuilder = MapBuilder()
+            when (byMessage) {
+                MenuMessage.StartGameLevel1 -> {
+                    mapBuilder = mapBuilder.fromFile(LEVEL_1_MAP_PATH)
+                }
+                MenuMessage.StartGameQuick -> {
+                    mapBuilder = mapBuilder
+                        .setSize(SCREEN_LENGTH_X, SCREEN_LENGTH_Y - 1)
+                        .randomGenerate()
+                }
+                else -> {}
             }
-            val worldFactory = WorldFactory(mapFactory)
+            val worldFactory = WorldFactory(mapBuilder)
             val world = worldFactory.createWorld()
             return GameState(world, Settings())
         }

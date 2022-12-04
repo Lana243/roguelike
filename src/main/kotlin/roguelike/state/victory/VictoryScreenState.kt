@@ -10,9 +10,6 @@ class VictoryScreenState : State() {
     val menuButtonText = "Press <F1> to exit to the main menu"
     val escButtonText = "Press <Esc> to exit the game"
 
-    val screenLengthX = 80
-    val screenLengthY = 24
-
     override fun process(message: Message): State =
         when (message) {
             is VictoryMessage -> when (message) {

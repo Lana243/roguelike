@@ -14,9 +14,6 @@ class MenuScreenState : State() {
     val level1ButtonText = "Press <F1> to start Level 1"
     val escButtonText = "Press <Esc> to exit"
 
-    val screenLengthX = 80
-    val screenLengthY = 24
-
     override fun process(message: Message): State =
         when (message) {
             is MenuMessage -> when (message) {

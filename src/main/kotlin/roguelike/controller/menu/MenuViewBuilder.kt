@@ -1,6 +1,8 @@
 package roguelike.controller.menu
 
 import roguelike.controller.ViewBuilder
+import roguelike.state.game.SCREEN_LENGTH_X
+import roguelike.state.game.SCREEN_LENGTH_Y
 import roguelike.state.menu.MenuScreenState
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
@@ -16,18 +18,18 @@ class MenuViewBuilder : ViewBuilder<MenuScreenState> {
         val escButtonView = AsciiGrid(listOf(state.escButtonText))
         return Composite(listOf(
             Composite.ViewWithPosition(
-                (state.screenLengthX - state.quickPlayButtonText.length) / 2,
-                state.screenLengthY / 2 - 4,
+                (SCREEN_LENGTH_X - state.quickPlayButtonText.length) / 2,
+                SCREEN_LENGTH_Y / 2 - 4,
                 quickPlayButtonView
             ),
             Composite.ViewWithPosition(
-                (state.screenLengthX - state.level1ButtonText.length) / 2,
-                state.screenLengthY / 2 - 2,
+                (SCREEN_LENGTH_X - state.level1ButtonText.length) / 2,
+                SCREEN_LENGTH_Y / 2 - 2,
                 level1ButtonView
             ),
             Composite.ViewWithPosition(
-                (state.screenLengthX - state.escButtonText.length) / 2,
-                state.screenLengthY / 2 + 1,
+                (SCREEN_LENGTH_X - state.escButtonText.length) / 2,
+                SCREEN_LENGTH_Y / 2 + 1,
                 escButtonView
             )
         ))
