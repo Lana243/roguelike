@@ -1,9 +1,13 @@
 package roguelike.ui.views
 
 enum class AsciiColor(val r: Int, val g: Int, val b: Int) {
-    Black(0, 0, 0),
     White(255, 255, 255),
     Red(255, 0, 0),
     Green(0, 255, 0),
-    Blue(0, 0, 255),
+    Brown(124, 71, 14),
+
+    RedNice(233, 103, 103),
+    GreenNice(139, 204, 0),
+    BlueNice(45, 147, 210),
+    YellowNice(242, 245, 180),
 }

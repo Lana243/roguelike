@@ -92,6 +92,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
 
     private fun viewByCell(x: Int, y: Int, cell: Cell, state: GameState): View {
         val char = charByCell(x, y, cell)
+        val defaultItem = AsciiGrid(listOf(char.toString()))
         return when (cell) {
             is Cell.Unit -> {
                 when (cell.unit) {
@@ -101,13 +102,27 @@ class GameViewBuilder : ViewBuilder<GameState> {
                         } else if (state.settings.showMobsAttackRate) {
                             AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
                         } else {
-                            AsciiGrid(listOf(char.toString()))
+                            defaultItem.copy(color = AsciiColor.RedNice)
                         }
                     }
-                    else -> AsciiGrid(listOf(char.toString()))
+                    is PlayerUnit -> defaultItem.copy(color = AsciiColor.White)
+                    else -> defaultItem
                 }
             }
-            else -> AsciiGrid(listOf(char.toString()))
+            is Cell.Item -> {
+                when (cell.item) {
+                    is Apple -> defaultItem.copy(color = AsciiColor.GreenNice)
+                    is Sword -> defaultItem.copy(color = AsciiColor.YellowNice)
+                    else -> defaultItem
+                }
+            }
+            is Cell.StaticObject -> {
+                when (cell.staticObject) {
+                    is Well -> defaultItem.copy(color = AsciiColor.BlueNice)
+                    is ExitDoor -> defaultItem.copy(color = AsciiColor.Brown)
+                }
+            }
+            else -> defaultItem
         }
     }
 }

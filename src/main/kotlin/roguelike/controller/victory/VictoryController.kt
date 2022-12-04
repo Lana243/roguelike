@@ -18,7 +18,7 @@ class VictoryController : Controller<VictoryScreenState> {
 
     override fun processEvent(event: Event): Message? {
         return when (event) {
-            Event.KeyF1Pressed -> VictoryMessage.MainMenu
+            Event.KeyEnterPressed -> VictoryMessage.MainMenu
             Event.KeyEscPressed -> VictoryMessage.Exit
             else -> null
         }
