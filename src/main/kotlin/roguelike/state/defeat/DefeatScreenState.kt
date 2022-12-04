@@ -7,7 +7,7 @@ import kotlin.system.exitProcess
 
 class DefeatScreenState : State() {
     val defeatText = "Defeated!"
-    val menuButtonText = "Press <F1> to exit to the main menu"
+    val menuButtonText = "Press <Enter> to exit to the main menu"
     val escButtonText = "Press <Esc> to exit the game"
 
     override fun process(message: Message): State =
