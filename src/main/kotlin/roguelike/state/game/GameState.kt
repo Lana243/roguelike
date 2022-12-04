@@ -30,6 +30,9 @@ data class GameState(
                 MenuMessage.StartGameLevel1 -> {
                     mapBuilder = mapBuilder.fromFile(LEVEL_1_MAP_PATH)
                 }
+                MenuMessage.StartGameLevel2 -> {
+                    mapBuilder = mapBuilder.fromFile(LEVEL_2_MAP_PATH)
+                }
                 MenuMessage.StartGameQuick -> {
                     mapBuilder = mapBuilder
                         .setSize(SCREEN_LENGTH_X, SCREEN_LENGTH_Y - 1)

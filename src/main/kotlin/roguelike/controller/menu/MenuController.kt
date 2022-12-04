@@ -20,6 +20,7 @@ class MenuController : Controller<MenuScreenState> {
         return when (event) {
             Event.KeyEnterPressed -> MenuMessage.StartGameQuick
             Event.KeyF1Pressed -> MenuMessage.StartGameLevel1
+            Event.KeyF2Pressed -> MenuMessage.StartGameLevel2
             Event.KeyEscPressed -> MenuMessage.Exit
             else -> null
         }

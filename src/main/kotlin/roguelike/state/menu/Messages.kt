@@ -17,6 +17,11 @@ sealed interface MenuMessage : Message {
     object StartGameLevel1 : MenuMessage
 
     /**
+     * Начать игру на уровне 2
+     */
+    object StartGameLevel2 : MenuMessage
+
+    /**
      * Выйти с экрана меню
      */
     object Exit : MenuMessage

@@ -16,3 +16,4 @@ const val SCREEN_LENGTH_X = 80
 const val SCREEN_LENGTH_Y = 24
 
 const val LEVEL_1_MAP_PATH = "src/main/resources/map-level-1.txt"
+const val LEVEL_2_MAP_PATH = "src/main/resources/map-level-2.txt"
