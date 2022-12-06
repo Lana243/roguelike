@@ -85,7 +85,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
             is Cell.Unit -> {
                 when (cell.unit) {
                     is PlayerUnit -> CHAR_PLAYER
-                    is Mob -> if (cell.unit.strategy is ContusionStrategy) CHAR_CONTUSED_MOB else CHAR_MOB
+                    is Mob -> if (cell.unit.strategy is ContusionStrategy) CHAR_PAWN.lowercaseChar() else CHAR_PAWN
                     else -> CHAR_UNKNOWN
                 }
             }

@@ -26,7 +26,9 @@ class PassiveStrategy : MobStrategy {
  */
 class AggressiveStrategy : MobStrategy {
     override fun getNextAction(mob: Mob, world: World): UnitAction {
-        val moves = mob.moves.map { it to getDistance(world, mob.position + it, world.player.position) }
+        val moves = mob.moves.map { it to mob.position + it }
+            .filter { world.map.getCell(it.second) !is Cell.Solid ||  world.map.getCell(it.second) is Cell.Unit }
+            .map { it.first to getDistance(world, it.second, mob.position) }
         return moves.minByOrNull { it.second }?.first ?: Procrastinate
     }
 }
@@ -36,7 +38,9 @@ class AggressiveStrategy : MobStrategy {
  */
 class AvoidanceStrategy : MobStrategy {
     override fun getNextAction(mob: Mob, world: World): UnitAction {
-        val moves = mob.moves.map { it to getDistance(world, mob.position + it, world.player.position) }
+        val moves = mob.moves.map { it to mob.position + it }
+            .filter { world.map.getCell(it.second) !is Cell.Solid ||  world.map.getCell(it.second) is Cell.Unit }
+            .map { it.first to getDistance(world, it.second, mob.position) }
         return moves.maxByOrNull { it.second }?.first ?: Procrastinate
     }
 }

@@ -80,7 +80,7 @@ class WorldFactory(private val mapBuilder: MapBuilder) {
                 Cell.Item(sword)
             }
 
-            CHAR_MOB -> {
+            CHAR_PAWN -> {
                 val mob = Pawn(
                     idManager.getNextId(),
                     Position(charIndex, lineIndex),

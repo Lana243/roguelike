@@ -49,7 +49,7 @@ class MapRandomGenerator(
     }
 
     private fun addMobs(count: Int = 15) =
-        addCharsToEmptyCell(count, CHAR_MOB)
+        addCharsToEmptyCell(count, CHAR_PAWN)
 
     private fun addSword() =
         addCharsToEmptyCell(count = 1, CHAR_SWORD)
