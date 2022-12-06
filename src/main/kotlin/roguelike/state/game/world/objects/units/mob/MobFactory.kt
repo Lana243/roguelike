@@ -17,3 +17,8 @@ class KnightFactory(private val idManager: IdManager) : MobFactory {
     override fun getMob(position: Position, strategy: MobStrategy): Mob =
         Knight(idManager.getNextId(), position, strategy)
 }
+
+class RandomMobFactory(private val factories: List<MobFactory>) : MobFactory {
+    override fun getMob(position: Position, strategy: MobStrategy): Mob =
+        factories.random().getMob(position, strategy)
+}
