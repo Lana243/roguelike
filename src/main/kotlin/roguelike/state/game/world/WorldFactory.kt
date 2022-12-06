@@ -4,6 +4,9 @@ import roguelike.state.game.*
 import roguelike.state.game.world.map.*
 import roguelike.state.game.world.objects.*
 import roguelike.state.game.world.objects.units.*
+import roguelike.state.game.world.objects.units.mob.KnightFactory
+import roguelike.state.game.world.objects.units.mob.MobFactory
+import roguelike.state.game.world.objects.units.mob.PawnFactory
 import roguelike.utility.IdManager
 import java.util.SortedMap
 import kotlin.random.Random
@@ -81,11 +84,10 @@ class WorldFactory(private val mapBuilder: MapBuilder) {
             }
 
             CHAR_PAWN -> {
-                val mob = Pawn(
-                    idManager.getNextId(),
-                    Position(charIndex, lineIndex),
-                    getRandomMobStrategy()
-                )
+                val mobFactory = getRandomMobFactory()
+                val mobPosition = Position(charIndex, lineIndex)
+                val mobStrategy = getRandomMobStrategy()
+                val mob = mobFactory.getMob(mobPosition, mobStrategy)
                 units += mob.id to mob
                 Cell.Unit(mob)
             }
@@ -101,4 +103,12 @@ class WorldFactory(private val mapBuilder: MapBuilder) {
 
     private fun getRandomMobStrategy(): MobStrategy =
         availableMobStrategies[Random.nextInt(availableMobStrategies.size)]
+
+    private val availableMobFactories = listOf(
+        PawnFactory(idManager),
+        KnightFactory(idManager)
+    )
+
+    private fun getRandomMobFactory(): MobFactory =
+        availableMobFactories[Random.nextInt(availableMobFactories.size)]
 }
