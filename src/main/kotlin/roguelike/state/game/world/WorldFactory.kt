@@ -81,7 +81,7 @@ class WorldFactory(private val mapBuilder: MapBuilder) {
             }
 
             CHAR_MOB -> {
-                val mob = Mob(
+                val mob = Pawn(
                     idManager.getNextId(),
                     Position(charIndex, lineIndex),
                     getRandomMobStrategy()

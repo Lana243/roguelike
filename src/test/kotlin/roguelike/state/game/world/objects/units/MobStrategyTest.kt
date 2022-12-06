@@ -29,7 +29,7 @@ class MobStrategyTest {
 
     // internal
 
-    private val mob = Mob(2, Position(4, 3), PassiveStrategy())
+    private val mob = Pawn(2, Position(4, 3), PassiveStrategy())
 
     val mapBuilder = MapBuilder().fromFile("src/test/resources/test-map.txt")
 

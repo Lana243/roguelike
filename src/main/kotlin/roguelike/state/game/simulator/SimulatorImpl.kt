@@ -150,7 +150,7 @@ class SimulatorImpl : Simulator {
     }
 
     private fun processInteractForPlayer(world: World, player: PlayerUnit): World {
-        for (moveAction in listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1))) {
+        for (moveAction in player.moves) {
             val newPosition = world.player.position + moveAction
             val toCell = world.map.getCell(newPosition)
 

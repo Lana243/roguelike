@@ -1,5 +1,6 @@
 package roguelike.state.game.world.objects.units
 
+import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.world.objects.GameObject
 import roguelike.state.game.world.Position
 import kotlin.math.max
@@ -13,6 +14,11 @@ abstract class GameUnit : GameObject() {
      * Текущая позиция [GameUnit]
      */
     abstract var position: Position
+
+    /**
+     * Возможные передвижения [GameUnit]
+     */
+    abstract val moves: List<MoveAction>
 
     /**
      * Уровень атаки [GameUnit]

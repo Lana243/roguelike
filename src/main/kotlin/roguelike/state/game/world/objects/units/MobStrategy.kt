@@ -5,6 +5,7 @@ import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.UnitAction
 import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.World
+import roguelike.state.game.world.getDistance
 
 /**
  * Стратегия поведения моба в зависимости от положения в игре.
@@ -25,26 +26,8 @@ class PassiveStrategy : MobStrategy {
  */
 class AggressiveStrategy : MobStrategy {
     override fun getNextAction(mob: Mob, world: World): UnitAction {
-        val targetPosition = world.player.position
-
-        val preferredMoves = mutableListOf<MoveAction>()
-        if (targetPosition.x < mob.position.x)
-            preferredMoves += MoveAction(-1, 0)
-        if (targetPosition.x > mob.position.x)
-            preferredMoves += MoveAction(1, 0)
-        if (targetPosition.y < mob.position.y)
-            preferredMoves += MoveAction(0, -1)
-        if (targetPosition.y > mob.position.y)
-            preferredMoves += MoveAction(0, 1)
-        preferredMoves += listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1))
-
-        for (move in preferredMoves) {
-            val nextCell = world.map.getCell(mob.position + move)
-            if (nextCell !is Cell.Solid || nextCell is Cell.Unit) {
-                return move
-            }
-        }
-        return Procrastinate
+        val moves = mob.moves.map { it to getDistance(world, mob.position + it, world.player.position) }
+        return moves.minByOrNull { it.second }?.first ?: Procrastinate
     }
 }
 
@@ -53,26 +36,8 @@ class AggressiveStrategy : MobStrategy {
  */
 class AvoidanceStrategy : MobStrategy {
     override fun getNextAction(mob: Mob, world: World): UnitAction {
-        val antiTargetPosition = world.player.position
-
-        val preferredMoves = mutableListOf<MoveAction>()
-        if (antiTargetPosition.x < mob.position.x)
-            preferredMoves += MoveAction(1, 0)
-        if (antiTargetPosition.x > mob.position.x)
-            preferredMoves += MoveAction(-1, 0)
-        if (antiTargetPosition.y < mob.position.y)
-            preferredMoves += MoveAction(0, 1)
-        if (antiTargetPosition.y > mob.position.y)
-            preferredMoves += MoveAction(0, -1)
-        preferredMoves += listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1))
-
-        for (move in preferredMoves) {
-            val nextCell = world.map.getCell(mob.position + move)
-            if (nextCell !is Cell.Solid || nextCell is Cell.Unit) {
-                return move
-            }
-        }
-        return Procrastinate
+        val moves = mob.moves.map { it to getDistance(world, mob.position + it, world.player.position) }
+        return moves.maxByOrNull { it.second }?.first ?: Procrastinate
     }
 }
 
@@ -82,6 +47,5 @@ class AvoidanceStrategy : MobStrategy {
 class ContusionStrategy(
     val baseStrategy: MobStrategy,
 ) : MobStrategy {
-    override fun getNextAction(mob: Mob, world: World): UnitAction =
-        listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1)).random()
+    override fun getNextAction(mob: Mob, world: World): UnitAction = mob.moves.random()
 }
