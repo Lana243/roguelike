@@ -13,7 +13,7 @@ data class Inventory(
         var state: State
     ) {
         enum class State {
-            EQUIPED,
+            EQUIPPED,
             UNEQUIPPED
         }
     }
@@ -25,10 +25,10 @@ fun Inventory.toggle(item: Int): Boolean {
     if (item !in items.indices) {
         return false
     }
-    items[item].state = if (items[item].state == Inventory.ItemData.State.EQUIPED) {
+    items[item].state = if (items[item].state == Inventory.ItemData.State.EQUIPPED) {
         Inventory.ItemData.State.UNEQUIPPED
     } else {
-        Inventory.ItemData.State.EQUIPED
+        Inventory.ItemData.State.EQUIPPED
     }
     return true
 }

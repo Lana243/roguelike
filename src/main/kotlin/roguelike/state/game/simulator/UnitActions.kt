@@ -5,15 +5,10 @@ sealed interface UnitAction
 /**
  * Класс, описывающий движение игрока в игровом мире
  */
-enum class MoveAction(
+data class MoveAction(
     val dx: Int,
     val dy: Int,
-) : UnitAction {
-    LEFT(-1, 0),
-    RIGHT(1, 0),
-    DOWN(0, 1),
-    UP(0, -1),
-}
+) : UnitAction
 
 /**
  * Класс, описывающий действие игрока: надеть вещь из инвентаря

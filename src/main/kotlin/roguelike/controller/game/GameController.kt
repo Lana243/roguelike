@@ -22,10 +22,10 @@ class GameController : Controller<GameState> {
 
     override fun processEvent(event: Event): Message? {
         return when (event) {
-            Event.KeyLeftPressed -> GameMessage.PlayerActionMessage(MoveAction.LEFT)
-            Event.KeyRightPressed -> GameMessage.PlayerActionMessage(MoveAction.RIGHT)
-            Event.KeyUpPressed -> GameMessage.PlayerActionMessage(MoveAction.UP)
-            Event.KeyDownPressed -> GameMessage.PlayerActionMessage(MoveAction.DOWN)
+            Event.KeyLeftPressed -> GameMessage.PlayerActionMessage(MoveAction(-1, 0))
+            Event.KeyRightPressed -> GameMessage.PlayerActionMessage(MoveAction(1, 0))
+            Event.KeyUpPressed -> GameMessage.PlayerActionMessage(MoveAction(0, -1))
+            Event.KeyDownPressed -> GameMessage.PlayerActionMessage(MoveAction(0, 1))
             Event.KeyEscPressed -> GameMessage.Exit
             is Event.LetterOrDigitKeyPressed -> when (event.char) {
                 'q' -> GameMessage.ShowMobsHp

@@ -7,7 +7,7 @@ import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.World
 
 /**
- * Стратегия поведения моба.
+ * Стратегия поведения моба в зависимости от положения в игре.
  */
 interface MobStrategy {
     fun getNextAction(mob: Mob, world: World): UnitAction
@@ -29,14 +29,14 @@ class AggressiveStrategy : MobStrategy {
 
         val preferredMoves = mutableListOf<MoveAction>()
         if (targetPosition.x < mob.position.x)
-            preferredMoves += MoveAction.LEFT
+            preferredMoves += MoveAction(-1, 0)
         if (targetPosition.x > mob.position.x)
-            preferredMoves += MoveAction.RIGHT
+            preferredMoves += MoveAction(1, 0)
         if (targetPosition.y < mob.position.y)
-            preferredMoves += MoveAction.UP
+            preferredMoves += MoveAction(0, -1)
         if (targetPosition.y > mob.position.y)
-            preferredMoves += MoveAction.DOWN
-        preferredMoves += listOf(MoveAction.LEFT, MoveAction.RIGHT, MoveAction.UP, MoveAction.DOWN)
+            preferredMoves += MoveAction(0, 1)
+        preferredMoves += listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1))
 
         for (move in preferredMoves) {
             val nextCell = world.map.getCell(mob.position + move)
@@ -57,14 +57,14 @@ class AvoidanceStrategy : MobStrategy {
 
         val preferredMoves = mutableListOf<MoveAction>()
         if (antiTargetPosition.x < mob.position.x)
-            preferredMoves += MoveAction.RIGHT
+            preferredMoves += MoveAction(1, 0)
         if (antiTargetPosition.x > mob.position.x)
-            preferredMoves += MoveAction.LEFT
+            preferredMoves += MoveAction(-1, 0)
         if (antiTargetPosition.y < mob.position.y)
-            preferredMoves += MoveAction.DOWN
+            preferredMoves += MoveAction(0, 1)
         if (antiTargetPosition.y > mob.position.y)
-            preferredMoves += MoveAction.UP
-        preferredMoves += listOf(MoveAction.LEFT, MoveAction.RIGHT, MoveAction.UP, MoveAction.DOWN)
+            preferredMoves += MoveAction(0, -1)
+        preferredMoves += listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1))
 
         for (move in preferredMoves) {
             val nextCell = world.map.getCell(mob.position + move)
@@ -83,5 +83,5 @@ class ContusionStrategy(
     val baseStrategy: MobStrategy,
 ) : MobStrategy {
     override fun getNextAction(mob: Mob, world: World): UnitAction =
-        MoveAction.values().random()
+        listOf(MoveAction(-1, 0), MoveAction(1, 0), MoveAction(0, -1), MoveAction(0, 1)).random()
 }

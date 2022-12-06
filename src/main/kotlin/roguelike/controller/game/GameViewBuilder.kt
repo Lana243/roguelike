@@ -47,7 +47,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
             } else {
                 '.'
             }
-            if (it.state == Inventory.ItemData.State.EQUIPED) {
+            if (it.state == Inventory.ItemData.State.EQUIPPED) {
                 c = c.uppercaseChar()
             }
             c.toString()

@@ -18,13 +18,13 @@ class MobStrategyTest {
     @Test
     fun `aggressive strategy should move to the player`() {
         val nextAction = AggressiveStrategy().getNextAction(mob, world)
-        assert(nextAction in listOf(MoveAction.LEFT, MoveAction.UP))
+        assert(nextAction in listOf(MoveAction(-1, 0), MoveAction(0, -1)))
     }
 
     @Test
     fun `avoidance strategy should be to go against the player`() {
         val nextAction = AvoidanceStrategy().getNextAction(mob, world)
-        assert(nextAction in listOf(MoveAction.RIGHT, MoveAction.DOWN))
+        assert(nextAction in listOf(MoveAction(1, 0), MoveAction(0, 1)))
     }
 
     // internal

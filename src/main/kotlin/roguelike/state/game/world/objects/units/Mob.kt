@@ -1,5 +1,6 @@
 package roguelike.state.game.world.objects.units
 
+import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.world.Position
 
 /**

@@ -2,8 +2,6 @@ package roguelike.state.game.world.objects.units
 
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.Sword
-import kotlin.math.max
-import kotlin.math.min
 
 
 /**
@@ -42,7 +40,7 @@ data class PlayerUnit(
         get() {
             var attack = baseAttackRate
             for (it in inventory.items) {
-                if (it.item is Sword && it.state == Inventory.ItemData.State.EQUIPED) {
+                if (it.item is Sword && it.state == Inventory.ItemData.State.EQUIPPED) {
                     attack += it.item.extraDamage
                 }
             }
