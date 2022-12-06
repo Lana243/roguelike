@@ -26,9 +26,9 @@ data class World(
      */
     val staticObjects: Map<Int, GameStaticObject>,
     /**
-     * Предметы
+     * Предметы на земле
      */
-    val items: Map<Int, GameItem>,
+    val items: MutableMap<Position, GameItem>,
     /**
      * Юниты
      */

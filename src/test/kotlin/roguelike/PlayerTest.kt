@@ -36,11 +36,11 @@ class PlayerTest {
     @Test
     fun `If player goes to cell with apple, his health increases`() {
         val initialHp = 5
-        val expectedHp = initialHp + Apple(228).healsHp
         Assertions.assertEquals(initialHp, world.player.hp)
         repeat(3) {
             world = simulator.simulate(world, mapOf(world.player to { MoveAction(0, 1) }))
         }
+        val expectedHp = initialHp + Apple(228).healsHp
         Assertions.assertEquals(expectedHp, world.player.hp)
     }
 

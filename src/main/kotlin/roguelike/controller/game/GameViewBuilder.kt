@@ -11,6 +11,7 @@ import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.Inventory
 import roguelike.state.game.world.objects.units.Mob
+import roguelike.state.game.world.objects.units.Mold
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.ui.views.AsciiColor
 import roguelike.ui.views.AsciiGrid
@@ -85,7 +86,11 @@ class GameViewBuilder : ViewBuilder<GameState> {
             is Cell.Unit -> {
                 when (cell.unit) {
                     is PlayerUnit -> CHAR_PLAYER
-                    is Mob -> if (cell.unit.strategy is ContusionStrategy) CHAR_PAWN.lowercaseChar() else CHAR_PAWN
+                    is Mob -> when (cell.unit) {
+                        is Mold -> CHAR_MOLD
+                        else -> CHAR_PAWN
+
+                    }.run { if (cell.unit.strategy is ContusionStrategy) lowercaseChar() else this }
                     else -> CHAR_UNKNOWN
                 }
             }

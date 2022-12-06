@@ -21,3 +21,8 @@ object Interact : UnitAction
  * Класс, описывающий действие: не делать ничего
  */
 object Procrastinate : UnitAction
+
+/**
+ * Специальное действие, которое может выполнять только некоторые юниты
+ */
+interface UnitSpecificAction : UnitAction

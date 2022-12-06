@@ -1,16 +1,19 @@
 package roguelike.state.game.simulator
 
-import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
+import roguelike.state.game.world.getCorrectMoves
+import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.Effect
 import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.ContusionStrategy
+import roguelike.state.game.world.objects.units.Duplicate
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.Mob
+import roguelike.state.game.world.objects.units.Mold
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.game.world.objects.units.foundItem
 import roguelike.state.game.world.objects.units.toggle
@@ -30,6 +33,7 @@ class SimulatorImpl : Simulator {
                 currentWorld = process(world, unit, action(currentWorld))
             }
         }
+
         currentWorld.tick++
 
         return currentWorld
@@ -51,7 +55,30 @@ class SimulatorImpl : Simulator {
             is ToggleInventoryItem -> processToggleInventoryItem(world, unit, action)
             Interact -> processInteract(world, unit)
             Procrastinate -> world
+            is UnitSpecificAction -> processUnitSpecificAction(world, unit, action)
         }
+
+    private fun processUnitSpecificAction(world: World, unit: GameUnit, action: UnitSpecificAction): World {
+        return when {
+            unit is Mold && action is Duplicate -> {
+                val positions = getCorrectMoves(unit.position, unit.moves, world.map).map { unit.position + it }
+                if (positions.isEmpty()) {
+                    world
+                } else {
+                    val newMobPosition = positions.random()
+                    val newId = world.idManager.getNextId()
+                    val newMold = unit.clone()?.copy(id = newId) ?: return world
+                    newMold.position = newMobPosition
+                    world.map.setCell(newMold.position, Cell.Unit(newMold))
+                    world.units.put(newMold.id, newMold)
+                    world
+                }
+
+            }
+            else -> world
+        }
+
+    }
 
     private fun processToggleInventoryItem(world: World, unit: GameUnit, action: ToggleInventoryItem): World {
         if (unit !is PlayerUnit) {
@@ -71,6 +98,12 @@ class SimulatorImpl : Simulator {
 
         if (toCell is Cell.Unit) {
             return processFight(world, unit, toCell.unit)
+        }
+
+        if (toCell is Cell.Item && toCell.item is Apple) {
+            val apple = toCell.item
+            unit.updateHp(+apple.healsHp)
+            world.items.remove(newPosition)
         }
 
         if (toCell !is Cell.Solid) {
@@ -128,10 +161,6 @@ class SimulatorImpl : Simulator {
         }
 
         if (toCell is Cell.Item) {
-            if (toCell.item is Apple) {
-                val apple = toCell.item
-                player.updateHp(+apple.healsHp)
-            }
             if (toCell.item is Sword) {
                 val sword = toCell.item
                 player.inventory.foundItem(sword)

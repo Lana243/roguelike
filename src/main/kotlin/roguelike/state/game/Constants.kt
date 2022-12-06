@@ -9,6 +9,7 @@ const val CHAR_SWORD = 'S'
 const val CHAR_UNUSED_WELL = 'W'
 const val CHAR_USED_WELL = 'w'
 const val CHAR_PAWN = 'M'
+const val CHAR_MOLD = '@'
 const val CHAR_UNKNOWN = '?'
 
 const val SCREEN_LENGTH_X = 80

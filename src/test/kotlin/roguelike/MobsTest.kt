@@ -14,6 +14,7 @@ import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.Mob
+import roguelike.state.game.world.objects.units.mob.passiveMobFactory
 
 class MobsTest {
 
@@ -24,7 +25,7 @@ class MobsTest {
     @BeforeEach
     fun initWorld() {
         val mapBuilder = MapBuilder().fromFile("src/test/resources/test-map.txt")
-        val worldFactory = WorldFactory(mapBuilder)
+        val worldFactory = WorldFactory(mapBuilder, passiveMobFactory())
         world = worldFactory.createWorld()
         simulator = SimulatorImpl()
         mobs = listOf(world.units[4]!!, world.units[8]!!)
