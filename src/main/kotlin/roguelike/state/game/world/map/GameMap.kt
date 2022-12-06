@@ -14,6 +14,8 @@ interface GameMap {
     fun setCell(position: Position, newCell: Cell)
 
     fun moveCell(from: Position, to: Position)
+
+    fun isInsideMap(position: Position): Boolean
 }
 
 sealed interface Cell {
@@ -55,4 +57,7 @@ class GameMapImpl(
         setCell(to, getCell(from))
         setCell(from, Cell.Empty)
     }
+
+    override fun isInsideMap(position: Position): Boolean =
+        position.x >= 0 && position.x < map[0].size && position.y >= 0 && position.y < map.size
 }

@@ -3,6 +3,7 @@ package roguelike.state.game
 import roguelike.state.Message
 import roguelike.state.State
 import roguelike.state.defeat.DefeatScreenState
+import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl

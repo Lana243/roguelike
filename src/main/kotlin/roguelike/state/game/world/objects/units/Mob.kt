@@ -8,7 +8,7 @@ import roguelike.state.game.world.Position
  */
 abstract class Mob : GameUnit() {
     /**
-     * Стратегия движения моба
+     * Стратегия движения моба.
      */
     abstract var strategy: MobStrategy
 }
@@ -28,5 +28,27 @@ data class Pawn(
         MoveAction(1, 0),
         MoveAction(0, 1),
         MoveAction(0, -1)
+    )
+) : Mob()
+
+/**
+ * Моб конь. Умеет передвигаться как шахматный конь.
+ */
+data class Knight(
+    override val id: Int,
+    override var position: Position,
+    override var strategy: MobStrategy,
+    override val attackRate: Int = 2,
+    override var maxHp: Int = 3,
+    override var hp: Int = 3,
+    override val moves: List<MoveAction> = listOf(
+        MoveAction(2, 1),
+        MoveAction(-2, 1),
+        MoveAction(2, -1),
+        MoveAction(-2, -1),
+        MoveAction(1, 2),
+        MoveAction(1, -2),
+        MoveAction(-1, 2),
+        MoveAction(-1, -2)
     )
 ) : Mob()

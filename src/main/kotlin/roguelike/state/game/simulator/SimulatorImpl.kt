@@ -78,7 +78,6 @@ class SimulatorImpl : Simulator {
             unit.position = newPosition
         }
 
-
         return world
     }
 
