@@ -24,10 +24,8 @@ class KnightFactory(
 
 class MoldFactory(
 ) : MobFactory {
-    override fun getMob(id: Int, position: Position): Mob {
-        return Mold(id, position)
-    }
-
+    override fun getMob(id: Int, position: Position): Mob =
+        Mold(id, position)
 }
 
 class RandomMobFactory(
@@ -38,12 +36,12 @@ class RandomMobFactory(
 }
 
 fun defaultMobFactory(): MobFactory {
+
     val availableMobStrategies = listOf(
         PassiveStrategy(),
         AggressiveStrategy(),
         AvoidanceStrategy(),
     )
-
 
     val randomStrategyFactory = RandomStrategyFactory(availableMobStrategies)
 
@@ -56,6 +54,5 @@ fun defaultMobFactory(): MobFactory {
     return RandomMobFactory(availableMobFactories)
 }
 
-fun passiveMobFactory(): MobFactory {
-    return PawnFactory(StrategyFactory { PassiveStrategy() })
-}
+fun passiveMobFactory(): MobFactory =
+    PawnFactory { PassiveStrategy() }
