@@ -3,10 +3,16 @@ package roguelike.state.game.world.objects.units.mob
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.units.*
 
+/**
+ * Фабрика мобов.
+ */
 interface MobFactory {
     fun getMob(id: Int, position: Position): Mob
 }
 
+/**
+ * Создаё мобов типа [Pawn].
+ */
 class PawnFactory(
     private val strategyFactory: StrategyFactory,
 ) : MobFactory {
@@ -14,7 +20,9 @@ class PawnFactory(
         Pawn(id, position, strategyFactory.getStrategy(position))
 }
 
-
+/**
+ * Создаё мобов типа [Knight].
+ */
 class KnightFactory(
     private val strategyFactory: StrategyFactory
 ) : MobFactory {
@@ -22,12 +30,18 @@ class KnightFactory(
         Knight(id, position, strategyFactory.getStrategy(position))
 }
 
+/**
+ * Создаё мобов типа [Mold].
+ */
 class MoldFactory(
 ) : MobFactory {
     override fun getMob(id: Int, position: Position): Mob =
         Mold(id, position)
 }
 
+/**
+ * Возвращает случайного моба, которого выдала одна из фабрик [factories].
+ */
 class RandomMobFactory(
     private val factories: List<MobFactory>,
 ) : MobFactory {

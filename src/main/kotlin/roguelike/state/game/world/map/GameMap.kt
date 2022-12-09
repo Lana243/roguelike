@@ -5,6 +5,9 @@ import roguelike.state.game.world.objects.GameItem
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.GameStaticObject
 
+/**
+ * Игровая карта.
+ */
 interface GameMap {
 
     fun getSize(): Pair<Int, Int>
@@ -21,7 +24,7 @@ interface GameMap {
 sealed interface Cell {
 
     /**
-     * клетка, через которую нельзя пройти игроку
+     * Клетка, через которую нельзя пройти игроку
      */
     interface Solid : Cell
 

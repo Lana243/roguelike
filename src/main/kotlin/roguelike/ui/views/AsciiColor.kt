@@ -1,5 +1,8 @@
 package roguelike.ui.views
 
+/**
+ * Цвет на игровом поле.
+ */
 enum class AsciiColor(val r: Int, val g: Int, val b: Int) {
     White(255, 255, 255),
     Red(255, 0, 0),

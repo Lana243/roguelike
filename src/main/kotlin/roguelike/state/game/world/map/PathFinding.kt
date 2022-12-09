@@ -4,6 +4,9 @@ import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.getCorrectMoves
 
+/**
+ * Ищет кратчайший путь между двумя точками на карте.
+ */
 fun findNextMove(
     position: Position,
     targetPosition: Position,

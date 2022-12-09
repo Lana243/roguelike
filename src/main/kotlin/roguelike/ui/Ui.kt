@@ -6,7 +6,7 @@ import roguelike.ui.views.View
 
 abstract class Ui {
     /**
-     * преобразовывает команды, считанные с клавиатуры в [Event]
+     * Преобразовывает команды, считанные с клавиатуры в [Event]
      */
     abstract fun pollEvent(): Event
 

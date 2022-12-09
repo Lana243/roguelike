@@ -3,19 +3,16 @@ package roguelike.state.game.world
 import roguelike.state.game.*
 import roguelike.state.game.world.map.*
 import roguelike.state.game.world.objects.*
-import roguelike.state.game.world.objects.units.*
-import roguelike.state.game.world.objects.units.mob.KnightFactory
+import roguelike.state.game.world.objects.units.GameUnit
+import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.game.world.objects.units.mob.MobFactory
-import roguelike.state.game.world.objects.units.mob.MoldFactory
-import roguelike.state.game.world.objects.units.mob.PawnFactory
-import roguelike.state.game.world.objects.units.mob.RandomMobFactory
-import roguelike.state.game.world.objects.units.mob.RandomStrategyFactory
 import roguelike.state.game.world.objects.units.mob.defaultMobFactory
 import roguelike.utility.IdManager
-import java.util.SortedMap
+import java.util.*
 
-
-
+/**
+ * Класс для создания мира.
+ */
 class WorldFactory(
     private val mapBuilder: MapBuilder,
     private val mobFactory: MobFactory = defaultMobFactory()

@@ -2,7 +2,6 @@ package roguelike.ui.views
 
 import roguelike.ui.ViewVisitor
 
-
 /**
  * Абстракция для визуального элемента
  */

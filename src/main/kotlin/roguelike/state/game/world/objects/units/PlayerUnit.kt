@@ -4,7 +4,6 @@ import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.Sword
 
-
 /**
  * Игрок
  */

@@ -14,11 +14,11 @@ import java.util.SortedMap
  */
 data class World(
     /**
-     * карта поля уровня
+     * Карта поля уровня
      */
     val map: GameMap,
     /**
-     * игрок
+     * Иигрок
      */
     val player: PlayerUnit,
     /**

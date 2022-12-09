@@ -5,6 +5,9 @@ import roguelike.state.State
 import roguelike.state.menu.MenuScreenState
 import kotlin.system.exitProcess
 
+/**
+ * Состояние игры для экрана поражения.
+ */
 class DefeatScreenState : State() {
     val defeatText = "Defeated!"
     val menuButtonText = "Press <Enter> to exit to the main menu"

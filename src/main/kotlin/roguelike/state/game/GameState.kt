@@ -16,7 +16,7 @@ import roguelike.state.menu.MenuScreenState
 import roguelike.state.victory.VictoryScreenState
 
 /**
- * состояние игры
+ * Состояние игры.
  */
 data class GameState(
     val world: World,

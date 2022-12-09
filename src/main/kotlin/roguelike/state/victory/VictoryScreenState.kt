@@ -5,6 +5,9 @@ import roguelike.state.State
 import roguelike.state.menu.MenuScreenState
 import kotlin.system.exitProcess
 
+/**
+ * Состояние игры для экрана победы.
+ */
 class VictoryScreenState : State() {
     val wonText = "You won!"
     val menuButtonText = "Press <Enter> to exit to the main menu"

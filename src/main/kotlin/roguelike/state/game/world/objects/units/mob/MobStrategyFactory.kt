@@ -3,10 +3,16 @@ package roguelike.state.game.world.objects.units.mob
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.units.MobStrategy
 
+/**
+ * Фабрика стратегий мобов.
+ */
 fun interface StrategyFactory {
     fun getStrategy(position: Position): MobStrategy
 }
 
+/**
+ * Выдаёт случайную стратегию из списка [strategies].
+ */
 class RandomStrategyFactory(
     private val strategies: List<MobStrategy>
 ) : StrategyFactory {

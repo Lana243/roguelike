@@ -6,7 +6,7 @@ import kotlin.math.max
 import kotlin.random.Random
 
 /**
- * Случайная карта
+ * Случайно генерирует карту.
  */
 class MapRandomGenerator(
     private val lengthX: Int,

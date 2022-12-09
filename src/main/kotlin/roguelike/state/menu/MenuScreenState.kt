@@ -6,7 +6,7 @@ import roguelike.state.game.GameState
 import kotlin.system.exitProcess
 
 /**
- * состояние экрана меню
+ * Состояние экрана меню.
  */
 class MenuScreenState : State() {
 
