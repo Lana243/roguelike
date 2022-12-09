@@ -8,6 +8,7 @@ import roguelike.state.game.world.getApplePositions
 import roguelike.state.game.world.getCorrectMoves
 import roguelike.state.game.world.getDistance
 import roguelike.state.game.world.map.findNextMove
+import roguelike.state.game.world.objects.units.mob.Mob
 
 /**
  * Стратегия поведения моба в зависимости от положения в игре.

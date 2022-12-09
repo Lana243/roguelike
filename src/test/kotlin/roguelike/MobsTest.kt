@@ -13,7 +13,9 @@ import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.GameUnit
-import roguelike.state.game.world.objects.units.Mob
+import roguelike.state.game.world.objects.units.mob.GoodHealthState
+import roguelike.state.game.world.objects.units.mob.Mob
+import roguelike.state.game.world.objects.units.mob.PoorHealthState
 import roguelike.state.game.world.objects.units.mob.passiveMobFactory
 
 class MobsTest {
@@ -122,7 +124,7 @@ class MobsTest {
         ))
 
         Assertions.assertEquals(Position(2, 2), world.player.position)
-        Assertions.assertTrue(mobs[0].run { this is Mob && this.strategy is ContusionStrategy })
+        Assertions.assertTrue(mobs[0].run { this is Mob && this.state.strategy is ContusionStrategy })
         Assertions.assertTrue(world.effects.size == 1)
     }
 
@@ -179,5 +181,33 @@ class MobsTest {
             ))
         }
         Assertions.assertEquals(initialSndMobHp - mobs[0].attackRate, mobs[1].hp)
+    }
+
+    @Test
+    fun `Mob initial state is GoodHealthState`() {
+        mobs.forEach { mob ->
+            Assertions.assertInstanceOf(GoodHealthState::class.java, (mob as Mob).state)
+        }
+    }
+
+    @Test
+    fun `Mob change state if hp leq than poorHealthThreshold`() {
+        val mob = mobs[0] as Mob
+        mob.updateHp(-(mob.hp - mob.poorHealthThreshold))
+        Assertions.assertInstanceOf(PoorHealthState::class.java, mob.state)
+    }
+
+    @Test
+    fun `Mob do not change state after updateHp if hp greater than poorHealthThreshold`() {
+        val mob = mobs[0] as Mob
+        mob.updateHp(mob.hp - mob.poorHealthThreshold + 1)
+        Assertions.assertInstanceOf(GoodHealthState::class.java, mob.state)
+    }
+
+    @Test
+    fun `Mob do not change state back after increasing hp`() {
+        val mob = mobs[0] as Mob
+        mob.updateHp(mob.poorHealthThreshold)
+        Assertions.assertInstanceOf(GoodHealthState::class.java, mob.state)
     }
 }

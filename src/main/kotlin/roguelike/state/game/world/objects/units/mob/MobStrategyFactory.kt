@@ -8,7 +8,7 @@ fun interface StrategyFactory {
 }
 
 class RandomStrategyFactory(
-    val strategies: List<MobStrategy>
+    private val strategies: List<MobStrategy>
 ) : StrategyFactory {
     override fun getStrategy(position: Position): MobStrategy {
         return strategies.random()

@@ -3,24 +3,14 @@ package roguelike.state.game
 import roguelike.state.Message
 import roguelike.state.State
 import roguelike.state.defeat.DefeatScreenState
-import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.*
-import roguelike.state.game.world.objects.units.AggressiveStrategy
-import roguelike.state.game.world.objects.units.AppleEatingStrategy
-import roguelike.state.game.world.objects.units.AvoidanceStrategy
-import roguelike.state.game.world.objects.units.Mob
-import roguelike.state.game.world.objects.units.PassiveStrategy
+import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.PlayerUnit
-import roguelike.state.game.world.objects.units.mob.KnightFactory
-import roguelike.state.game.world.objects.units.mob.MoldFactory
-import roguelike.state.game.world.objects.units.mob.PawnFactory
-import roguelike.state.game.world.objects.units.mob.RandomMobFactory
-import roguelike.state.game.world.objects.units.mob.RandomStrategyFactory
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
 import roguelike.state.victory.VictoryScreenState
@@ -67,7 +57,7 @@ data class GameState(
                                     unit to { _: World -> message.action }
                                 }
                                 is Mob -> {
-                                    unit to { world: World -> unit.strategy.getNextAction(unit, world) }
+                                    unit to { world: World -> unit.state.strategy.getNextAction(unit, world) }
                                 }
                                 else -> {
                                     unit to { _: World -> Procrastinate }

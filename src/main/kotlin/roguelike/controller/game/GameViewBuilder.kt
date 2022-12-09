@@ -10,8 +10,8 @@ import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.Inventory
-import roguelike.state.game.world.objects.units.Mob
-import roguelike.state.game.world.objects.units.Mold
+import roguelike.state.game.world.objects.units.mob.Mob
+import roguelike.state.game.world.objects.units.mob.Mold
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.ui.views.AsciiColor
 import roguelike.ui.views.AsciiGrid
@@ -90,7 +90,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
                         is Mold -> CHAR_MOLD
                         else -> CHAR_PAWN
 
-                    }.run { if (cell.unit.strategy is ContusionStrategy) lowercaseChar() else this }
+                    }.run { if (cell.unit.state.strategy is ContusionStrategy) lowercaseChar() else this }
                     else -> CHAR_UNKNOWN
                 }
             }

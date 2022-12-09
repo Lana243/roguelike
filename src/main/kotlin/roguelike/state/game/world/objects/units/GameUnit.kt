@@ -38,7 +38,7 @@ abstract class GameUnit : GameObject() {
     /**
      * Изменяет здоровье так, чтобы оно не становилось больше максимально возможного и меньше 0
      */
-    fun updateHp(deltaHp: Int) {
+    open fun updateHp(deltaHp: Int) {
         hp = max(0, min(maxHp, hp + deltaHp))
     }
 }

@@ -12,10 +12,11 @@ import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.Duplicate
 import roguelike.state.game.world.objects.units.GameUnit
-import roguelike.state.game.world.objects.units.Mob
-import roguelike.state.game.world.objects.units.Mold
+import roguelike.state.game.world.objects.units.mob.Mob
+import roguelike.state.game.world.objects.units.mob.Mold
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.game.world.objects.units.foundItem
+import roguelike.state.game.world.objects.units.mob.GoodHealthState
 import roguelike.state.game.world.objects.units.toggle
 
 /**
@@ -131,13 +132,13 @@ class SimulatorImpl : Simulator {
         }
 
         if (attacker is PlayerUnit && attacker.isSwordEquipped() && defender is Mob) {
-            val contusionStrategy = ContusionStrategy(defender.strategy)
-            defender.strategy = contusionStrategy
+            val contusionStrategy = ContusionStrategy(defender.state.strategy)
+            defender.state = GoodHealthState(contusionStrategy)
             val startTick = world.tick
 
             val contusionEffect = Effect { tick ->
                 if (tick == startTick + 5) {
-                    defender.strategy = contusionStrategy.baseStrategy
+                    defender.state = GoodHealthState(contusionStrategy.baseStrategy)
                     true
                 } else {
                     false

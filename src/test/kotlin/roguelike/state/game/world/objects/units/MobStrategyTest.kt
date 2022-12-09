@@ -6,6 +6,7 @@ import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.world.*
 import roguelike.state.game.world.map.MapBuilder
+import roguelike.state.game.world.objects.units.mob.Pawn
 
 class MobStrategyTest {
 
