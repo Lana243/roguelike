@@ -13,7 +13,7 @@ interface MobState {
 /**
  * Состояние, при котором у моба мало здоровья.
  */
-class PoorHealthState: MobState {
+class PoorHealthState : MobState {
     override val strategy: MobStrategy = AvoidanceStrategy()
 }
 

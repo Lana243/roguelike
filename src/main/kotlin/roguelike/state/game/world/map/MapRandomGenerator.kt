@@ -1,8 +1,8 @@
 package roguelike.state.game.world.map
 
 import roguelike.state.game.*
-import kotlin.math.min
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.random.Random
 
 /**

@@ -7,7 +7,7 @@ import roguelike.state.game.world.objects.GameStaticObject
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.utility.IdManager
-import java.util.SortedMap
+import java.util.*
 
 /**
  * Вся информация об игре для одного уровня

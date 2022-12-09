@@ -8,9 +8,9 @@ import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.SimulatorImpl
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
-import roguelike.state.game.world.map.*
-import roguelike.state.game.world.objects.units.mob.Mob
+import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
 import roguelike.state.victory.VictoryScreenState

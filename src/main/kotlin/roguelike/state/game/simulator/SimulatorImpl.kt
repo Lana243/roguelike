@@ -4,20 +4,11 @@ import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.getCorrectMoves
 import roguelike.state.game.world.map.Cell
-import roguelike.state.game.world.objects.Apple
-import roguelike.state.game.world.objects.Effect
-import roguelike.state.game.world.objects.ExitDoor
-import roguelike.state.game.world.objects.Sword
-import roguelike.state.game.world.objects.Well
-import roguelike.state.game.world.objects.units.ContusionStrategy
-import roguelike.state.game.world.objects.units.Duplicate
-import roguelike.state.game.world.objects.units.GameUnit
+import roguelike.state.game.world.objects.*
+import roguelike.state.game.world.objects.units.*
+import roguelike.state.game.world.objects.units.mob.GoodHealthState
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.mob.Mold
-import roguelike.state.game.world.objects.units.PlayerUnit
-import roguelike.state.game.world.objects.units.foundItem
-import roguelike.state.game.world.objects.units.mob.GoodHealthState
-import roguelike.state.game.world.objects.units.toggle
 
 /**
  * Реализация интерфейса [Simulator]

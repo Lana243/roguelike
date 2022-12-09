@@ -69,7 +69,7 @@ class AppleEatingStrategy(
         val nearest = apples.minByOrNull { getDistance(mob.position, it) }
             ?: return baseStrategy.getNextAction(mob, world)
 
-        val move = findNextMove(mob.position, nearest, world.map, mob.moves,)
+        val move = findNextMove(mob.position, nearest, world.map, mob.moves)
             ?: return baseStrategy.getNextAction(mob, world)
 
         return move

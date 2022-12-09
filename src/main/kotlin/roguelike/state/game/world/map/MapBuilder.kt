@@ -18,7 +18,7 @@ class MapBuilder {
 
     /**
      * Установить размеры карты.
-      */
+     */
     fun setSize(lengthX: Int, lengthY: Int): MapBuilder {
         this.lengthX = lengthX
         this.lengthY = lengthY

@@ -2,17 +2,17 @@ package roguelike.controller.game
 
 import roguelike.controller.ViewBuilder
 import roguelike.state.game.*
-import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.Position
+import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.Inventory
+import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.mob.Mold
-import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.ui.views.AsciiColor
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
@@ -34,7 +34,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
                 when (val cell = gameMap.getCell(Position(x, y))) {
                     Cell.Empty -> {}
                     else -> {
-                        val charView = viewByCell(x, y, cell, state)
+                        val charView = viewByCell(cell, state)
                         childViews += Composite.ViewWithPosition(x, y, charView)
                     }
                 }
@@ -57,22 +57,24 @@ class GameViewBuilder : ViewBuilder<GameState> {
         childViews += Composite.ViewWithPosition(
             x = 0,
             y = lengthY,
-            Composite.lineFromAscii(listOf(
-                AsciiGrid.fromString("HP: "),
-                AsciiGrid.fromString("${state.world.player.hp}", AsciiColor.Green),
-                AsciiGrid.fromString("  |  "),
-                AsciiGrid.fromString("Attack: "),
-                AsciiGrid.fromString("${state.world.player.attackRate}", AsciiColor.Red),
-                AsciiGrid.fromString("  |  "),
-                AsciiGrid.fromString("Level: "),
-                AsciiGrid.fromString("${state.world.player.level}", AsciiColor.White),
-                AsciiGrid.fromString("  |  "),
-                AsciiGrid.fromString("Exp: "),
-                AsciiGrid.fromString("${state.world.player.exp}", AsciiColor.White),
-                AsciiGrid.fromString("  |  "),
-                AsciiGrid.fromString("Inventory: "),
-                AsciiGrid.fromString(inventory, AsciiColor.White),
-            ))
+            Composite.lineFromAscii(
+                listOf(
+                    AsciiGrid.fromString("HP: "),
+                    AsciiGrid.fromString("${state.world.player.hp}", AsciiColor.Green),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Attack: "),
+                    AsciiGrid.fromString("${state.world.player.attackRate}", AsciiColor.Red),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Level: "),
+                    AsciiGrid.fromString("${state.world.player.level}", AsciiColor.White),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Exp: "),
+                    AsciiGrid.fromString("${state.world.player.exp}", AsciiColor.White),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Inventory: "),
+                    AsciiGrid.fromString(inventory, AsciiColor.White),
+                )
+            )
         )
 
         return Composite(childViews)
@@ -80,7 +82,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
 
     // internal
 
-    private fun charByCell(x: Int, y: Int, cell: Cell): Char =
+    private fun charByCell(cell: Cell): Char =
         when (cell) {
             Cell.Empty -> CHAR_EMPTY
             is Cell.Unit -> {
@@ -110,8 +112,8 @@ class GameViewBuilder : ViewBuilder<GameState> {
             else -> CHAR_UNKNOWN
         }
 
-    private fun viewByCell(x: Int, y: Int, cell: Cell, state: GameState): View {
-        val char = charByCell(x, y, cell)
+    private fun viewByCell(cell: Cell, state: GameState): View {
+        val char = charByCell(cell)
         val defaultItem = AsciiGrid.fromChar(char)
         return when (cell) {
             is Cell.Unit -> {

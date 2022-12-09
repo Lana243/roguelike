@@ -1,7 +1,9 @@
 package roguelike.state.game.world.objects.units.mob
 
 import roguelike.state.game.world.Position
-import roguelike.state.game.world.objects.units.*
+import roguelike.state.game.world.objects.units.AggressiveStrategy
+import roguelike.state.game.world.objects.units.AvoidanceStrategy
+import roguelike.state.game.world.objects.units.PassiveStrategy
 
 /**
  * Фабрика мобов.
@@ -33,8 +35,7 @@ class KnightFactory(
 /**
  * Создаё мобов типа [Mold].
  */
-class MoldFactory(
-) : MobFactory {
+class MoldFactory : MobFactory {
     override fun getMob(id: Int, position: Position): Mob =
         Mold(id, position)
 }

@@ -4,9 +4,9 @@ import roguelike.controller.Controller
 import roguelike.state.Message
 import roguelike.state.game.GameMessage
 import roguelike.state.game.GameState
-import roguelike.state.game.simulator.ToggleInventoryItem
 import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
+import roguelike.state.game.simulator.ToggleInventoryItem
 import roguelike.ui.Event
 import roguelike.ui.views.View
 
