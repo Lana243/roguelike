@@ -1,26 +1,20 @@
-package roguelike.state.game.world.objects.units
+package roguelike.state.game.world.objects.units.mob.strategies
 
 import roguelike.state.game.simulator.UnitAction
 import roguelike.state.game.world.World
 import roguelike.state.game.world.objects.units.mob.Mob
 
-class StateStrategy(
+class HpBasedStrategy(
     strategyOnPoorHp: MobStrategy,
     strategyOnGoodHp: MobStrategy
-) : MobStrategy {
-    interface MobState {
-        val strategy: MobStrategy
-        fun next(mob: Mob, world: World): MobState
-    }
-
-
+) : StateBasedStrategy() {
     /**
      * Состояние, при котором у моба мало здоровья.
      */
-    private val poorState: MobState = object : MobState {
+    private val poorState: StrategyState = object : StrategyState {
         override val strategy: MobStrategy = strategyOnPoorHp
 
-        override fun next(mob: Mob, world: World): MobState =
+        override fun next(mob: Mob, world: World): StrategyState =
             if (mob.hp != mob.maxHp) {
                 this
             } else {
@@ -31,16 +25,19 @@ class StateStrategy(
     /**
      * Состояние, при котором у моба всё хорошо.
      */
-    private val goodState: MobState = object : MobState {
+    private val goodState: StrategyState = object : StrategyState {
         override val strategy: MobStrategy = strategyOnGoodHp
 
-        override fun next(mob: Mob, world: World): MobState =
+        override fun next(mob: Mob, world: World): StrategyState =
             if (mob.hp == mob.maxHp) {
                 this
             } else {
                 poorState
             }
     }
+
+    override fun initialState(): StrategyState =
+        goodState
 
     /**
      * Состояние моба.

@@ -1,10 +1,10 @@
 package roguelike.state.game.world.objects.units.mob
 
 import roguelike.state.game.world.Position
-import roguelike.state.game.world.objects.units.AggressiveStrategy
-import roguelike.state.game.world.objects.units.AvoidanceStrategy
-import roguelike.state.game.world.objects.units.PassiveStrategy
-import roguelike.state.game.world.objects.units.StateStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.AggressiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.AvoidanceStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.PassiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.HpBasedStrategy
 
 /**
  * Фабрика мобов.
@@ -56,7 +56,7 @@ fun defaultMobFactory(): MobFactory {
         StrategyFactory { PassiveStrategy() },
         StrategyFactory { AggressiveStrategy() },
         StrategyFactory { AvoidanceStrategy() },
-        StrategyFactory { StateStrategy(AvoidanceStrategy(), AggressiveStrategy()) }
+        StrategyFactory { HpBasedStrategy(AvoidanceStrategy(), AggressiveStrategy()) }
 
     )
 

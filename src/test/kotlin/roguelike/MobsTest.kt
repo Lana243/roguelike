@@ -11,9 +11,9 @@ import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.MapBuilder
-import roguelike.state.game.world.objects.units.ContusionStrategy
-import roguelike.state.game.world.objects.units.PassiveStrategy
-import roguelike.state.game.world.objects.units.StateStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.PassiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.HpBasedStrategy
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.mob.passiveMobFactory
 
@@ -30,7 +30,7 @@ class MobsTest {
         world = worldFactory.createWorld()
         simulator = Simulator()
         mobs = listOf(world.units[4]!! as Mob, world.units[8]!! as Mob)
-        mobs[0].strategy = StateStrategy(PassiveStrategy(), PassiveStrategy())
+        mobs[0].strategy = HpBasedStrategy(PassiveStrategy(), PassiveStrategy())
     }
 
     @Test
@@ -189,7 +189,7 @@ class MobsTest {
     @Test
     fun `Strategy's initial state is GoodHealthState`() {
         val mob = mobs[0]
-        Assertions.assertTrue((mob.strategy as StateStrategy).isInGoodState())
+        Assertions.assertTrue((mob.strategy as HpBasedStrategy).isInGoodState())
     }
 
     @Test
@@ -197,7 +197,7 @@ class MobsTest {
         val mob = mobs[0]
         mob.updateHp(-2)
         mob.strategy.getNextAction(mob, world)
-        Assertions.assertFalse((mob.strategy as StateStrategy).isInGoodState())
+        Assertions.assertFalse((mob.strategy as HpBasedStrategy).isInGoodState())
     }
 
     @Test
@@ -205,7 +205,7 @@ class MobsTest {
         val mob = mobs[0]
         mob.updateHp(+1)
         mob.strategy.getNextAction(mob, world)
-        Assertions.assertTrue((mob.strategy as StateStrategy).isInGoodState())
+        Assertions.assertTrue((mob.strategy as HpBasedStrategy).isInGoodState())
     }
 
     @Test
@@ -213,6 +213,6 @@ class MobsTest {
         val mob = mobs[0]
         mob.updateHp(+1)
         mob.strategy.getNextAction(mob, world)
-        Assertions.assertTrue((mob.strategy as StateStrategy).isInGoodState())
+        Assertions.assertTrue((mob.strategy as HpBasedStrategy).isInGoodState())
     }
 }
