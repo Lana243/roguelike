@@ -12,7 +12,7 @@ fun findNextMove(
     targetPosition: Position,
     map: GameMap,
     moves: List<MoveAction>,
-    passThroughUnits: Boolean = false
+    passThroughUnits: Boolean = false,
 ): MoveAction? {
     val prv = mutableMapOf<Position, MoveAction>()
     val queue = ArrayDeque<Position>()
@@ -22,7 +22,8 @@ fun findNextMove(
         val u = queue.first()
         queue.removeFirst()
 
-        val positions = getCorrectMoves(u, moves, map, passThroughUnits).map { u + it to it }
+        val positions = getCorrectMoves(u, moves, map).map { u + it to it }
+            .filter { map.getCell(it.first) !is Cell.Unit || passThroughUnits || it.first == targetPosition }
 
         for ((v, mv) in positions) {
             if (v !in prv.keys) {

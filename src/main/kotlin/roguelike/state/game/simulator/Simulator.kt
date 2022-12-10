@@ -134,6 +134,9 @@ class MobActionProcessor {
 
 }
 
+/**
+ * Вспомогательный класс для обработки взаимодействии с игровыми предметами
+ */
 class InteractionProcessor {
     fun processInteract(world: World, player: GameUnit) {
         if (player is PlayerUnit) {
@@ -157,6 +160,9 @@ class InteractionProcessor {
     }
 }
 
+/**
+ * Вспомогательный класс для обработки сражений
+ */
 class FightProcessor {
     fun processFight(world: World, attacker: GameUnit, defender: GameUnit) {
         val killed = world.decreaseUnitHp(defender, attacker.attackRate)

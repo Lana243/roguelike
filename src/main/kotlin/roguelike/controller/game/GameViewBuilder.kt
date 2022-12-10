@@ -109,7 +109,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
                         is Mold -> CHAR_MOLD
                         else -> CHAR_PAWN
 
-                    }.run { if (cell.unit.state.strategy is ContusionStrategy) lowercaseChar() else this }
+                    }.run { if (cell.unit.strategy is ContusionStrategy) lowercaseChar() else this }
                     else -> CHAR_UNKNOWN
                 }
             }

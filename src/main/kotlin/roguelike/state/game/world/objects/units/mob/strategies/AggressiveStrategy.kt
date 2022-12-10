@@ -11,7 +11,13 @@ import roguelike.state.game.world.objects.units.mob.Mob
  */
 class AggressiveStrategy : MobStrategy {
     override fun getNextAction(mob: Mob, world: World): UnitAction {
-        val move = findNextMove(mob.position, world.player.position, world.map, mob.moves, true)
+        val attackMove = mob.moves.firstOrNull { mob.position + it == world.player.position }
+        if (attackMove != null) {
+            return attackMove
+        }
+
+
+        val move = findNextMove(mob.position, world.player.position, world.map, mob.moves, false)
             ?: return Procrastinate
         return move
     }
