@@ -54,7 +54,7 @@ data class GameState(
                                     unit to { _: World -> message.action }
                                 }
                                 is Mob -> {
-                                    unit to { world: World -> unit.state.strategy.getNextAction(unit, world) }
+                                    unit to { world: World -> unit.strategy.getNextAction(unit, world) }
                                 }
                                 else -> {
                                     unit to { _: World -> Procrastinate }

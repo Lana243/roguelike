@@ -1,11 +1,14 @@
 package roguelike.state.game.world.objects.units.mob
 
+import roguelike.state.game.simulator.MobAction
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.SideMoves
 import roguelike.state.game.world.Position
+import roguelike.state.game.world.objects.units.AggressiveStrategy
+import roguelike.state.game.world.objects.units.AppleEatingStrategy
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.MobStrategy
-import roguelike.state.game.world.objects.units.MoldStrategy
+import roguelike.state.game.world.objects.units.StateStrategy
 
 interface CloneableMob {
     fun clone(id: Int, position: Position): Mob
@@ -15,30 +18,10 @@ interface CloneableMob {
  * Моб
  */
 abstract class Mob : GameUnit() {
-
-    /**
-     * Количество здоровья, при котором состояние меняется на [PoorHealthState].
-     */
-    open val poorHealthThreshold = 1
-
     /**
      * Начальная стратегия движения моба.
      */
-    abstract val initialStrategy: MobStrategy
-
-    /**
-     * Текущее состояние моба.
-     */
-    abstract var state: MobState
-
-    override fun updateHp(deltaHp: Int) {
-        super.updateHp(deltaHp)
-        state = if (hp <= poorHealthThreshold) {
-            PoorHealthState()
-        } else {
-            GoodHealthState(initialStrategy)
-        }
-    }
+    abstract var strategy: MobStrategy
 }
 
 
@@ -48,14 +31,12 @@ abstract class Mob : GameUnit() {
 data class Pawn(
     override val id: Int,
     override var position: Position,
-    override val initialStrategy: MobStrategy,
+    override var strategy: MobStrategy,
     override val attackRate: Int = 2,
     override var maxHp: Int = 3,
     override var hp: Int = 3,
     override val moves: List<MoveAction> = SideMoves
-) : Mob() {
-    override var state: MobState = GoodHealthState(initialStrategy)
-}
+) : Mob()
 
 val KnightMoves = listOf(
     MoveAction(2, 1),
@@ -74,15 +55,17 @@ val KnightMoves = listOf(
 data class Knight(
     override val id: Int,
     override var position: Position,
-    override val initialStrategy: MobStrategy,
+    override var strategy: MobStrategy,
     override val attackRate: Int = 2,
     override val maxHp: Int = 3,
     override var hp: Int = 3,
     override val moves: List<MoveAction> = KnightMoves
-) : Mob() {
-    override var state: MobState = GoodHealthState(initialStrategy)
-}
+) : Mob()
 
+
+/**
+ * Моб плесень. Реплицируется, если у неё полное хп. Ищет яблочки, если их нет, ищет игрока :))
+ */
 data class Mold(
     override val id: Int,
     override var position: Position,
@@ -92,13 +75,12 @@ data class Mold(
     override val moves: List<MoveAction> = SideMoves
 ) : Mob(), CloneableMob {
 
-    override val poorHealthThreshold = 0
-
-    override val initialStrategy: MobStrategy = MoldStrategy()
-
-    override var state: MobState = GoodHealthState(initialStrategy)
+    override var strategy: MobStrategy = MoldStrategy
 
     override fun clone(id: Int, position: Position): Mold {
         return copy(id = id, position = position)
     }
 }
+
+object Clone : MobAction
+val MoldStrategy = StateStrategy(AppleEatingStrategy(AggressiveStrategy())) { _, _ -> Clone }

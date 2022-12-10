@@ -12,17 +12,16 @@ import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.ContusionStrategy
-import roguelike.state.game.world.objects.units.GameUnit
-import roguelike.state.game.world.objects.units.mob.GoodHealthState
+import roguelike.state.game.world.objects.units.PassiveStrategy
+import roguelike.state.game.world.objects.units.StateStrategy
 import roguelike.state.game.world.objects.units.mob.Mob
-import roguelike.state.game.world.objects.units.mob.PoorHealthState
 import roguelike.state.game.world.objects.units.mob.passiveMobFactory
 
 class MobsTest {
 
     private lateinit var world: World
     private lateinit var simulator: Simulator
-    private lateinit var mobs: List<GameUnit>
+    private lateinit var mobs: List<Mob>
 
     @BeforeEach
     fun initWorld() {
@@ -30,7 +29,8 @@ class MobsTest {
         val worldFactory = WorldFactory(mapBuilder, passiveMobFactory())
         world = worldFactory.createWorld()
         simulator = Simulator()
-        mobs = listOf(world.units[4]!!, world.units[8]!!)
+        mobs = listOf(world.units[4]!! as Mob, world.units[8]!! as Mob)
+        mobs[0].strategy = StateStrategy(PassiveStrategy(), PassiveStrategy())
     }
 
     @Test
@@ -127,7 +127,7 @@ class MobsTest {
         ))
 
         Assertions.assertEquals(Position(2, 2), world.player.position)
-        Assertions.assertTrue(mobs[0].run { this is Mob && this.state.strategy is ContusionStrategy })
+        Assertions.assertTrue(mobs[0].run { this.strategy is ContusionStrategy })
         Assertions.assertTrue(world.effects.size == 1)
     }
 
@@ -187,30 +187,32 @@ class MobsTest {
     }
 
     @Test
-    fun `Mob initial state is GoodHealthState`() {
-        mobs.forEach { mob ->
-            Assertions.assertInstanceOf(GoodHealthState::class.java, (mob as Mob).state)
-        }
+    fun `Strategy's initial state is GoodHealthState`() {
+        val mob = mobs[0]
+        Assertions.assertTrue((mob.strategy as StateStrategy).isInGoodState())
     }
 
     @Test
-    fun `Mob change state if hp leq than poorHealthThreshold`() {
-        val mob = mobs[0] as Mob
-        mob.updateHp(-(mob.hp - mob.poorHealthThreshold))
-        Assertions.assertInstanceOf(PoorHealthState::class.java, mob.state)
+    fun `Strategy changes state if hp leq than maxHp`() {
+        val mob = mobs[0]
+        mob.updateHp(-2)
+        mob.strategy.getNextAction(mob, world)
+        Assertions.assertFalse((mob.strategy as StateStrategy).isInGoodState())
     }
 
     @Test
-    fun `Mob do not change state after updateHp if hp greater than poorHealthThreshold`() {
-        val mob = mobs[0] as Mob
-        mob.updateHp(mob.hp - mob.poorHealthThreshold + 1)
-        Assertions.assertInstanceOf(GoodHealthState::class.java, mob.state)
+    fun `Strategy does not change state after updateHp if hp greater than maxHp`() {
+        val mob = mobs[0]
+        mob.updateHp(+1)
+        mob.strategy.getNextAction(mob, world)
+        Assertions.assertTrue((mob.strategy as StateStrategy).isInGoodState())
     }
 
     @Test
-    fun `Mob do not change state back after increasing hp`() {
-        val mob = mobs[0] as Mob
-        mob.updateHp(mob.poorHealthThreshold)
-        Assertions.assertInstanceOf(GoodHealthState::class.java, mob.state)
+    fun `Strategy does not change state back after increasing hp`() {
+        val mob = mobs[0]
+        mob.updateHp(+1)
+        mob.strategy.getNextAction(mob, world)
+        Assertions.assertTrue((mob.strategy as StateStrategy).isInGoodState())
     }
 }

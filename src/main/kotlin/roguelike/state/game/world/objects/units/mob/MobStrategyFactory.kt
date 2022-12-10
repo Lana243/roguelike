@@ -14,9 +14,9 @@ fun interface StrategyFactory {
  * Выдаёт случайную стратегию из списка [strategies].
  */
 class RandomStrategyFactory(
-    private val strategies: List<MobStrategy>
+    private val strategies: List<StrategyFactory>
 ) : StrategyFactory {
     override fun getStrategy(position: Position): MobStrategy {
-        return strategies.random()
+        return strategies.random().getStrategy(position)
     }
 }

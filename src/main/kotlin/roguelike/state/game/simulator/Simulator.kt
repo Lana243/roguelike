@@ -9,13 +9,12 @@ import roguelike.state.game.world.objects.Effect
 import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
-import roguelike.state.game.world.objects.units.Clone
 import roguelike.state.game.world.objects.units.ContusionStrategy
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.game.world.objects.units.foundItem
+import roguelike.state.game.world.objects.units.mob.Clone
 import roguelike.state.game.world.objects.units.mob.CloneableMob
-import roguelike.state.game.world.objects.units.mob.GoodHealthState
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.toggle
 
@@ -86,8 +85,7 @@ class Simulator {
         }
 
         if (toCell !is Cell.Solid) {
-            world.map.moveCell(unit.position, newPosition)
-            unit.position = newPosition
+            world.moveUnit(unit, newPosition)
         }
     }
 
@@ -95,7 +93,7 @@ class Simulator {
         val toCell = world.map.getCell(position)
         if (toCell is Cell.StaticObject) {
             if (toCell.staticObject is ExitDoor) {
-                world.map.moveCell(player.position, position)
+                world.moveUnit(player, position)
                 world.victory = true
             }
         }
@@ -120,10 +118,12 @@ class MobActionProcessor {
                 if (positions.isNotEmpty()) {
                     val newMobPosition = positions.random()
                     val newId = world.idManager.getNextId()
-                    unit.hp /= 2
-                    val newMold = unit.clone(newId, newMobPosition)
-                    world.map.setCell(newMold.position, Cell.Unit(newMold))
-                    world.units[newMold.id] = newMold
+                    val dead = world.decreaseUnitHp(unit, (unit.hp + 1) / 2)
+
+                    if (!dead) {
+                        val newMold = unit.clone(newId, newMobPosition)
+                        world.newUnit(newMold)
+                    }
                 }
             }
 
@@ -159,16 +159,9 @@ class InteractionProcessor {
 
 class FightProcessor {
     fun processFight(world: World, attacker: GameUnit, defender: GameUnit) {
-        defender.updateHp(-attacker.attackRate)
-
-        if (defender.hp <= 0) {
-            world.units.remove(defender.id)
-            world.map.setCell(defender.position, Cell.Empty)
-
-            world.map.setCell(attacker.position, Cell.Empty)
-            attacker.position = defender.position
-            world.map.setCell(defender.position, Cell.Unit(attacker))
-
+        val killed = world.decreaseUnitHp(defender, attacker.attackRate)
+        if (killed) {
+            world.moveUnit(attacker, defender.position)
             if (attacker is PlayerUnit) {
                 attacker.updateExp()
             }
@@ -183,13 +176,13 @@ class FightProcessor {
         world: World
     ) {
         if (attacker is PlayerUnit && attacker.isSwordEquipped() && defender is Mob) {
-            val contusionStrategy = ContusionStrategy(defender.state.strategy)
-            defender.state = GoodHealthState(contusionStrategy)
+            val contusionStrategy = ContusionStrategy(defender.strategy)
+            defender.strategy = contusionStrategy
             val startTick = world.tick
 
             val contusionEffect = Effect { tick ->
                 if (tick == startTick + 5) {
-                    defender.state = GoodHealthState(contusionStrategy.baseStrategy)
+                    defender.strategy = contusionStrategy.baseStrategy
                     true
                 } else {
                     false

@@ -4,6 +4,7 @@ import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.units.AggressiveStrategy
 import roguelike.state.game.world.objects.units.AvoidanceStrategy
 import roguelike.state.game.world.objects.units.PassiveStrategy
+import roguelike.state.game.world.objects.units.StateStrategy
 
 /**
  * Фабрика мобов.
@@ -13,7 +14,7 @@ interface MobFactory {
 }
 
 /**
- * Создаё мобов типа [Pawn].
+ * Создаёт мобов типа [Pawn].
  */
 class PawnFactory(
     private val strategyFactory: StrategyFactory,
@@ -23,7 +24,7 @@ class PawnFactory(
 }
 
 /**
- * Создаё мобов типа [Knight].
+ * Создаёт мобов типа [Knight].
  */
 class KnightFactory(
     private val strategyFactory: StrategyFactory
@@ -52,9 +53,11 @@ class RandomMobFactory(
 
 fun defaultMobFactory(): MobFactory {
     val availableMobStrategies = listOf(
-        PassiveStrategy(),
-        AggressiveStrategy(),
-        AvoidanceStrategy(),
+        StrategyFactory { PassiveStrategy() },
+        StrategyFactory { AggressiveStrategy() },
+        StrategyFactory { AvoidanceStrategy() },
+        StrategyFactory { StateStrategy(AvoidanceStrategy(), AggressiveStrategy()) }
+
     )
 
     val randomStrategyFactory = RandomStrategyFactory(availableMobStrategies)
