@@ -14,7 +14,6 @@ import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.mob.*
 import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
 import roguelike.state.game.world.objects.units.mob.strategies.PassiveStrategy
-import roguelike.state.game.world.objects.units.mob.strategies.StateStrategy
 import roguelike.state.game.world.objects.units.mob.strategies.AggressiveStrategy
 import roguelike.state.game.world.objects.units.mob.strategies.HpBasedStrategy
 import roguelike.state.game.world.objects.units.mob.Mob
