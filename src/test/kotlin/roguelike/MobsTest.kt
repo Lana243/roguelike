@@ -11,8 +11,11 @@ import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.MapBuilder
+import roguelike.state.game.world.objects.units.mob.*
 import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
 import roguelike.state.game.world.objects.units.mob.strategies.PassiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.StateStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.AggressiveStrategy
 import roguelike.state.game.world.objects.units.mob.strategies.HpBasedStrategy
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.mob.passiveMobFactory
@@ -214,5 +217,19 @@ class MobsTest {
         mob.updateHp(+1)
         mob.strategy.getNextAction(mob, world)
         Assertions.assertTrue((mob.strategy as HpBasedStrategy).isInGoodState())
+    }
+
+    @Test
+    fun `Knight mob moves should follow the chess rules`() {
+        val mobFactory = KnightFactory { AggressiveStrategy() }
+        val mob = mobFactory.getMob(10, Position(1 , 4))
+        Assertions.assertEquals(MoveAction(1, -2), mob.strategy.getNextAction(mob, world))
+    }
+
+    @Test
+    fun `Mold moves to an apple`() {
+        val mobFactory = MoldFactory()
+        val mob = mobFactory.getMob(11, Position(6, 2))
+        Assertions.assertEquals(MoveAction(-1, 0), mob.strategy.getNextAction(mob, world))
     }
 }
