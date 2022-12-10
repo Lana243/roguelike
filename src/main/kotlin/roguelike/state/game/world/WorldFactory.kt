@@ -1,20 +1,28 @@
 package roguelike.state.game.world
 
 import roguelike.state.game.*
+import roguelike.state.game.world.map.*
 import roguelike.state.game.world.objects.*
-import roguelike.state.game.world.objects.units.*
+import roguelike.state.game.world.objects.units.GameUnit
+import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.state.game.world.objects.units.mob.MobFactory
+import roguelike.state.game.world.objects.units.mob.defaultMobFactory
 import roguelike.utility.IdManager
-import java.util.SortedMap
-import kotlin.random.Random
+import java.util.*
 
-class WorldFactory(private val mapFactory: MapFactory) {
+/**
+ * Класс для создания мира.
+ */
+class WorldFactory(
+    private val mapBuilder: MapBuilder,
+    private val mobFactory: MobFactory = defaultMobFactory()
+) {
 
     /**
      * Создает [World] по [MapFactory]
      */
     fun createWorld(): World {
-        // TODO: clear
-        val map = mapFactory.createMap()
+        val map = mapBuilder.build()
         val gameMap = parseMap(map)
         return World(gameMap, player, staticObjects, items, units, idManager)
     }
@@ -27,7 +35,7 @@ class WorldFactory(private val mapFactory: MapFactory) {
 
     private val staticObjects: MutableMap<Int, GameStaticObject> = mutableMapOf()
 
-    private val items: MutableMap<Int, GameItem> = mutableMapOf()
+    private val items: MutableMap<Position, GameItem> = mutableMapOf()
 
     private val units: SortedMap<Int, GameUnit> = sortedMapOf()
 
@@ -71,34 +79,23 @@ class WorldFactory(private val mapFactory: MapFactory) {
 
             CHAR_APPLE -> {
                 val apple = Apple(idManager.getNextId())
+                items += Position(charIndex, lineIndex) to apple
                 Cell.Item(apple)
             }
 
             CHAR_SWORD -> {
                 val sword = Sword(idManager.getNextId())
-                items += sword.id to sword
+                items += Position(charIndex, lineIndex) to sword
                 Cell.Item(sword)
             }
 
-            CHAR_MOB -> {
-                val mob = Mob(
-                    idManager.getNextId(),
-                    Position(charIndex, lineIndex),
-                    getRandomMobStrategy()
-                )
+            CHAR_PAWN -> {
+                val mobPosition = Position(charIndex, lineIndex)
+                val mob = mobFactory.getMob(idManager.getNextId(), mobPosition)
                 units += mob.id to mob
                 Cell.Unit(mob)
             }
 
             else -> Cell.Empty
         }
-
-    private val availableMobStrategies = listOf(
-        PassiveStrategy(),
-        AggressiveStrategy(),
-        AvoidanceStrategy(),
-    )
-
-    private fun getRandomMobStrategy(): MobStrategy =
-        availableMobStrategies[Random.nextInt(availableMobStrategies.size)]
 }

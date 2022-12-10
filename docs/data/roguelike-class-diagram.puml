@@ -3,10 +3,6 @@
 
 abstract class Engine
 
-interface AssetManager {
-    + load()
-}
-
 abstract class UI {
     + pollEvent(): Event
     + render(view: View)
@@ -18,18 +14,35 @@ abstract class Controller {
 }
 
 Engine *-- "controller" Controller
-Engine *-- "assetManager" AssetManager
 Engine *-- "ui" UI
 
-interface Simulator {
-    + simulate(world: World, unitActions): World
+class Simulator {
+    + simulate(world: World, unitActions)
 }
 
 interface Strategy {
     + getAction(unit: GameUnit, worldView: WorldView): Action
 }
 
-abstract class World {
+class AggressiveStrategy
+Strategy <|.. AggressiveStrategy
+
+class AppleEatingStrategy
+Strategy <|.. AppleEatingStrategy
+
+class AvoidanceStrategy
+Strategy <|.. AvoidanceStrategy
+
+class ContusionStrategy
+Strategy <|.. ContusionStrategy
+
+class PassiveStrategy
+Strategy <|.. PassiveStrategy
+
+class StateStrategy
+Strategy <|.. StateStrategy
+
+class World {
     + map: Map
 }
 
@@ -37,12 +50,29 @@ abstract class GameObject
 
 abstract class GameUnit
 
-class Mob
+interface Mob
 
 GameUnit <|.. Mob
 GameUnit <|.. PlayerUnit
 
 Mob --o Strategy : "strategy"
+
+class Pawn
+Mob <|.. Pawn
+
+class Knight
+Mob <|.. Knight
+
+class Knight
+
+interface CloneableMob {
+    + clone(id: Int, position: Position): Mob
+}
+
+class Mold
+
+Mob <|.. Mold
+CloneableMob <|.. Mold
 
 abstract class StaticObject
 
@@ -85,7 +115,7 @@ class MenuScreenState
 
 class SettingsScreenState
 
-abstract class GameState {
+class GameState {
     playerUnit: GameUnit
 }
 

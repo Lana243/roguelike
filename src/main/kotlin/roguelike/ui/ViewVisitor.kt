@@ -10,5 +10,4 @@ import roguelike.ui.views.View
 interface ViewVisitor<T> {
     fun visitAsciiGrid(view: AsciiGrid): T
     fun visitComposite(view: Composite): T
-    // fun visitText(text: Text): T
 }

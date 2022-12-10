@@ -2,25 +2,44 @@ package roguelike.controller.game
 
 import roguelike.controller.ViewBuilder
 import roguelike.state.game.*
-import roguelike.state.game.world.Cell
 import roguelike.state.game.world.Position
+import roguelike.state.game.world.map.Cell
 import roguelike.state.game.world.objects.Apple
 import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
-import roguelike.state.game.world.objects.units.ContusionStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
 import roguelike.state.game.world.objects.units.Inventory
-import roguelike.state.game.world.objects.units.Mob
 import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.state.game.world.objects.units.mob.Knight
+import roguelike.state.game.world.objects.units.mob.Mob
+import roguelike.state.game.world.objects.units.mob.Mold
 import roguelike.ui.views.AsciiColor
 import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
+class UiState {
+    var showMobsHp: Boolean = false
+        private set
+    var showMobsAttackRate: Boolean = false
+        private set
+    fun switchShowMobsHp() {
+        showMobsHp = !showMobsHp
+        showMobsAttackRate = false
+    }
+
+    fun switchShowAttackRate() {
+        showMobsAttackRate = !showMobsAttackRate
+        showMobsHp = false
+    }
+}
+
 /**
  * Класс, реализующий интерфейс [ViewBuilder] для [GameState]
  */
 class GameViewBuilder : ViewBuilder<GameState> {
+    val uiState = UiState()
 
     override fun build(state: GameState): View {
         val gameMap = state.world.map
@@ -33,7 +52,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
                 when (val cell = gameMap.getCell(Position(x, y))) {
                     Cell.Empty -> {}
                     else -> {
-                        val charView = viewByCell(x, y, cell, state)
+                        val charView = viewByCell(cell)
                         childViews += Composite.ViewWithPosition(x, y, charView)
                     }
                 }
@@ -41,13 +60,13 @@ class GameViewBuilder : ViewBuilder<GameState> {
         }
         childViews += infoViews
 
-        val inventory = "Inventory: " + state.world.player.inventory.items.joinToString {
+        val inventory = state.world.player.inventory.items.joinToString {
             var c = if (it.item is Sword) {
                 's'
             } else {
                 '.'
             }
-            if (it.state == Inventory.ItemData.State.EQUIPED) {
+            if (it.state == Inventory.ItemData.State.EQUIPPED) {
                 c = c.uppercaseChar()
             }
             c.toString()
@@ -56,7 +75,24 @@ class GameViewBuilder : ViewBuilder<GameState> {
         childViews += Composite.ViewWithPosition(
             x = 0,
             y = lengthY,
-            AsciiGrid(listOf("HP: ${state.world.player.hp}  |  Attack: ${state.world.player.attackRate}  |  Level: ${state.world.player.level}  |  Exp: ${state.world.player.exp}  |  " + inventory))
+            Composite.lineFromAscii(
+                listOf(
+                    AsciiGrid.fromString("HP: "),
+                    AsciiGrid.fromString("${state.world.player.hp}", AsciiColor.Green),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Attack: "),
+                    AsciiGrid.fromString("${state.world.player.attackRate}", AsciiColor.Red),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Level: "),
+                    AsciiGrid.fromString("${state.world.player.level}", AsciiColor.White),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Exp: "),
+                    AsciiGrid.fromString("${state.world.player.exp}", AsciiColor.White),
+                    AsciiGrid.fromString("  |  "),
+                    AsciiGrid.fromString("Inventory: "),
+                    AsciiGrid.fromString(inventory, AsciiColor.White),
+                )
+            )
         )
 
         return Composite(childViews)
@@ -64,13 +100,17 @@ class GameViewBuilder : ViewBuilder<GameState> {
 
     // internal
 
-    private fun charByCell(x: Int, y: Int, cell: Cell): Char =
+    private fun charByCell(cell: Cell): Char =
         when (cell) {
             Cell.Empty -> CHAR_EMPTY
             is Cell.Unit -> {
                 when (cell.unit) {
                     is PlayerUnit -> CHAR_PLAYER
-                    is Mob -> if (cell.unit.strategy is ContusionStrategy) CHAR_CONTUSED_MOB else CHAR_MOB
+                    is Mob -> when (cell.unit) {
+                        is Mold -> CHAR_MOLD
+                        else -> CHAR_PAWN
+
+                    }.run { if (cell.unit.strategy is ContusionStrategy) lowercaseChar() else this }
                     else -> CHAR_UNKNOWN
                 }
             }
@@ -90,24 +130,41 @@ class GameViewBuilder : ViewBuilder<GameState> {
             else -> CHAR_UNKNOWN
         }
 
-    private fun viewByCell(x: Int, y: Int, cell: Cell, state: GameState): View {
-        val char = charByCell(x, y, cell)
+    private fun viewByCell(cell: Cell): View {
+        val char = charByCell(cell)
+        val defaultItem = AsciiGrid.fromChar(char)
         return when (cell) {
             is Cell.Unit -> {
                 when (cell.unit) {
                     is Mob -> {
-                        if (state.settings.showMobsHp) {
+                        if (uiState.showMobsHp) {
                             AsciiGrid(listOf("${cell.unit.hp}"), AsciiColor.Green)
-                        } else if (state.settings.showMobsAttackRate) {
+                        } else if (uiState.showMobsAttackRate) {
                             AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
                         } else {
-                            AsciiGrid(listOf(char.toString()))
+                            when (cell.unit) {
+                                is Knight -> { defaultItem.copy(color = AsciiColor.Purple) }
+                                else -> { defaultItem.copy(color = AsciiColor.RedNice) }
+                            }
                         }
                     }
-                    else -> AsciiGrid(listOf(char.toString()))
+                    is PlayerUnit -> defaultItem.copy(color = AsciiColor.White)
+                    else -> defaultItem
                 }
             }
-            else -> AsciiGrid(listOf(char.toString()))
+            is Cell.Item -> {
+                when (cell.item) {
+                    is Apple -> defaultItem.copy(color = AsciiColor.GreenNice)
+                    is Sword -> defaultItem.copy(color = AsciiColor.YellowNice)
+                }
+            }
+            is Cell.StaticObject -> {
+                when (cell.staticObject) {
+                    is Well -> defaultItem.copy(color = AsciiColor.BlueNice)
+                    is ExitDoor -> defaultItem.copy(color = AsciiColor.Brown)
+                }
+            }
+            else -> defaultItem
         }
     }
 }

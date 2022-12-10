@@ -17,5 +17,5 @@ class Sword(override val id: Int) : GameItem() {
  * Яблоко. Поднимает здоровья игрока
  */
 class Apple(override val id: Int) : GameItem() {
-    val healsHp: Int = 2
+    val healsHp: Int = 1
 }

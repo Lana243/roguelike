@@ -5,37 +5,41 @@ import roguelike.state.State
 import roguelike.state.defeat.DefeatScreenState
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
-import roguelike.state.game.simulator.SimulatorImpl
-import roguelike.state.game.world.MapFactory
-import roguelike.state.game.world.MapLevel1
-import roguelike.state.game.world.MapRandomGenerator
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
-import roguelike.state.game.world.objects.units.Mob
+import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.menu.MenuMessage
 import roguelike.state.menu.MenuScreenState
 import roguelike.state.victory.VictoryScreenState
 
-
 /**
- * состояние игры
+ * Состояние игры.
  */
 data class GameState(
     val world: World,
-    val settings: Settings,
 ) : State() {
-
     companion object {
         fun create(byMessage: Message? = null): GameState {
-            val mapFactory: MapFactory = when (byMessage) {
-                MenuMessage.StartGameLevel1 -> MapLevel1()
-                MenuMessage.StartGameQuick -> MapRandomGenerator(80, 23)
-                else -> MapRandomGenerator(80, 23)
+            var mapBuilder = MapBuilder()
+            when (byMessage) {
+                MenuMessage.StartGameLevel1 -> {
+                    mapBuilder = mapBuilder.fromFile(LEVEL_1_MAP_PATH)
+                }
+                MenuMessage.StartGameLevel2 -> {
+                    mapBuilder = mapBuilder.fromFile(LEVEL_2_MAP_PATH)
+                }
+                MenuMessage.StartGameQuick -> {
+                    mapBuilder = mapBuilder
+                        .setSize(SCREEN_LENGTH_X, SCREEN_LENGTH_Y - 1)
+                        .randomGenerate()
+                }
+                else -> {}
             }
-            val worldFactory = WorldFactory(mapFactory)
+            val worldFactory = WorldFactory(mapBuilder)
             val world = worldFactory.createWorld()
-            return GameState(world, Settings())
+            return GameState(world)
         }
     }
 
@@ -58,25 +62,18 @@ data class GameState(
                             }
                         }.toMap().toSortedMap(Comparator.comparingInt { it.id })
 
-                        val newWorld = simulator.simulate(world, actions)
+                        simulator.simulate(world, actions)
 
                         when {
-                            newWorld.victory -> {
+                            world.victory -> {
                                 VictoryScreenState()
                             }
-                            newWorld.defeat -> {
+                            world.defeat -> {
                                 DefeatScreenState()
                             }
-                            else -> {
-                                this.copy(world = newWorld)
-                            }
+
+                            else -> this
                         }
-                    }
-                    GameMessage.ShowMobsHp -> {
-                        this.copy(settings = settings.switchShowMobsHp())
-                    }
-                    GameMessage.ShowMobsAttackRate -> {
-                        this.copy(settings = settings.switchShowAttackRate())
                     }
                     GameMessage.Exit -> MenuScreenState()
                 }
@@ -87,22 +84,5 @@ data class GameState(
 
     // internal
 
-    private val simulator: Simulator = SimulatorImpl()
-
-    data class Settings(
-        val showMobsHp: Boolean = false,
-        val showMobsAttackRate: Boolean = false,
-    ) {
-        fun switchShowMobsHp(): Settings =
-            this.copy(
-                showMobsHp = !showMobsHp,
-                showMobsAttackRate = false
-            )
-
-        fun switchShowAttackRate(): Settings =
-            this.copy(
-                showMobsHp = false,
-                showMobsAttackRate = !showMobsAttackRate
-            )
-    }
+    private val simulator: Simulator = Simulator()
 }

@@ -5,15 +5,10 @@ sealed interface UnitAction
 /**
  * Класс, описывающий движение игрока в игровом мире
  */
-enum class MoveAction(
+data class MoveAction(
     val dx: Int,
     val dy: Int,
-) : UnitAction {
-    LEFT(-1, 0),
-    RIGHT(1, 0),
-    DOWN(0, 1),
-    UP(0, -1),
-}
+) : UnitAction
 
 /**
  * Класс, описывающий действие игрока: надеть вещь из инвентаря
@@ -26,3 +21,15 @@ object Interact : UnitAction
  * Класс, описывающий действие: не делать ничего
  */
 object Procrastinate : UnitAction
+
+/**
+ * Специальное действие, которое могут выполнять только некоторые мобы
+ */
+interface MobAction : UnitAction
+
+val SideMoves = listOf(
+    MoveAction(-1, 0),
+    MoveAction(1, 0),
+    MoveAction(0, 1),
+    MoveAction(0, -1)
+)

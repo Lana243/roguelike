@@ -18,7 +18,7 @@ class DefeatController : Controller<DefeatScreenState> {
 
     override fun processEvent(event: Event): Message? {
         return when (event) {
-            Event.KeyF1Pressed -> DefeatMessage.MainMenu
+            Event.KeyEnterPressed -> DefeatMessage.MainMenu
             Event.KeyEscPressed -> DefeatMessage.Exit
             else -> null
         }
