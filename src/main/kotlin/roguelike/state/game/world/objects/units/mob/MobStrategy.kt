@@ -2,7 +2,7 @@ package roguelike.state.game.world.objects.units
 
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.UnitAction
-import roguelike.state.game.simulator.UnitSpecificAction
+import roguelike.state.game.simulator.MobAction
 import roguelike.state.game.world.World
 import roguelike.state.game.world.getApplePositions
 import roguelike.state.game.world.getCorrectMoves
@@ -77,7 +77,7 @@ class AppleEatingStrategy(
 }
 
 
-object Duplicate : UnitSpecificAction
+object Clone : MobAction
 
 /**
  * Специальная стратегия для плесени
@@ -89,7 +89,7 @@ class MoldStrategy(
         if (mob.hp != mob.maxHp) {
             return baseStrategy.getNextAction(mob, world)
         } else {
-            return Duplicate
+            return Clone
         }
     }
 }

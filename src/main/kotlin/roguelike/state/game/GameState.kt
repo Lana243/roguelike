@@ -5,7 +5,6 @@ import roguelike.state.State
 import roguelike.state.defeat.DefeatScreenState
 import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.simulator.Simulator
-import roguelike.state.game.simulator.SimulatorImpl
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.MapBuilder
@@ -85,5 +84,5 @@ data class GameState(
 
     // internal
 
-    private val simulator: Simulator = SimulatorImpl()
+    private val simulator: Simulator = Simulator()
 }

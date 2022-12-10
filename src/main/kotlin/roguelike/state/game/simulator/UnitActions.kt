@@ -23,9 +23,9 @@ object Interact : UnitAction
 object Procrastinate : UnitAction
 
 /**
- * Специальное действие, которое могут выполнять только некоторые юниты
+ * Специальное действие, которое могут выполнять только некоторые мобы
  */
-interface UnitSpecificAction : UnitAction
+interface MobAction : UnitAction
 
 val SideMoves = listOf(
     MoveAction(-1, 0),

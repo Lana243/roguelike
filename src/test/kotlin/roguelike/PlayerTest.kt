@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import roguelike.state.game.simulator.Interact
 import roguelike.state.game.simulator.MoveAction
-import roguelike.state.game.simulator.SimulatorImpl
+import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.ToggleInventoryItem
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
@@ -17,14 +17,14 @@ import roguelike.state.game.world.objects.Sword
 class PlayerTest {
 
     private lateinit var world: World
-    private lateinit var simulator: SimulatorImpl
+    private lateinit var simulator: Simulator
 
     @BeforeEach
     fun initWorld() {
         val mapBuilder = MapBuilder().fromFile("src/test/resources/test-map.txt")
         val worldFactory = WorldFactory(mapBuilder)
         world = worldFactory.createWorld()
-        simulator = SimulatorImpl()
+        simulator = Simulator()
     }
 
     @Test

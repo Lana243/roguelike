@@ -21,8 +21,8 @@ Engine *-- "controller" Controller
 Engine *-- "assetManager" AssetManager
 Engine *-- "ui" UI
 
-interface Simulator {
-    + simulate(world: World, unitActions): World
+class Simulator {
+    + simulate(world: World, unitActions)
 }
 
 interface Strategy {
@@ -85,7 +85,7 @@ class MenuScreenState
 
 class SettingsScreenState
 
-abstract class GameState {
+class GameState {
     playerUnit: GameUnit
 }
 
@@ -137,7 +137,7 @@ class CompositeView
 
 interface ViewBuilder
 
-Engine *-- "currentState" State
+class *-- "currentState" State
 
 State <|-- MenuScreenState
 State <|-- SettingsScreenState

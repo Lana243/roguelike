@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.Procrastinate
-import roguelike.state.game.simulator.SimulatorImpl
+import roguelike.state.game.simulator.Simulator
 import roguelike.state.game.simulator.ToggleInventoryItem
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
@@ -21,7 +21,7 @@ import roguelike.state.game.world.objects.units.mob.passiveMobFactory
 class MobsTest {
 
     private lateinit var world: World
-    private lateinit var simulator: SimulatorImpl
+    private lateinit var simulator: Simulator
     private lateinit var mobs: List<GameUnit>
 
     @BeforeEach
@@ -29,7 +29,7 @@ class MobsTest {
         val mapBuilder = MapBuilder().fromFile("src/test/resources/test-map.txt")
         val worldFactory = WorldFactory(mapBuilder, passiveMobFactory())
         world = worldFactory.createWorld()
-        simulator = SimulatorImpl()
+        simulator = Simulator()
         mobs = listOf(world.units[4]!!, world.units[8]!!)
     }
 
@@ -37,52 +37,55 @@ class MobsTest {
     fun `If player and mob move to each other, their health decreases`() {
         val initialPlayerHp = world.player.hp
         val playerAttack = world.player.attackRate
-        val initialMobHp = mobs[0].hp
-        val mobAttack = mobs[0].attackRate
+        val mob = mobs[0]
+        val initialMobHp = mob.hp
+        val mobAttack = mob.attackRate
         simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
-            mobs[0] to { MoveAction(0, -1) }
+            mob to { MoveAction(0, -1) }
         ))
         simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
-            mobs[0] to { MoveAction(-1, 0) }
+            mob to { MoveAction(-1, 0) }
         ))
 
         Assertions.assertEquals(Position(3, 2), world.player.position)
-        Assertions.assertEquals(Position(4, 2), mobs[0].position)
+        Assertions.assertEquals(Position(4, 2), mob.position)
         Assertions.assertEquals(world.player.hp, initialPlayerHp - mobAttack)
-        Assertions.assertEquals(mobs[0].hp, initialMobHp - playerAttack)
+        Assertions.assertEquals(mob.hp, initialMobHp - playerAttack)
     }
 
     @Test
     fun `If player moves to mob, mob's health decreases`() {
         val playerAttack = world.player.attackRate
-        val initialMobHp = mobs[0].hp
+        val mob = mobs[0]
+        val initialMobHp = mob.hp
         simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
-            mobs[0] to { MoveAction(0, -1) }
+            mob to { MoveAction(0, -1) }
         ))
         simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) }
         ))
 
         Assertions.assertEquals(Position(3, 2), world.player.position)
-        Assertions.assertEquals(mobs[0].hp, initialMobHp - playerAttack)
+        Assertions.assertEquals(mob.hp, initialMobHp - playerAttack)
     }
 
     @Test
     fun `If mob moves to player, player health decreases`() {
         val initialPlayerHp = world.player.hp
-        val mobAttack = mobs[0].attackRate
+        val mob = mobs[0]
+        val mobAttack = mob.attackRate
         simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
-            mobs[0] to { MoveAction(0, -1) }
+            mob to { MoveAction(0, -1) }
         ))
         simulator.simulate(world, mapOf(
-            mobs[0] to { MoveAction(-1, 0) }
+            mob to { MoveAction(-1, 0) }
         ))
 
-        Assertions.assertEquals(Position(4, 2), mobs[0].position)
+        Assertions.assertEquals(Position(4, 2), mob.position)
         Assertions.assertEquals(world.player.hp, initialPlayerHp - mobAttack)
     }
 

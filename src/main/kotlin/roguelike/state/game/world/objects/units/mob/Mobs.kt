@@ -7,6 +7,10 @@ import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.MobStrategy
 import roguelike.state.game.world.objects.units.MoldStrategy
 
+interface CloneableMob {
+    fun clone(id: Int, position: Position): Mob
+}
+
 /**
  * Моб
  */
@@ -79,10 +83,6 @@ data class Knight(
     override var state: MobState = GoodHealthState(initialStrategy)
 }
 
-interface Cloneable<T> {
-    fun clone(): T
-}
-
 data class Mold(
     override val id: Int,
     override var position: Position,
@@ -90,7 +90,7 @@ data class Mold(
     override val maxHp: Int = 2,
     override var hp: Int = 1,
     override val moves: List<MoveAction> = SideMoves
-) : Mob(), Cloneable<Mold?> {
+) : Mob(), CloneableMob {
 
     override val poorHealthThreshold = 0
 
@@ -98,11 +98,7 @@ data class Mold(
 
     override var state: MobState = GoodHealthState(initialStrategy)
 
-    override fun clone(): Mold? {
-        if (hp != maxHp) {
-            return null
-        }
-        hp /= 2
-        return copy(hp = hp)
+    override fun clone(id: Int, position: Position): Mold {
+        return copy(id = id, position = position)
     }
 }
