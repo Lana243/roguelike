@@ -1,7 +1,7 @@
 package roguelike.state.game.world.objects.units.mob
 
 import roguelike.state.game.world.Position
-import roguelike.state.game.world.objects.units.MobStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.MobStrategy
 
 /**
  * Фабрика стратегий мобов.

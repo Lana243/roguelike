@@ -4,11 +4,11 @@ import roguelike.state.game.simulator.MobAction
 import roguelike.state.game.simulator.MoveAction
 import roguelike.state.game.simulator.SideMoves
 import roguelike.state.game.world.Position
-import roguelike.state.game.world.objects.units.AggressiveStrategy
-import roguelike.state.game.world.objects.units.AppleEatingStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.AggressiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.AppleEatingStrategy
 import roguelike.state.game.world.objects.units.GameUnit
-import roguelike.state.game.world.objects.units.MobStrategy
-import roguelike.state.game.world.objects.units.StateStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.MobStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.StateStrategy
 
 interface CloneableMob {
     fun clone(id: Int, position: Position): Mob
@@ -64,7 +64,7 @@ data class Knight(
 
 
 /**
- * Моб плесень. Реплицируется, если у неё полное хп. Ищет яблочки, если их нет, ищет игрока :))
+ * Моб плесень. Реплицируется, если у неё полное хп. Ищет яблочки. Если их нет, ищет игрока :))
  */
 data class Mold(
     override val id: Int,

@@ -7,6 +7,9 @@ import roguelike.state.game.simulator.Procrastinate
 import roguelike.state.game.world.*
 import roguelike.state.game.world.map.MapBuilder
 import roguelike.state.game.world.objects.units.mob.Pawn
+import roguelike.state.game.world.objects.units.mob.strategies.AggressiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.AvoidanceStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.PassiveStrategy
 
 class MobStrategyTest {
 

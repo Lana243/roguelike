@@ -11,9 +11,9 @@ import roguelike.state.game.world.Position
 import roguelike.state.game.world.World
 import roguelike.state.game.world.WorldFactory
 import roguelike.state.game.world.map.MapBuilder
-import roguelike.state.game.world.objects.units.ContusionStrategy
-import roguelike.state.game.world.objects.units.PassiveStrategy
-import roguelike.state.game.world.objects.units.StateStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.PassiveStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.StateStrategy
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.mob.passiveMobFactory
 

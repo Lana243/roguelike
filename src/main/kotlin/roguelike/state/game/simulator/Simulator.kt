@@ -9,7 +9,7 @@ import roguelike.state.game.world.objects.Effect
 import roguelike.state.game.world.objects.ExitDoor
 import roguelike.state.game.world.objects.Sword
 import roguelike.state.game.world.objects.Well
-import roguelike.state.game.world.objects.units.ContusionStrategy
+import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
 import roguelike.state.game.world.objects.units.GameUnit
 import roguelike.state.game.world.objects.units.PlayerUnit
 import roguelike.state.game.world.objects.units.foundItem
