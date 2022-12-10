@@ -11,6 +11,7 @@ import roguelike.state.game.world.objects.Well
 import roguelike.state.game.world.objects.units.mob.strategies.ContusionStrategy
 import roguelike.state.game.world.objects.units.Inventory
 import roguelike.state.game.world.objects.units.PlayerUnit
+import roguelike.state.game.world.objects.units.mob.Knight
 import roguelike.state.game.world.objects.units.mob.Mob
 import roguelike.state.game.world.objects.units.mob.Mold
 import roguelike.ui.views.AsciiColor
@@ -141,7 +142,10 @@ class GameViewBuilder : ViewBuilder<GameState> {
                         } else if (uiState.showMobsAttackRate) {
                             AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
                         } else {
-                            defaultItem.copy(color = AsciiColor.RedNice)
+                            when (cell.unit) {
+                                is Knight -> { defaultItem.copy(color = AsciiColor.Purple) }
+                                else -> { defaultItem.copy(color = AsciiColor.RedNice) }
+                            }
                         }
                     }
                     is PlayerUnit -> defaultItem.copy(color = AsciiColor.White)
