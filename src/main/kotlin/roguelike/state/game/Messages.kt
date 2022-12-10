@@ -18,14 +18,4 @@ sealed interface GameMessage : Message {
      * Выход c экрана игры
      */
     object Exit : GameMessage
-
-    /**
-     * Отобразить уровень HP мобов
-     */
-    object ShowMobsHp : GameMessage
-
-    /**
-     * Отобразить силу атаки мобов
-     */
-    object ShowMobsAttackRate : GameMessage
 }

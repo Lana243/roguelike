@@ -28,8 +28,14 @@ class GameController : Controller<GameState> {
             Event.KeyDownPressed -> GameMessage.PlayerActionMessage(MoveAction(0, 1))
             Event.KeyEscPressed -> GameMessage.Exit
             is Event.LetterOrDigitKeyPressed -> when (event.char) {
-                'q' -> GameMessage.ShowMobsHp
-                'w' -> GameMessage.ShowMobsAttackRate
+                'q' -> {
+                    gameViewBuilder.uiState.switchShowMobsHp()
+                    null
+                }
+                'w' -> {
+                    gameViewBuilder.uiState.switchShowAttackRate()
+                    null
+                }
                 'e' -> GameMessage.PlayerActionMessage(Interact)
                 '1' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(0))
                 '2' -> GameMessage.PlayerActionMessage(ToggleInventoryItem(1))

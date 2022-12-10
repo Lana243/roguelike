@@ -18,10 +18,27 @@ import roguelike.ui.views.AsciiGrid
 import roguelike.ui.views.Composite
 import roguelike.ui.views.View
 
+class UiState {
+    var showMobsHp: Boolean = false
+        private set
+    var showMobsAttackRate: Boolean = false
+        private set
+    fun switchShowMobsHp() {
+        showMobsHp = !showMobsHp
+        showMobsAttackRate = false
+    }
+
+    fun switchShowAttackRate() {
+        showMobsAttackRate = !showMobsAttackRate
+        showMobsHp = false
+    }
+}
+
 /**
  * Класс, реализующий интерфейс [ViewBuilder] для [GameState]
  */
 class GameViewBuilder : ViewBuilder<GameState> {
+    val uiState = UiState()
 
     override fun build(state: GameState): View {
         val gameMap = state.world.map
@@ -34,7 +51,7 @@ class GameViewBuilder : ViewBuilder<GameState> {
                 when (val cell = gameMap.getCell(Position(x, y))) {
                     Cell.Empty -> {}
                     else -> {
-                        val charView = viewByCell(cell, state)
+                        val charView = viewByCell(cell)
                         childViews += Composite.ViewWithPosition(x, y, charView)
                     }
                 }
@@ -112,16 +129,16 @@ class GameViewBuilder : ViewBuilder<GameState> {
             else -> CHAR_UNKNOWN
         }
 
-    private fun viewByCell(cell: Cell, state: GameState): View {
+    private fun viewByCell(cell: Cell): View {
         val char = charByCell(cell)
         val defaultItem = AsciiGrid.fromChar(char)
         return when (cell) {
             is Cell.Unit -> {
                 when (cell.unit) {
                     is Mob -> {
-                        if (state.settings.showMobsHp) {
+                        if (uiState.showMobsHp) {
                             AsciiGrid(listOf("${cell.unit.hp}"), AsciiColor.Green)
-                        } else if (state.settings.showMobsAttackRate) {
+                        } else if (uiState.showMobsAttackRate) {
                             AsciiGrid(listOf("${cell.unit.attackRate}"), AsciiColor.Red)
                         } else {
                             defaultItem.copy(color = AsciiColor.RedNice)
