@@ -4,6 +4,9 @@ import roguelike.state.game.simulator.UnitAction
 import roguelike.state.game.world.World
 import roguelike.state.game.world.objects.units.mob.Mob
 
+/**
+ * Базовый класс для стратегий с состоянием.
+ */
 abstract class StateBasedStrategy : MobStrategy {
     interface StrategyState {
         val strategy: MobStrategy
