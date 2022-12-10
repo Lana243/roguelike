@@ -1,6 +1,7 @@
 package roguelike.state.game.world.objects.units
 
 import roguelike.state.game.simulator.MoveAction
+import roguelike.state.game.simulator.SideMoves
 import roguelike.state.game.world.Position
 import roguelike.state.game.world.objects.Sword
 
@@ -10,12 +11,7 @@ import roguelike.state.game.world.objects.Sword
 data class PlayerUnit(
     override val id: Int,
     override var position: Position = Position(0, 0),
-    override val moves: List<MoveAction> = listOf(
-        MoveAction(-1, 0),
-        MoveAction(1, 0),
-        MoveAction(0, 1),
-        MoveAction(0, -1)
-    ),
+    override val moves: List<MoveAction> = SideMoves,
     var baseAttackRate: Int = 1,
     override var hp: Int = 5,
     override val maxHp: Int = 9,

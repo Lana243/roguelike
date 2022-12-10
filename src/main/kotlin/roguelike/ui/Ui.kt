@@ -25,6 +25,7 @@ class LanternaUi : Ui() {
     override fun pollEvent(): Event {
         var event: Event? = null
         while (event == null) {
+
             val keyStroke = terminal.readInput() // blocking operation
             event = when (keyStroke.keyType) {
                 KeyType.Enter -> Event.KeyEnterPressed

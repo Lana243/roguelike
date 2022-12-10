@@ -10,7 +10,9 @@ import roguelike.utility.IdManager
 import java.util.*
 
 /**
- * Вся информация об игре для одного уровня
+ * Вся информация об игре для одного уровня.
+ *
+ * Мир мутабелен.
  */
 data class World(
     /**

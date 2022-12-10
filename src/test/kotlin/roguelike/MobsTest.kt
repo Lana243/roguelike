@@ -39,11 +39,11 @@ class MobsTest {
         val playerAttack = world.player.attackRate
         val initialMobHp = mobs[0].hp
         val mobAttack = mobs[0].attackRate
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
             mobs[0] to { MoveAction(0, -1) }
         ))
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
             mobs[0] to { MoveAction(-1, 0) }
         ))
@@ -58,11 +58,11 @@ class MobsTest {
     fun `If player moves to mob, mob's health decreases`() {
         val playerAttack = world.player.attackRate
         val initialMobHp = mobs[0].hp
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
             mobs[0] to { MoveAction(0, -1) }
         ))
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) }
         ))
 
@@ -74,11 +74,11 @@ class MobsTest {
     fun `If mob moves to player, player health decreases`() {
         val initialPlayerHp = world.player.hp
         val mobAttack = mobs[0].attackRate
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
             mobs[0] to { MoveAction(0, -1) }
         ))
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             mobs[0] to { MoveAction(-1, 0) }
         ))
 
@@ -89,13 +89,13 @@ class MobsTest {
     @Test
     fun `If player kills mob, player experience grows and his position changes`() {
         Assertions.assertEquals(0, world.player.exp)
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
             mobs[0] to { MoveAction(0, -1) }
         ))
 
         while (world.units.containsKey(4)) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 world.player to { MoveAction(1, 0) }
             ))
         }
@@ -106,19 +106,19 @@ class MobsTest {
 
     @Test
     fun `If player moves to the mob with sword, mob's strategy changes`() {
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(0, -1) },
             mobs[0] to { MoveAction(0, -1) }
         ))
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(0, 1) },
             mobs[0] to { MoveAction(-1, 0) }
         ))
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { ToggleInventoryItem(0) },
             mobs[0] to { Procrastinate }
         ))
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             world.player to { MoveAction(1, 0) },
             mobs[0] to { Procrastinate }
         ))
@@ -131,13 +131,13 @@ class MobsTest {
     @Test
     fun `If mob kills player, player loses`() {
         repeat(2) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 mobs[0] to { MoveAction(-1, 0) }
             ))
         }
         val stepsToKill = 3
         repeat(stepsToKill) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 mobs[0] to { MoveAction(0, -1) }
             ))
         }
@@ -147,12 +147,12 @@ class MobsTest {
     @Test
     fun `Mobs cannot go to door cell`() {
         repeat(17) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 mobs[0] to { MoveAction(0, 1) }
             ))
         }
         repeat(73) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 mobs[0] to { MoveAction(1, 0) }
             ))
         }
@@ -161,7 +161,7 @@ class MobsTest {
 
     @Test
     fun `Mob cannot go to cell with wall`() {
-        world = simulator.simulate(world, mapOf(
+        simulator.simulate(world, mapOf(
             mobs[0] to { MoveAction(1, 0) }
         ))
         Assertions.assertEquals(Position(4, 3), mobs[0].position)
@@ -171,12 +171,12 @@ class MobsTest {
     fun `Mob can attack another mob`() {
         val initialSndMobHp = mobs[1].hp
         repeat(4) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 mobs[0] to { MoveAction(0, 1) }
             ))
         }
         repeat(4) {
-            world = simulator.simulate(world, mapOf(
+            simulator.simulate(world, mapOf(
                 mobs[0] to { MoveAction(1, 0) }
             ))
         }

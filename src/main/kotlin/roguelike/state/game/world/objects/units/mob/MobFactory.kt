@@ -51,7 +51,6 @@ class RandomMobFactory(
 }
 
 fun defaultMobFactory(): MobFactory {
-
     val availableMobStrategies = listOf(
         PassiveStrategy(),
         AggressiveStrategy(),

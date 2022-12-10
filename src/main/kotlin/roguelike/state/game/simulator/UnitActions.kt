@@ -23,6 +23,13 @@ object Interact : UnitAction
 object Procrastinate : UnitAction
 
 /**
- * Специальное действие, которое может выполнять только некоторые юниты
+ * Специальное действие, которое могут выполнять только некоторые юниты
  */
 interface UnitSpecificAction : UnitAction
+
+val SideMoves = listOf(
+    MoveAction(-1, 0),
+    MoveAction(1, 0),
+    MoveAction(0, 1),
+    MoveAction(0, -1)
+)

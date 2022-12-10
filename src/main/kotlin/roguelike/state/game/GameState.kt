@@ -63,18 +63,17 @@ data class GameState(
                             }
                         }.toMap().toSortedMap(Comparator.comparingInt { it.id })
 
-                        val newWorld = simulator.simulate(world, actions)
+                        simulator.simulate(world, actions)
 
                         when {
-                            newWorld.victory -> {
+                            world.victory -> {
                                 VictoryScreenState()
                             }
-                            newWorld.defeat -> {
+                            world.defeat -> {
                                 DefeatScreenState()
                             }
-                            else -> {
-                                this.copy(world = newWorld)
-                            }
+
+                            else -> this
                         }
                     }
                     GameMessage.Exit -> MenuScreenState()
